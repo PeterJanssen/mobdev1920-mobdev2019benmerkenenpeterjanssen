@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "357793479527",
+    "firebase_url": "https://citywatchstorage.firebaseio.com",
+    "project_id": "citywatchstorage",
+    "storage_bucket": "citywatchstorage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357793479527:android:d262e3af1424122d8acdc2",
+        "android_client_info": {
+          "package_name": "be.pxl.mobdev2019.cityWatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357793479527-gh4um5o0ub7mo00cpc28hd51thl4dtad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "be.pxl.mobdev2019.cityWatch",
+            "certificate_hash": "f405f1a7ddbebef69a49da6c9b6b32e650651883"
+          }
+        },
+        {
+          "client_id": "357793479527-u17nuacst7oqu4g949red0radcmag9qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn2wl6g_2cmFdl9CX_-MVAcvIJGmC1BeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357793479527-u17nuacst7oqu4g949red0radcmag9qi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
