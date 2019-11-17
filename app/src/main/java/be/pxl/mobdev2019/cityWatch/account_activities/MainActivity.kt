@@ -3,9 +3,8 @@ package be.pxl.mobdev2019.cityWatch.account_activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import be.pxl.mobdev2019.cityWatch.PersonalReportsListActivity
 import be.pxl.mobdev2019.cityWatch.R
+import be.pxl.mobdev2019.cityWatch.report_activities.ListOfReportsListActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,10 +24,8 @@ class MainActivity : AppCompatActivity() {
             user = firebaseAuth.currentUser
 
             if (user != null) {
-                startActivity(Intent(this, PersonalReportsListActivity::class.java))
+                startActivity(Intent(this, ListOfReportsListActivity::class.java))
                 finish()
-            } else {
-                Toast.makeText(this, "Not Signed In", Toast.LENGTH_LONG).show()
             }
         }
 

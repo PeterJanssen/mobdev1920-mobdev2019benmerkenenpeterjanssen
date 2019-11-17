@@ -20,4 +20,5 @@
     <string name="activity_main_already_have_account_button_text">ALREADY HAVE ACCOUNT</string>
     <string name="activity_main_create_new_account_button_text">CREATE A NEW ACCOUNT</string>
     <string name="main_activity_image">Main activity image</string>
+    <string name="action_logout">Logout</string>
 </resources>
