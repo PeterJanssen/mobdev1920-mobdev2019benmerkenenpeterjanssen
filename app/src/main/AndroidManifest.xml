@@ -9,15 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".PersonalReportsListActivity"
-            android:label="@string/title_activity_personal_reports_list"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".account_activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".account_activities.LoginActivity">
+
+        </activity>
+
+        <activity android:name=".account_activities.CreateAccountActivity">
+
+        </activity>
+
+        <activity
+            android:name=".PersonalReportsListActivity"
+            android:label="@string/title_activity_personal_reports_list"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
