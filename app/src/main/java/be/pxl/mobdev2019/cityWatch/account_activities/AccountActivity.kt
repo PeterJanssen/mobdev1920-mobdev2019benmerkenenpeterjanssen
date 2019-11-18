@@ -50,9 +50,10 @@ class AccountActivity : AppCompatActivity() {
                 val userLikes = dataSnapshot.child("total_likes").value
 
                 settingsDisplayName.text = displayName.toString()
-                settingsLikesText.text = userLikes.toString()
+                settingsLikesText.text =
+                    applicationContext.getString(R.string.activity_settings_likes_text, userLikes)
 
-                if (!image!!.equals("default")) {
+                if (image!! != "default") {
                     Picasso.get().load(Uri.parse(image.toString()))
                         .placeholder(R.drawable.profile_img)
                         .into(settingsProfileImage)
