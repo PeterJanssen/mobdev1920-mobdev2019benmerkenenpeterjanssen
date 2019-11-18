@@ -25,8 +25,7 @@
 
     <string name="activity_settings_change_picture_text">Change Picture</string>
     <string name="activity_settings_change_display_name_text">Change Display Name</string>
-    <string name="activity_settings_likes_label">Likes:</string>
-    <string name="activity_settings_likes_text">0</string>
+    <string name="activity_settings_likes_text">Likes: 0</string>
     <string name="activity_edit_display_name_enter_your_new_display_name_text">Display Name</string>
     <string name="activity_edit_display_name_edit_display_name_edit_text">Enter your new DisplayName</string>
     <string name="activity_edit_display_name_update_display_name_button">Update Display Name</string>
