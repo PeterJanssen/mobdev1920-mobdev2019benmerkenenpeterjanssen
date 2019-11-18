@@ -38,26 +38,20 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="194dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="140dp"
-        android:background="@color/colorAccent"
+        style="@style/GreenButtonWithBoldItalicText"
+        android:layout_marginStart="130dp"
         android:text="@string/activity_main_already_have_account_button_text"
         android:textColor="@color/grey_100"
-        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/createAccountButton"
-        android:layout_width="197dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="140dp"
-        android:background="@color/colorAccent"
+        style="@style/GreenButtonWithBoldItalicText"
+        android:layout_marginEnd="130dp"
         android:text="@string/activity_main_create_new_account_button_text"
         android:textColor="@color/grey_100"
-        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />

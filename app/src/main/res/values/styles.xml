@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -16,5 +16,33 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="GreenButtonWithBoldItalicText">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:textColor">@color/grey_100</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="DarkGreyButton">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColor">@color/colorDarkGreyButtonText</item>
+        <item name="android:background">@drawable/bt_shape</item>
+        <item name="android:stateListAnimator">@drawable/state_list_animator_z</item>
+    </style>
+
+    <style name="EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>²
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@drawable/selector_bg_edit_2</item>
+        <item name="android:importantForAutofill" tools:targetApi="o">no</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">@color/colorCardEditText</item>
+        <item name="android:textCursorDrawable">@drawable/bg_input_cursor_2</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
 </resources>

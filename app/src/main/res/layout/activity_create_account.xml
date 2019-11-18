@@ -45,44 +45,24 @@
 
                 <EditText
                     android:id="@+id/accountDisplayNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/selector_bg_edit_2"
+                    style="@style/EditText"
                     android:hint="@string/activity_create_account_display_name_text"
                     android:importantForAutofill="no"
-                    android:inputType="textPersonName"
-                    android:paddingBottom="10dp"
-                    android:textColor="#f0f7f4"
-                    android:textCursorDrawable="@drawable/bg_input_cursor_2"
-                    android:textSize="14sp" />
+                    android:inputType="textPersonName" />
 
                 <EditText
                     android:id="@+id/accountEmailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/selector_bg_edit_2"
+                    style="@style/EditText"
                     android:hint="@string/activity_create_account_enter_email_text"
                     android:importantForAutofill="no"
-                    android:inputType="textEmailAddress"
-                    android:paddingBottom="10dp"
-                    android:textColor="#f0f7f4"
-                    android:textCursorDrawable="@drawable/bg_input_cursor_2"
-                    android:textSize="14sp" />
+                    android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/accountPasswordText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/selector_bg_edit_2"
+                    style="@style/EditText"
                     android:hint="@string/activity_create_account_enter_password_text"
                     android:importantForAutofill="no"
-                    android:inputType="textPassword"
-                    android:paddingBottom="10dp"
-                    android:textColor="#f0f7f4"
-                    android:textCursorDrawable="@drawable/bg_input_cursor_2"
-                    android:textSize="14sp" />
+                    android:inputType="textPassword" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -98,7 +78,6 @@
                         android:stateListAnimator="@drawable/state_list_animator_z"
                         android:text="@string/activity_create_account_button_text"
                         android:textColor="#d3d3d3" />
-
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

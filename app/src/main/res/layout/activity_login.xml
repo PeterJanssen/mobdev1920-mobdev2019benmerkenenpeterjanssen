@@ -45,32 +45,20 @@
 
                 <EditText
                     android:id="@+id/loginEmailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/selector_bg_edit_2"
+                    style="@style/EditText"
                     android:hint="@string/activity_login_enter_email_text"
-                    android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:padding="10dp"
-                    android:paddingBottom="2dp"
-                    android:textColor="#f0f7f4"
-                    android:textCursorDrawable="@drawable/bg_input_cursor_2"
-                    android:textSize="14sp" />
+                    android:paddingBottom="2dp" />
 
                 <EditText
                     android:id="@+id/loginPasswordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/EditText"
                     android:layout_marginTop="15sp"
-                    android:background="@drawable/selector_bg_edit_2"
                     android:hint="@string/activity_login_enter_password_text"
-                    android:importantForAutofill="no"
                     android:inputType="textPassword"
                     android:padding="10dp"
-                    android:paddingBottom="2dp"
-                    android:textColor="#f0f7f4"
-                    android:textCursorDrawable="@drawable/bg_input_cursor_2"
-                    android:textSize="14sp" />
+                    android:paddingBottom="2dp" />
 
                 <Button
                     android:id="@+id/loginButton"

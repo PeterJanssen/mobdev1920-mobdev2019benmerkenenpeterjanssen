@@ -44,6 +44,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    style="@style/EditText"
                     android:id="@+id/editDisplayNameEditText"
                     android:layout_width="300dp"
                     android:layout_height="44dp"
@@ -51,10 +52,7 @@
                     android:background="@drawable/selector_bg_edit_2"
                     android:ems="10"
                     android:hint="@string/activity_edit_display_name_edit_display_name_edit_text"
-                    android:importantForAutofill="no"
                     android:inputType="text"
-                    android:textColor="#f0f7f4"
-                    android:textCursorDrawable="@drawable/bg_input_cursor_2"
                     android:textSize="15sp" />
             </RelativeLayout>
 
