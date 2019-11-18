@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">City Watch</string>
     <string name="title_activity_personal_reports_list">My Reports</string>
+
     <string name="action_settings">Settings</string>
     <string name="action_next">Next</string>
     <string name="action_previous">Prev</string>
+    <string name="action_logout">Logout</string>
 
     <string name="activity_login_card_title_text">Sign in</string>
     <string name="activity_login_enter_email_text">Enter Email</string>
@@ -19,6 +21,13 @@
     <string name="activity_main_title_text">CityWatch</string>
     <string name="activity_main_already_have_account_button_text">ALREADY HAVE ACCOUNT</string>
     <string name="activity_main_create_new_account_button_text">CREATE A NEW ACCOUNT</string>
-    <string name="main_activity_image">Main activity image</string>
-    <string name="action_logout">Logout</string>
+    <string name="activity_main_image">Main activity image</string>
+
+    <string name="activity_settings_change_picture_text">Change Picture</string>
+    <string name="activity_settings_change_display_name_text">Change Display Name</string>
+    <string name="activity_settings_likes_label">Likes:</string>
+    <string name="activity_settings_likes_text">0</string>
+    <string name="activity_edit_display_name_enter_your_new_display_name_text">Display Name</string>
+    <string name="activity_edit_display_name_edit_display_name_edit_text">Enter your new DisplayName</string>
+    <string name="activity_edit_display_name_update_display_name_button">Update Display Name</string>
 </resources>

@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/login_image"
-        android:contentDescription="@string/main_activity_image" />
+        android:contentDescription="@string/activity_main_image" />
 
     <TextView
         android:id="@+id/textView"

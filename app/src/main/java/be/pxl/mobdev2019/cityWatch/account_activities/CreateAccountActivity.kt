@@ -52,6 +52,8 @@ class CreateAccountActivity : AppCompatActivity() {
 
                     val userObject = HashMap<String, String>()
                     userObject["display_name"] = displayName
+                    userObject["image"] = "default"
+                    userObject["total_likes"] = "0"
 
                     mDatabase!!.setValue(userObject).addOnCompleteListener { task: Task<Void> ->
                         if (task.isSuccessful) {
