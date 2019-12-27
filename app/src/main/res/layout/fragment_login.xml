@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg"
+    tools:context=".ui.login.fragments.LoginFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@color/colorAccent"
+        app:cardCornerRadius="13dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="50dp"
+                android:text="@string/fragment_login_card_title_text"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp">
+
+                <EditText
+                    android:id="@+id/loginEmailEditText"
+                    style="@style/EditText"
+                    android:hint="@string/fragment_login_enter_email_text"
+                    android:inputType="textEmailAddress"
+                    android:padding="10dp"
+                    android:paddingBottom="2dp"
+                    android:importantForAutofill="no" />
+
+                <EditText
+                    android:id="@+id/loginPasswordEditText"
+                    style="@style/EditText"
+                    android:layout_marginTop="15sp"
+                    android:hint="@string/fragment_login_enter_password_text"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:paddingBottom="2dp"
+                    android:importantForAutofill="no" />
+
+                <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bt_shape"
+                    android:stateListAnimator="@drawable/state_list_animator_z"
+                    android:text="@string/fragment_login_button_text"
+                    android:textColor="#d3d3d3">
+
+                </Button>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_lists">
+
+    <fragment
+        android:id="@+id/navigation_lists"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.list.ListsFragment"
+        android:label="@string/title_lists"
+        tools:layout="@layout/fragment_lists" />
+
+    <fragment
+        android:id="@+id/navigation_explore"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.explore.ExploreFragment"
+        android:label="@string/title_explore"
+        tools:layout="@layout/fragment_explore" />
+
+    <fragment
+        android:id="@+id/navigation_see_all_posts"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.see_all_posts.SeeAllPostsFragment"
+        android:label="@string/title_see_all_posts"
+        tools:layout="@layout/fragment_see_all_posts" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.account.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_navigation_account_to_navigation_display_name"
+            app:destination="@id/navigation_display_name" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_display_name"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.account.ChangeDisplayNameFragment"
+        android:label="@string/title_display_name"
+        tools:layout="@layout/fragment_change_display_name" >
+        <action
+            android:id="@+id/action_navigation_display_name_to_navigation_account"
+            app:destination="@id/navigation_account" />
+    </fragment>
+</navigation>

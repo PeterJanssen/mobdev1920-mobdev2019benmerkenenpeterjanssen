@@ -1,32 +1,43 @@
 <resources>
     <string name="app_name">City Watch</string>
-    <string name="title_activity_personal_reports_list">My Reports</string>
 
     <string name="action_account">Account</string>
     <string name="action_next">Next</string>
     <string name="action_previous">Prev</string>
     <string name="action_logout">Logout</string>
 
-    <string name="activity_login_card_title_text">Sign in</string>
-    <string name="activity_login_enter_email_text">Enter Email</string>
-    <string name="activity_login_enter_password_text">Enter Password</string>
-    <string name="activity_login_button_text">LOGIN</string>
+    <string name="fragment_login_card_title_text">Sign in</string>
+    <string name="fragment_login_enter_email_text">Enter Email</string>
+    <string name="fragment_login_enter_password_text">Enter Password</string>
+    <string name="fragment_login_button_text">LOGIN</string>
 
-    <string name="activity_create_account_card_title_text">Create a new account</string>
-    <string name="activity_create_account_display_name_text">Display Name</string>
-    <string name="activity_create_account_enter_email_text">Enter Email</string>
-    <string name="activity_create_account_enter_password_text">Enter Password</string>
-    <string name="activity_create_account_button_text">CREATE A NEW ACCOUNT</string>
+    <string name="fragment_create_account_card_title_text">Create a new account</string>
+    <string name="fragment_create_account_display_name_text">Display Name</string>
+    <string name="fragment_create_account_enter_email_text">Enter Email</string>
+    <string name="fragment_create_account_enter_password_text">Enter Password</string>
+    <string name="fragment_create_account_button_text">CREATE A NEW ACCOUNT</string>
 
-    <string name="activity_main_title_text">CityWatch</string>
     <string name="activity_main_already_have_account_button_text">ALREADY HAVE ACCOUNT</string>
     <string name="activity_main_create_new_account_button_text">CREATE A NEW ACCOUNT</string>
-    <string name="activity_main_image">Main activity image</string>
+    <string name="activity_main_title_text">CityWatch</string>
+    <string name="activity_main_image">Image</string>
 
-    <string name="activity_settings_change_picture_text">Change Picture</string>
-    <string name="activity_settings_change_display_name_text">Change Display Name</string>
-    <string name="activity_settings_likes_text">Likes: %1$s</string>
-    <string name="activity_edit_display_name_enter_your_new_display_name_text">Display Name</string>
-    <string name="activity_edit_display_name_edit_display_name_edit_text">Enter your new DisplayName</string>
-    <string name="activity_edit_display_name_update_display_name_button">Update Display Name</string>
+    <string name="fragment_account_display_name_text">Display Name</string>
+    <string name="fragment_account_likes_text">Likes: %1$s</string>
+    <string name="fragment_account_change_picture_text">CHANGE PICTURE</string>
+    <string name="fragment_account_change_display_name_text">CHANGE DISPLAY NAME</string>
+    <string name="fragment_account_logout_text">LOGOUT</string>
+
+    <string name="fragment_change_display_name_enter_your_new_display_name_text">Display Name</string>
+    <string name="fragment_change_display_name_edit_display_name_edit_text">Enter your new Display Name</string>
+    <string name="fragment_change_display_name_update_display_name_button">SAVE NEW DISPLAY NAME</string>
+
+    <string name="title_lists">Lists</string>
+    <string name="title_explore">Explore</string>
+    <string name="title_see_all_posts">See all Posts</string>
+    <string name="title_account">My Account</string>
+    <string name="title_display_name">Display Name</string>
+    <string name="title_activity_personal_reports_list">My Reports</string>
+
+
 </resources>

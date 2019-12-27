@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
-    tools:context=".account_activities.CreateAccountActivity">
+    tools:context=".ui.login.fragments.CreateAccountFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/activity_create_account_card_title_text"
+                android:text="@string/fragment_create_account_card_title_text"
                 android:textColor="#fff"
                 android:textSize="18sp">
 
@@ -46,21 +46,21 @@
                 <EditText
                     android:id="@+id/accountDisplayNameEditText"
                     style="@style/EditText"
-                    android:hint="@string/activity_create_account_display_name_text"
+                    android:hint="@string/fragment_create_account_display_name_text"
                     android:importantForAutofill="no"
                     android:inputType="textPersonName" />
 
                 <EditText
                     android:id="@+id/accountEmailEditText"
                     style="@style/EditText"
-                    android:hint="@string/activity_create_account_enter_email_text"
+                    android:hint="@string/fragment_create_account_enter_email_text"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/accountPasswordText"
                     style="@style/EditText"
-                    android:hint="@string/activity_create_account_enter_password_text"
+                    android:hint="@string/fragment_create_account_enter_password_text"
                     android:importantForAutofill="no"
                     android:inputType="textPassword" />
 
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bt_shape"
                         android:stateListAnimator="@drawable/state_list_animator_z"
-                        android:text="@string/activity_create_account_button_text"
+                        android:text="@string/fragment_create_account_button_text"
                         android:textColor="#d3d3d3" />
                 </RelativeLayout>
             </LinearLayout>

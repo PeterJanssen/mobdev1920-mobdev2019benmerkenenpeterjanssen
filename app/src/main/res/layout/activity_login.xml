@@ -1,80 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".account_activities.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:background="@color/colorAccent"
-        app:cardCornerRadius="13dp"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true">
+    <FrameLayout android:id="@+id/ActivityLoginFragmentContainer"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="50dp"
-                android:text="@string/activity_login_card_title_text"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                android:textStyle="bold">
-
-            </TextView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp">
-
-                <EditText
-                    android:id="@+id/loginEmailEditText"
-                    style="@style/EditText"
-                    android:hint="@string/activity_login_enter_email_text"
-                    android:inputType="textEmailAddress"
-                    android:padding="10dp"
-                    android:paddingBottom="2dp" />
-
-                <EditText
-                    android:id="@+id/loginPasswordEditText"
-                    style="@style/EditText"
-                    android:layout_marginTop="15sp"
-                    android:hint="@string/activity_login_enter_password_text"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    android:paddingBottom="2dp" />
-
-                <Button
-                    android:id="@+id/loginButton"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bt_shape"
-                    android:stateListAnimator="@drawable/state_list_animator_z"
-                    android:text="@string/activity_login_button_text"
-                    android:textColor="#d3d3d3">
-
-                </Button>
-            </LinearLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

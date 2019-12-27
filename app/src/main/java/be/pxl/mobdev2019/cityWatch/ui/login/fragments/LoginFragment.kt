@@ -1,25 +1,36 @@
-package be.pxl.mobdev2019.cityWatch.account_activities
+package be.pxl.mobdev2019.cityWatch.ui.login.fragments
+
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import be.pxl.mobdev2019.cityWatch.MainActivity
 import be.pxl.mobdev2019.cityWatch.R
-import be.pxl.mobdev2019.cityWatch.report_activities.ListOfReportsListActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.loginButton
+import kotlinx.android.synthetic.main.fragment_login.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment() {
 
     private var mAuth: FirebaseAuth? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -29,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
             if (!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password)) {
                 loginUser(email, password)
             } else {
-                Toast.makeText(this, "Login Failed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Login Failed!", Toast.LENGTH_LONG).show()
             }
 
         }
@@ -39,11 +50,9 @@ class LoginActivity : AppCompatActivity() {
         mAuth!!.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task: Task<AuthResult> ->
                 if (task.isSuccessful) {
-                    val listOfPostListIntent = Intent(this, ListOfReportsListActivity::class.java)
-                    startActivity(listOfPostListIntent)
-                    finish()
+                    activity?.startActivity(Intent(activity, MainActivity::class.java))
                 } else {
-                    Toast.makeText(this, "Login Failed!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "Login Failed!", Toast.LENGTH_LONG).show()
                 }
             }
     }

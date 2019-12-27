@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBg"
-    tools:context=".account_activities.AccountActivity">
-
+    android:background="@drawable/bg"
+    tools:context=".ui.account.AccountFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/settingsProfileImage"
+            android:id="@+id/accountProfileImage"
             android:layout_width="155dp"
             android:layout_height="129dp"
             android:src="@drawable/profile_img"
@@ -21,56 +20,62 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"/>
         <TextView
-            android:id="@+id/settingsDisplayName"
+            android:id="@+id/accountDisplayNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/activity_create_account_display_name_text"
-            android:textColor="@android:color/white"
+            android:text="@string/fragment_account_display_name_text"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="150dp"
             tools:layout_editor_absoluteY="219dp"
-            android:layout_below="@+id/settingsProfileImage"
+            android:layout_below="@+id/accountProfileImage"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"/>
 
-
         <TextView
-            android:id="@+id/settingsLikesText"
+            android:id="@+id/accountLikesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/activity_settings_likes_text"
-            android:textColor="@android:color/white"
+            android:text="@string/fragment_account_likes_text"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="219dp"
             tools:layout_editor_absoluteY="312dp"
-            android:layout_below="@id/settingsDisplayName"
+            android:layout_below="@id/accountDisplayNameText"
             android:layout_marginTop="15dp"
             android:layout_centerInParent="true"
             android:layout_marginStart="15dp"
             />
 
         <Button
-            style="@style/DarkGreyButton"
-            android:id="@+id/settingsChangeImageButton"
-            android:text="@string/activity_settings_change_picture_text"
+            style="@style/GreenButtonWithBoldItalicText"
+            android:id="@+id/accountChangeImageButton"
+            android:text="@string/fragment_account_change_picture_text"
             tools:layout_editor_absoluteX="105dp"
             tools:layout_editor_absoluteY="431dp"
-            android:layout_below="@id/settingsLikesText"
-            android:layout_marginTop="75dp"
+            android:layout_below="@id/accountLikesText"
+            android:layout_marginTop="25dp"
             android:layout_centerInParent="true"/>
 
         <Button
-            style="@style/DarkGreyButton"
-            android:id="@+id/settingsChangeDisplayNameButton"
-            android:text="@string/activity_settings_change_display_name_text"
+            style="@style/GreenButtonWithBoldItalicText"
+            android:id="@+id/accountChangeDisplayNameButton"
+            android:text="@string/fragment_account_change_display_name_text"
             tools:layout_editor_absoluteX="105dp"
             tools:layout_editor_absoluteY="367dp"
-            android:layout_below="@id/settingsChangeImageButton"
+            android:layout_below="@id/accountChangeImageButton"
+            android:layout_marginTop="25dp"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            style="@style/GreenButtonWithBoldItalicText"
+            android:id="@+id/accountLogoutButton"
+            android:text="@string/fragment_account_logout_text"
+            tools:layout_editor_absoluteX="105dp"
+            tools:layout_editor_absoluteY="367dp"
+            android:layout_below="@id/accountChangeDisplayNameButton"
             android:layout_marginTop="25dp"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

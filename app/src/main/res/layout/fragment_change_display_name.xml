@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
-    tools:context=".account_activities.DisplayNameActivity">
+    tools:context=".ui.account.ChangeDisplayNameFragment">
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -37,7 +38,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_edit_display_name_enter_your_new_display_name_text"
+                    android:text="@string/fragment_change_display_name_enter_your_new_display_name_text"
                     android:textAlignment="center"
                     android:textColor="#fff"
                     android:textSize="19sp"
@@ -51,9 +52,10 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/selector_bg_edit_2"
                     android:ems="10"
-                    android:hint="@string/activity_edit_display_name_edit_display_name_edit_text"
+                    android:hint="@string/fragment_change_display_name_edit_display_name_edit_text"
                     android:inputType="text"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:importantForAutofill="no" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -69,7 +71,7 @@
                     android:background="@drawable/bt_shape"
                     android:stateListAnimator="@drawable/state_list_animator_z"
                     android:padding="15dp"
-                    android:text="@string/activity_edit_display_name_update_display_name_button"
+                    android:text="@string/fragment_change_display_name_update_display_name_button"
                     android:textColor="#d3d3d3" />
             </RelativeLayout>
         </LinearLayout>

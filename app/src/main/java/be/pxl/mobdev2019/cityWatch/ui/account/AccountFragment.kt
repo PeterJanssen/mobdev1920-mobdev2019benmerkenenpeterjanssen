@@ -1,13 +1,19 @@
-package be.pxl.mobdev2019.cityWatch.account_activities
+package be.pxl.mobdev2019.cityWatch.ui.account
+
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
+import be.pxl.mobdev2019.cityWatch.ui.login.LoginActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,23 +24,21 @@ import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import id.zelory.compressor.Compressor
-import kotlinx.android.synthetic.main.activity_account.*
+import kotlinx.android.synthetic.main.fragment_account.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 
-class AccountActivity : AppCompatActivity() {
+class AccountFragment : Fragment() {
 
     private var mDataBase: DatabaseReference? = null
     private var mCurrentUser: FirebaseUser? = null
     private var mStorageRef: StorageReference? = null
     private var gallaryId: Int = 1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account)
-
-        supportActionBar!!.title = "My Account"
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mCurrentUser = FirebaseAuth.getInstance().currentUser
         mStorageRef = FirebaseStorage.getInstance().reference
 
@@ -49,30 +53,57 @@ class AccountActivity : AppCompatActivity() {
                 val image = dataSnapshot.child("image").value
                 val userLikes = dataSnapshot.child("total_likes").value
 
-                settingsDisplayName.text = displayName.toString()
-                settingsLikesText.text =
-                    applicationContext.getString(R.string.activity_settings_likes_text, userLikes)
+                // TODO fix bug that fragment gets destroyed when using jetpack navigation so widgets are null and throw error on datachanged
+                /*accountDisplayNameText.text = displayName.toString()
+                accountLikesText.text =
+                    activity?.applicationContext?.getString(
+                        R.string.fragment_account_likes_text,
+                        userLikes
+                    )
 
                 if (image!! != "default") {
                     Picasso.get().load(Uri.parse(image.toString()))
                         .placeholder(R.drawable.profile_img)
-                        .into(settingsProfileImage)
+                        .into(accountProfileImage)
                 }
-
+                */
             }
 
             override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
 
             }
         })
+        return inflater.inflate(R.layout.fragment_account, container, false)
+    }
 
-        settingsChangeDisplayNameButton.setOnClickListener {
-            val intent = Intent(this, DisplayNameActivity::class.java)
-            intent.putExtra("display_name", settingsDisplayName.text.toString().trim())
-            startActivity(intent)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initiateLogoutButton()
+        initiateChangePictureButton()
+        initiateChangeDisplayNameButton()
+    }
+
+    private fun initiateLogoutButton() {
+        accountLogoutButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(activity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra("EXIT", true)
+            activity?.startActivity(intent)
         }
+    }
 
-        settingsChangeImageButton.setOnClickListener {
+    private fun initiateChangeDisplayNameButton() {
+        accountChangeDisplayNameButton.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(R.id.action_navigation_account_to_navigation_display_name)
+        }
+    }
+
+    private fun initiateChangePictureButton() {
+        accountChangeImageButton.setOnClickListener {
             val galleryIntent = Intent()
             galleryIntent.type = "image/*"
             galleryIntent.action = Intent.ACTION_GET_CONTENT
@@ -81,23 +112,25 @@ class AccountActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == gallaryId && resultCode == Activity.RESULT_OK) {
             val image: Uri = data!!.data!!
 
-            CropImage.activity(image).setAspectRatio(1, 1).start(this)
+            CropImage.activity(image).setAspectRatio(1, 1).start(this.context!!, this)
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
 
             if (resultCode == Activity.RESULT_OK) {
-                var resultUri = result.uri
+                val resultUri = result.uri
 
                 val userId = mCurrentUser!!.uid
                 val imageFile = File(resultUri.path!!)
 
-                val imageBitmap = Compressor(this).setMaxWidth(200).setMaxHeight(200).setQuality(65)
-                    .compressToBitmap(imageFile)
+                val imageBitmap =
+                    Compressor(activity!!).setMaxWidth(200).setMaxHeight(200).setQuality(65)
+                        .compressToBitmap(imageFile)
 
                 val byteArray = ByteArrayOutputStream()
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray)
@@ -130,7 +163,7 @@ class AccountActivity : AppCompatActivity() {
                                             .addOnCompleteListener { task: Task<Void> ->
                                                 if (task.isSuccessful) {
                                                     Toast.makeText(
-                                                        this,
+                                                        activity,
                                                         "Profile image saved",
                                                         Toast.LENGTH_SHORT
                                                     ).show()
@@ -141,9 +174,10 @@ class AccountActivity : AppCompatActivity() {
                             }
                         }
                     }
-                super.onActivityResult(requestCode, resultCode, data)
             }
 
         }
     }
+
+
 }

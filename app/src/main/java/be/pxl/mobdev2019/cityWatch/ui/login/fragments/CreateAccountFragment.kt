@@ -1,28 +1,37 @@
-package be.pxl.mobdev2019.cityWatch.account_activities
+package be.pxl.mobdev2019.cityWatch.ui.login.fragments
+
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import be.pxl.mobdev2019.cityWatch.MainActivity
 import be.pxl.mobdev2019.cityWatch.R
-import be.pxl.mobdev2019.cityWatch.report_activities.ListOfReportsListActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_create_account.*
+import kotlinx.android.synthetic.main.fragment_create_account.*
 
-class CreateAccountActivity : AppCompatActivity() {
-
+class CreateAccountFragment : Fragment() {
     private var mAuth: FirebaseAuth? = null
     private var mDatabase: DatabaseReference? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_account)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_create_account, container, false)
+    }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
         accountCreateButton.setOnClickListener {
             val email = accountEmailEditText.text.toString().trim()
@@ -35,12 +44,12 @@ class CreateAccountActivity : AppCompatActivity() {
             ) {
                 createAccount(email, password, displayName)
             } else {
-                Toast.makeText(this, "Please fill out the fields", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Please fill out the fields", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    fun createAccount(email: String, password: String, displayName: String) {
+    private fun createAccount(email: String, password: String, displayName: String) {
         mAuth!!.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task: Task<AuthResult> ->
                 if (task.isSuccessful) {
@@ -58,19 +67,16 @@ class CreateAccountActivity : AppCompatActivity() {
                     mDatabase!!.setValue(userObject).addOnCompleteListener { task: Task<Void> ->
                         if (task.isSuccessful) {
                             if (task.isSuccessful) {
-                                val listOfPostListIntent =
-                                    Intent(this, ListOfReportsListActivity::class.java)
-                                startActivity(listOfPostListIntent)
-                                finish()
+                                activity?.startActivity(Intent(activity, MainActivity::class.java))
                             } else {
-                                Toast.makeText(this, "Login Failed!", Toast.LENGTH_LONG).show()
+                                Toast.makeText(activity, "Login Failed!", Toast.LENGTH_LONG).show()
                             }
                         } else {
-                            Toast.makeText(this, "User Not Created!", Toast.LENGTH_LONG).show()
+                            Toast.makeText(activity, "User Not Created!", Toast.LENGTH_LONG).show()
                         }
                     }
                 } else {
-                    Toast.makeText(this, "User Not Created!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "User Not Created!", Toast.LENGTH_LONG).show()
                 }
             }
     }
