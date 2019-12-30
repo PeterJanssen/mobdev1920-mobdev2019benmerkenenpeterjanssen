@@ -45,4 +45,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/grey_500</item>
+    </style>
+
 </resources>
