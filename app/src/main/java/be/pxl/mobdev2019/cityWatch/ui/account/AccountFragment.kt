@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
-import be.pxl.mobdev2019.cityWatch.ui.login.LoginActivity
+import be.pxl.mobdev2019.cityWatch.ui.auth.LoginActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -24,6 +24,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import id.zelory.compressor.Compressor
@@ -45,6 +46,15 @@ class AccountFragment : Fragment() {
         mCurrentUser = FirebaseAuth.getInstance().currentUser
         mStorageRef = FirebaseStorage.getInstance().reference
 
+        return inflater.inflate(R.layout.fragment_account, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initiateLogoutButton()
+        initiateChangePictureButton()
+        initiateChangeDisplayNameButton()
+
         val userId = mCurrentUser!!.uid
 
         mDataBase = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
@@ -56,8 +66,7 @@ class AccountFragment : Fragment() {
                 val image = dataSnapshot.child("image").value
                 val userLikes = dataSnapshot.child("total_likes").value
 
-                // TODO fix bug that fragment gets destroyed when using jetpack navigation so widgets are null and throw error on datachanged
-                /*accountDisplayNameText.text = displayName.toString()
+                accountDisplayNameText?.text = displayName.toString()
                 accountLikesText.text =
                     activity?.applicationContext?.getString(
                         R.string.fragment_account_likes_text,
@@ -69,21 +78,12 @@ class AccountFragment : Fragment() {
                         .placeholder(R.drawable.profile_img)
                         .into(accountProfileImage)
                 }
-                */
             }
 
             override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
 
             }
         })
-        return inflater.inflate(R.layout.fragment_account, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initiateLogoutButton()
-        initiateChangePictureButton()
-        initiateChangeDisplayNameButton()
     }
 
     private fun initiateLogoutButton() {
@@ -184,22 +184,14 @@ class AccountFragment : Fragment() {
 
                 imageFilePath.putFile(resultUri)
                     .addOnCompleteListener {
-
                             taskSnapshot: Task<UploadTask.TaskSnapshot> ->
-
                         if (taskSnapshot.isSuccessful) {
                             imageFilePath.downloadUrl.addOnSuccessListener { uri: Uri? ->
                                 val uploadTask: UploadTask = imageFilePath.putBytes(imageByteArray)
-
                                 uploadTask.addOnCompleteListener { task: Task<UploadTask.TaskSnapshot> ->
-
                                     if (task.isSuccessful) {
-
                                         val updateObj = HashMap<String, Any>()
                                         updateObj["image"] = uri.toString()
-
-                                        //save profile image
-
                                         mDataBase!!.updateChildren(updateObj)
                                             .addOnCompleteListener { task: Task<Void> ->
                                                 if (task.isSuccessful) {

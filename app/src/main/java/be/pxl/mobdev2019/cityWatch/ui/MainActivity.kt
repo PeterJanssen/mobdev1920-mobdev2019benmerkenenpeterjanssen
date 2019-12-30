@@ -1,10 +1,11 @@
-package be.pxl.mobdev2019.cityWatch
+package be.pxl.mobdev2019.cityWatch.ui
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
+import be.pxl.mobdev2019.cityWatch.R
 
 class MainActivity : AppCompatActivity() {
     // Passing each menu ID as a set of Ids because each

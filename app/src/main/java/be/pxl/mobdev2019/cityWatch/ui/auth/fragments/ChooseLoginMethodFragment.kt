@@ -1,27 +1,54 @@
-package be.pxl.mobdev2019.cityWatch.ui.login.fragments
+package be.pxl.mobdev2019.cityWatch.ui.auth.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
+import be.pxl.mobdev2019.cityWatch.databinding.FragmentChooseLoginMethodBinding
+import be.pxl.mobdev2019.cityWatch.databinding.FragmentLoginBinding
+import be.pxl.mobdev2019.cityWatch.ui.MainActivity
+import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModel
+import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
+import org.kodein.di.android.x.kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.generic.instance
 import kotlinx.android.synthetic.main.fragment_choose_login_method.*
 
-class ChooseLoginMethodFragment : Fragment() {
+class ChooseLoginMethodFragment : Fragment(), KodeinAware {
+
+    override val kodein by kodein()
+
+    private lateinit var viewModel: AuthViewModel
+    private val factory: AuthViewModelFactory by instance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choose_login_method, container, false)
+        val binding: FragmentChooseLoginMethodBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_choose_login_method,
+            container,
+            false
+        )
+        viewModel = ViewModelProviders.of(this, factory).get(AuthViewModel::class.java)
+
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        viewModel.user?.let {
+            activity?.startActivity(Intent(activity, MainActivity::class.java))
+        }
         val fragmentManager = fragmentManager
         val fragmentTransaction = fragmentManager?.beginTransaction()
 

@@ -1,86 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bg"
-    tools:context=".ui.login.fragments.CreateAccountFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:background="@color/colorAccent"
-        android:elevation="4dp"
-        app:cardCornerRadius="13dp"
-        app:cardUseCompatPadding="true">
+    <data>
 
+        <variable
+            name="viewmodel"
+            type="be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModel" />
+    </data>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+        tools:context=".ui.auth.fragments.CreateAccountFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
             android:background="@color/colorAccent"
-            android:orientation="vertical">
+            android:elevation="4dp"
+            app:cardCornerRadius="13dp"
+            app:cardUseCompatPadding="true">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/fragment_create_account_card_title_text"
-                android:textColor="#fff"
-                android:textSize="18sp">
-
-            </TextView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingStart="50dp"
-                android:paddingEnd="30dp">
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent"
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/accountDisplayNameEditText"
-                    style="@style/EditText"
-                    android:hint="@string/fragment_create_account_display_name_text"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/fragment_create_account_card_title_text"
+                    android:textColor="#fff"
+                    android:textSize="18sp">
 
-                <EditText
-                    android:id="@+id/accountEmailEditText"
-                    style="@style/EditText"
-                    android:hint="@string/fragment_create_account_enter_email_text"
-                    android:importantForAutofill="no"
-                    android:inputType="textEmailAddress" />
+                </TextView>
 
-                <EditText
-                    android:id="@+id/accountPasswordText"
-                    style="@style/EditText"
-                    android:hint="@string/fragment_create_account_enter_password_text"
-                    android:importantForAutofill="no"
-                    android:inputType="textPassword" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="30dp">
 
-                    <Button
-                        android:id="@+id/accountCreateButton"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bt_shape"
-                        android:stateListAnimator="@drawable/state_list_animator_z"
-                        android:text="@string/fragment_create_account_button_text"
-                        android:textColor="#d3d3d3" />
-                </RelativeLayout>
+                    <EditText
+                        android:id="@+id/accountDisplayNameEditText"
+                        style="@style/EditText"
+                        android:hint="@string/fragment_create_account_display_name_text"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName"
+                        android:text="@={viewmodel.displayName}" />
+
+                    <EditText
+                        android:id="@+id/accountEmailEditText"
+                        style="@style/EditText"
+                        android:hint="@string/fragment_create_account_enter_email_text"
+                        android:importantForAutofill="no"
+                        android:inputType="textEmailAddress"
+                        android:text="@={viewmodel.email}" />
+
+                    <EditText
+                        android:id="@+id/accountPasswordText"
+                        style="@style/EditText"
+                        android:hint="@string/fragment_create_account_enter_password_text"
+                        android:importantForAutofill="no"
+                        android:inputType="textPassword"
+                        android:text="@={viewmodel.password}" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/accountCreateButton"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bt_shape"
+                            android:onClick="@{() -> viewmodel.onRegisterButtonClick()}"
+                            android:stateListAnimator="@drawable/state_list_animator_z"
+                            android:text="@string/fragment_create_account_button_text"
+                            android:textColor="#d3d3d3" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</layout>
