@@ -1,10 +1,13 @@
 package be.pxl.mobdev2019.cityWatch.ui.account
 
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,8 +24,8 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.fragment_account.*
 import java.io.ByteArrayOutputStream
@@ -33,7 +36,7 @@ class AccountFragment : Fragment() {
     private var mDataBase: DatabaseReference? = null
     private var mCurrentUser: FirebaseUser? = null
     private var mStorageRef: StorageReference? = null
-    private var gallaryId: Int = 1
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -104,21 +107,59 @@ class AccountFragment : Fragment() {
 
     private fun initiateChangePictureButton() {
         accountChangeImageButton.setOnClickListener {
-            val galleryIntent = Intent()
-            galleryIntent.type = "image/*"
-            galleryIntent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(galleryIntent, "SELECT_IMAGE"), gallaryId)
+            checkAndroidVersionAndRequestPermissions()
+        }
+    }
+
+    private fun checkAndroidVersionAndRequestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                    ), 555
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            pickImage()
+        }
+    }
+
+    private fun pickImage() {
+        CropImage.startPickImageActivity(this.context!!, this)
+    }
+
+    private fun cropRequest(imageUri: Uri) {
+        CropImage.activity(imageUri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setMultiTouchEnabled(true)
+            .setAspectRatio(1, 1)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .start(this.context!!, this)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            pickImage()
+        } else {
+            checkAndroidVersionAndRequestPermissions()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == gallaryId && resultCode == Activity.RESULT_OK) {
-            val image: Uri = data!!.data!!
-
-            CropImage.activity(image).setAspectRatio(1, 1).start(this.context!!, this)
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val imageUri = CropImage.getPickImageResultUri(this.context!!, data)
+            cropRequest(imageUri)
         }
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
 
