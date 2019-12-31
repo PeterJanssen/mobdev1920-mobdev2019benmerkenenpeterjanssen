@@ -42,4 +42,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 </manifest>
