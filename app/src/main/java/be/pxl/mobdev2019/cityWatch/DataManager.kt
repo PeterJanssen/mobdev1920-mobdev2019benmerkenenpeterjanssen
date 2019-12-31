@@ -1,5 +1,7 @@
 package be.pxl.mobdev2019.cityWatch
 
+import be.pxl.mobdev2019.cityWatch.ui.list.Severity
+
 object DataManager {
     val personalReports = ArrayList<Report>()
 

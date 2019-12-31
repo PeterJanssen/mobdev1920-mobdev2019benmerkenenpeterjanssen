@@ -38,6 +38,7 @@
     <string name="title_account">My Account</string>
     <string name="title_display_name">Display Name</string>
     <string name="title_activity_personal_reports_list">My Reports</string>
+    <string name="severity_image">Severity image</string>
 
 
 </resources>

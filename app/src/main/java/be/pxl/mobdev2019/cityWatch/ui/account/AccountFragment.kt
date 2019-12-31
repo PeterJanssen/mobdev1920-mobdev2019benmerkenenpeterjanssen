@@ -66,14 +66,14 @@ class AccountFragment : Fragment() {
                 val image = dataSnapshot.child("image").value
                 val userLikes = dataSnapshot.child("total_likes").value
 
-                accountDisplayNameText?.text = displayName.toString()
+                accountDisplayNameText.text = displayName.toString()
                 accountLikesText.text =
                     activity?.applicationContext?.getString(
                         R.string.fragment_account_likes_text,
                         userLikes
                     )
 
-                if (image!! != "default") {
+                if (image == null || image != "default") {
                     Picasso.get().load(Uri.parse(image.toString()))
                         .placeholder(R.drawable.profile_img)
                         .into(accountProfileImage)

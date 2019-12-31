@@ -1,7 +1,8 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
 import android.net.Uri
-import android.widget.Toast
+import be.pxl.mobdev2019.cityWatch.ui.list.Severity
+import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -9,11 +10,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import io.reactivex.Completable
-import java.io.File
 
 class FireBaseRepository {
     private val fireBaseDatabase: DatabaseReference by lazy {
-        FirebaseDatabase.getInstance().reference.child("Users").child(currentUser()!!.uid)
+        FirebaseDatabase.getInstance().reference
     }
 
     private val fireBaseAuth: FirebaseAuth by lazy {
@@ -38,22 +38,25 @@ class FireBaseRepository {
     fun register(email: String, password: String, displayName: String) =
         Completable.create { emitter ->
             fireBaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                val userObject = HashMap<String, String>()
-                userObject["display_name"] = displayName
-                userObject["image"] = "default"
-                userObject["total_likes"] = "0"
-                fireBaseDatabase.child(currentUser()!!.uid).setValue(userObject)
-                    .addOnCompleteListener { task: Task<Void> ->
-                        if (task.isSuccessful) {
-                            if (!emitter.isDisposed) {
-                                if (it.isSuccessful)
-                                    emitter.onComplete()
-                                else
-                                    emitter.onError(it.exception!!)
+                if (it.isSuccessful) {
+                    val userId = currentUser()!!.uid
+                    val userObject = HashMap<String, String>()
+                    userObject["display_name"] = displayName
+                    userObject["image"] = "default"
+                    userObject["total_likes"] = "0"
+
+                    fireBaseDatabase.child("Users").child(userId).setValue(userObject)
+                        .addOnCompleteListener { task: Task<Void> ->
+                            if (task.isSuccessful) {
+                                if (!emitter.isDisposed) {
+                                    if (it.isSuccessful)
+                                        emitter.onComplete()
+                                    else
+                                        emitter.onError(it.exception!!)
+                                }
                             }
                         }
-                    }
-
+                }
             }
         }
 
@@ -62,7 +65,8 @@ class FireBaseRepository {
     fun currentUser() = fireBaseAuth.currentUser
 
     fun changeDisplayName(displayName: String) = Completable.create { emitter ->
-        fireBaseDatabase.child("display_name").setValue(displayName)
+        val userId = currentUser()!!.uid
+        fireBaseDatabase.child("Users").child(userId).child("display_name").setValue(displayName)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     if (!emitter.isDisposed) {
@@ -106,5 +110,24 @@ class FireBaseRepository {
                     emitter.onError(taskSnapshot.exception!!)
                 }
             }
+    }
+
+    fun getReports(): List<Report> {
+        val personalReports = ArrayList<Report>()
+        var report = Report(
+            1,
+            "Verkeerslicht kapot",
+            "Verkeerslicht aan Plospa kapot",
+            Severity.HIGH
+        )
+        personalReports.add(report)
+        report = Report(
+            2,
+            "Put in de weg",
+            "Weg naar UHasselt ligt vol putten",
+            Severity.MEDIUM
+        )
+        personalReports.add(report)
+        return personalReports
     }
 }

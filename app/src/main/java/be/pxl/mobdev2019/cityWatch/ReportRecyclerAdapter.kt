@@ -1,14 +1,13 @@
 package be.pxl.mobdev2019.cityWatch
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import be.pxl.mobdev2019.cityWatch.ui.list.Severity
 
 class ReportRecyclerAdapter(private val context: Context, private val personalReports: List<Report>):
     RecyclerView.Adapter<ReportRecyclerAdapter.ViewHolder>() {

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="report"
+            type="be.pxl.mobdev2019.cityWatch.data.entities.Report" />
+    </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -11,7 +15,7 @@
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
-        app:contentPadding="16dp" >
+        app:contentPadding="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,6 +28,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:contentDescription="@string/severity_image"
                 android:tint="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +43,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="TextView"
+                android:text="@{report.title}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toTopOf="@+id/textReportDescription"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +59,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="TextView"
+                android:text="@{report.description}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -63,4 +68,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-</FrameLayout>
+</layout>

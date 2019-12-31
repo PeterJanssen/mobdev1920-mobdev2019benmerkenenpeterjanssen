@@ -1,12 +1,12 @@
 package be.pxl.mobdev2019.cityWatch.ui.auth
 
 import androidx.lifecycle.ViewModel
-import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
+import be.pxl.mobdev2019.cityWatch.data.repositories.UserRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class AuthViewModel(private val repository: FireBaseRepository) : ViewModel() {
+class AuthViewModel(private val repository: UserRepository) : ViewModel() {
 
     var email: String? = null
     var password: String? = null

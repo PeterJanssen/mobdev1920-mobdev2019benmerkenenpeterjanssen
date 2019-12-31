@@ -2,11 +2,11 @@ package be.pxl.mobdev2019.cityWatch.ui.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
+import be.pxl.mobdev2019.cityWatch.data.repositories.UserRepository
 
 @Suppress("UNCHECKED_CAST")
 class AuthViewModelFactory(
-    private val repository: FireBaseRepository
+    private val repository: UserRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
