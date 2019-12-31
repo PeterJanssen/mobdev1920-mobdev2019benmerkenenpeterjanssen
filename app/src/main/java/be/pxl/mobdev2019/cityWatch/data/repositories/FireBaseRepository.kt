@@ -1,9 +1,8 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
 import android.net.Uri
-import android.util.Log
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
-import be.pxl.mobdev2019.cityWatch.ui.list.Severity
+import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

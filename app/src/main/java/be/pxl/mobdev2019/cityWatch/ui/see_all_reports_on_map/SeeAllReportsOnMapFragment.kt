@@ -1,4 +1,4 @@
-package be.pxl.mobdev2019.cityWatch.ui.see_all_posts
+package be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map
 
 
 import android.os.Bundle
@@ -10,11 +10,10 @@ import be.pxl.mobdev2019.cityWatch.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import kotlinx.android.synthetic.main.fragment_see_all_posts.*
 
-class SeeAllPostsFragment : Fragment(), OnMapReadyCallback {
+class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback {
 
-    private lateinit var seeAllPostsViewModel: SeeAllPostsViewModel
+    private lateinit var seeAllReportsOnMapViewModel: SeeAllReportsOnMapViewModel
     private lateinit var googleMap: GoogleMap
 
     override fun onMapReady(map: GoogleMap?) {
@@ -28,7 +27,7 @@ class SeeAllPostsFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_see_all_posts, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_see_all_posts_on_map, container, false)
         val mMapView = view.findViewById<MapView>(R.id.map_view)
         mMapView.onCreate(savedInstanceState)
         mMapView.getMapAsync(this)

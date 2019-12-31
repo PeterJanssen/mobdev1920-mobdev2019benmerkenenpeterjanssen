@@ -1,4 +1,4 @@
-package be.pxl.mobdev2019.cityWatch.ui.explore
+package be.pxl.mobdev2019.cityWatch.ui.create_report
 
 
 import android.os.Bundle
@@ -11,20 +11,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
 
-class ExploreFragment : Fragment() {
+class CreateNewReportFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: ExploreViewModel
+    private lateinit var createNewReportViewModel: CreateNewReportViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProviders.of(this).get(ExploreViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_explore, container, false)
+        createNewReportViewModel =
+            ViewModelProviders.of(this).get(CreateNewReportViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_create_new_report, container, false)
         val textView: TextView = root.findViewById(R.id.text_explore)
-        dashboardViewModel.text.observe(this, Observer {
+        createNewReportViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

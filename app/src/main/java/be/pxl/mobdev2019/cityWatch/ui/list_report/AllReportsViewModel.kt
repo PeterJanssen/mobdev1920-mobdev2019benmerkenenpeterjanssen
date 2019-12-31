@@ -1,4 +1,4 @@
-package be.pxl.mobdev2019.cityWatch.ui.list
+package be.pxl.mobdev2019.cityWatch.ui.list_report
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import be.pxl.mobdev2019.cityWatch.util.Coroutines
 import kotlinx.coroutines.Job
 
-class ListsViewModel(private val repository: FireBaseRepository) : ViewModel() {
+class AllReportsViewModel(private val repository: FireBaseRepository) : ViewModel() {
     private lateinit var job: Job
 
     private val _reports = MutableLiveData<List<Report>>()

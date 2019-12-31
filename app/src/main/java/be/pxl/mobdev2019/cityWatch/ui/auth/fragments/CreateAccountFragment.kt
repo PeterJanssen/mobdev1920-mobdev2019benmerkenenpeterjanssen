@@ -45,7 +45,11 @@ class CreateAccountFragment : Fragment(), AuthListener, KodeinAware {
 
     override fun onSuccess() {
         Toast.makeText(activity, "User registered and logging in", Toast.LENGTH_LONG).show()
-        activity?.startActivity(Intent(activity, MainActivity::class.java))
+        val intent = Intent(activity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity?.startActivity(intent)
     }
 
     override fun onFailure(message: String) {

@@ -5,7 +5,7 @@ import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.ReportRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.UserRepository
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
-import be.pxl.mobdev2019.cityWatch.ui.list.ListViewModelFactory
+import be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -25,7 +25,7 @@ class MVVMApplication : Application(), KodeinAware {
         bind() from singleton { ReportRepository(instance()) }
 
         bind() from provider { AuthViewModelFactory(instance()) }
-        bind() from provider { ListViewModelFactory(instance()) }
+        bind() from provider { AllReportsViewModelFactory(instance()) }
 
     }
 

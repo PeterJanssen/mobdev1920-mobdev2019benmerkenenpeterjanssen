@@ -1,4 +1,4 @@
-package be.pxl.mobdev2019.cityWatch.ui.list
+package be.pxl.mobdev2019.cityWatch.ui.list_report
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
-import be.pxl.mobdev2019.cityWatch.databinding.ItemPersonalReportsListBinding
+import be.pxl.mobdev2019.cityWatch.databinding.ItemReportBinding
 
 class ReportsAdapter (
     private val reports: List<Report>,
@@ -19,14 +19,14 @@ class ReportsAdapter (
         ReportViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_personal_reports_list,
+                R.layout.item_report,
                 parent,
                 false
             )
         )
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
-        holder.itemPersonalReportsListBinding.report = reports[position]
+        holder.itemReportBinding.report = reports[position]
         /*holder.recyclerviewMovieBinding.buttonBook.setOnClickListener {
             listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.buttonBook, reports[position])
         }
@@ -37,7 +37,7 @@ class ReportsAdapter (
 
 
     inner class ReportViewHolder(
-        val itemPersonalReportsListBinding: ItemPersonalReportsListBinding
-    ) : RecyclerView.ViewHolder(itemPersonalReportsListBinding.root)
+        val itemReportBinding: ItemReportBinding
+    ) : RecyclerView.ViewHolder(itemReportBinding.root)
 
 }

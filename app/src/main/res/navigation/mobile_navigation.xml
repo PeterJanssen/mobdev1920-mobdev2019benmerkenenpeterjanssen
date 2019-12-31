@@ -7,21 +7,21 @@
 
     <fragment
         android:id="@+id/navigation_lists"
-        android:name="be.pxl.mobdev2019.cityWatch.ui.list.ListsFragment"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsFragment"
         android:label="@string/title_lists"
-        tools:layout="@layout/fragment_lists" />
+        tools:layout="@layout/fragment_all_reports" />
 
     <fragment
         android:id="@+id/navigation_explore"
-        android:name="be.pxl.mobdev2019.cityWatch.ui.explore.ExploreFragment"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.create_report.CreateNewReportFragment"
         android:label="@string/title_explore"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_create_new_report" />
 
     <fragment
         android:id="@+id/navigation_see_all_posts"
-        android:name="be.pxl.mobdev2019.cityWatch.ui.see_all_posts.SeeAllPostsFragment"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map.SeeAllReportsOnMapFragment"
         android:label="@string/title_see_all_posts"
-        tools:layout="@layout/fragment_see_all_posts" />
+        tools:layout="@layout/fragment_see_all_posts_on_map" />
 
     <fragment
         android:id="@+id/navigation_account"
