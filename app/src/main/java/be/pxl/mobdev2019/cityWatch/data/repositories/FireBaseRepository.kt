@@ -1,15 +1,16 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
 import android.net.Uri
-import be.pxl.mobdev2019.cityWatch.ui.list.Severity
+import android.util.Log
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
+import be.pxl.mobdev2019.cityWatch.ui.list.Severity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import io.reactivex.Completable
+
 
 class FireBaseRepository {
     private val fireBaseDatabase: DatabaseReference by lazy {
@@ -114,20 +115,27 @@ class FireBaseRepository {
 
     fun getReports(): List<Report> {
         val personalReports = ArrayList<Report>()
-        var report = Report(
-            1,
-            "Verkeerslicht kapot",
-            "Verkeerslicht aan Plospa kapot",
-            Severity.HIGH
-        )
-        personalReports.add(report)
-        report = Report(
-            2,
-            "Put in de weg",
-            "Weg naar UHasselt ligt vol putten",
-            Severity.MEDIUM
-        )
-        personalReports.add(report)
+
+        fireBaseDatabase.child("Reports").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                personalReports.clear()
+                for (postSnapshot in dataSnapshot.children) {
+                    val description = postSnapshot.child("description").value
+                    val severity = postSnapshot.child("severity").value
+                    val title = postSnapshot.child("title").value
+                    val report = Report(
+                        title.toString(),
+                        description.toString(),
+                        Severity.valueOf(severity.toString())
+                    )
+                    personalReports.add(report)
+                }
+            }
+
+            override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
+
+            }
+        })
         return personalReports
     }
 }

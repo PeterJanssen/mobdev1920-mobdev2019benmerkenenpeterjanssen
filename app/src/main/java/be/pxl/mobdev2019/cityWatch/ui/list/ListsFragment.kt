@@ -37,9 +37,10 @@ class ListsFragment : Fragment(), RecyclerViewClickListener {
 
         listsViewModel.reports.observe(viewLifecycleOwner, Observer { reports ->
             recycler_view.also {
-                it.layoutManager = LinearLayoutManager(requireContext())
+                it.layoutManager = LinearLayoutManager(requireActivity())
                 it.setHasFixedSize(true)
                 it.adapter = ReportsAdapter(reports, this)
+                it.adapter!!.notifyDataSetChanged()
             }
         })
     }

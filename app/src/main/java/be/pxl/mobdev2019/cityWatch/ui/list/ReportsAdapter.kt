@@ -26,7 +26,7 @@ class ReportsAdapter (
         )
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
-        holder.recyclerviewMovieBinding.report = reports[position]
+        holder.itemPersonalReportsListBinding.report = reports[position]
         /*holder.recyclerviewMovieBinding.buttonBook.setOnClickListener {
             listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.buttonBook, reports[position])
         }
@@ -37,7 +37,7 @@ class ReportsAdapter (
 
 
     inner class ReportViewHolder(
-        val recyclerviewMovieBinding: ItemPersonalReportsListBinding
-    ) : RecyclerView.ViewHolder(recyclerviewMovieBinding.root)
+        val itemPersonalReportsListBinding: ItemPersonalReportsListBinding
+    ) : RecyclerView.ViewHolder(itemPersonalReportsListBinding.root)
 
 }
