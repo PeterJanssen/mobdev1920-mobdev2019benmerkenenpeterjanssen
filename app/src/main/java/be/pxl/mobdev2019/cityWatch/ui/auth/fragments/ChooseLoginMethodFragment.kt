@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentChooseLoginMethodBinding
-import be.pxl.mobdev2019.cityWatch.databinding.FragmentLoginBinding
 import be.pxl.mobdev2019.cityWatch.ui.MainActivity
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModel
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory

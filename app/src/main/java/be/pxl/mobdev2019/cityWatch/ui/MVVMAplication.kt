@@ -5,6 +5,8 @@ import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.ReportRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.UserRepository
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
+import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModel
+import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -27,6 +29,8 @@ class MVVMApplication : Application(), KodeinAware {
         bind() from provider { AuthViewModelFactory(instance()) }
         bind() from provider { AllReportsViewModelFactory(instance()) }
 
+        bind() from provider { CreateReportViewModel(instance()) }
+        bind() from provider { CreateReportViewModelFactory(instance()) }
     }
 
 }

@@ -9,6 +9,9 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import io.reactivex.Completable
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class FireBaseRepository {
@@ -20,11 +23,11 @@ class FireBaseRepository {
         FirebaseAuth.getInstance()
     }
 
-    private val Storage: FirebaseStorage by lazy {
+    private val storage: FirebaseStorage by lazy {
         FirebaseStorage.getInstance()
     }
 
-    fun login(email: String, password: String) = Completable.create { emitter ->
+    fun login(email: String, password: String): Completable = Completable.create { emitter ->
         fireBaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (!emitter.isDisposed) {
                 if (it.isSuccessful)
@@ -35,7 +38,7 @@ class FireBaseRepository {
         }
     }
 
-    fun register(email: String, password: String, displayName: String) =
+    fun register(email: String, password: String, displayName: String): Completable =
         Completable.create { emitter ->
             fireBaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -81,7 +84,7 @@ class FireBaseRepository {
 
     fun changeImage(resultUri: Uri, imageByteArray: ByteArray) = Completable.create { emitter ->
         val imageFilePath =
-            Storage.reference.child("citywatch_profile_images")
+            storage.reference.child("citywatch_profile_images")
                 .child("profile_image_${currentUser()!!.uid}")
 
         imageFilePath.putFile(resultUri)
@@ -119,10 +122,12 @@ class FireBaseRepository {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 personalReports.clear()
                 for (postSnapshot in dataSnapshot.children) {
+                    val userId = postSnapshot.child("userId").value
                     val description = postSnapshot.child("description").value
                     val severity = postSnapshot.child("severity").value
                     val title = postSnapshot.child("title").value
                     val report = Report(
+                        userId.toString(),
                         title.toString(),
                         description.toString(),
                         Severity.valueOf(severity.toString())
@@ -137,4 +142,18 @@ class FireBaseRepository {
         })
         return personalReports
     }
+
+    fun createReport(report:Report): Completable =
+        Completable.create { emitter ->
+            fireBaseDatabase.child("Reports").child(UUID.randomUUID().toString()).setValue(report).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful)
+                            emitter.onComplete()
+                        else
+                            emitter.onError(it.exception!!)
+                    }
+                }
+            }
+        }
 }

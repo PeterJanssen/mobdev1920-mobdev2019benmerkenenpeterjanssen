@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.ui.auth.LoginActivity
+import be.pxl.mobdev2019.cityWatch.util.toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -195,11 +196,7 @@ class AccountFragment : Fragment() {
                                         mDataBase!!.updateChildren(updateObj)
                                             .addOnCompleteListener { task: Task<Void> ->
                                                 if (task.isSuccessful) {
-                                                    Toast.makeText(
-                                                        activity,
-                                                        "Profile image saved",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
+                                                    toast("Profile image saved")
                                                 }
                                             }
                                     }

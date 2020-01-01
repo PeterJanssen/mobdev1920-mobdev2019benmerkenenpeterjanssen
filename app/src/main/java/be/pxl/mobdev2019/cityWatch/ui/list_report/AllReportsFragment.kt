@@ -11,13 +11,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
-import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import kotlinx.android.synthetic.main.fragment_all_reports.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
-class AllReportsFragment : Fragment(), RecyclerViewClickListener {
+class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
+
+    override val kodein by kodein()
 
     private lateinit var allReportsViewModel: AllReportsViewModel
-    private lateinit var factory: AllReportsViewModelFactory
+    private val factory: AllReportsViewModelFactory by instance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,8 +33,6 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val repository = FireBaseRepository()
-        factory = AllReportsViewModelFactory(repository)
         allReportsViewModel = ViewModelProviders.of(this, factory).get(AllReportsViewModel::class.java)
 
         allReportsViewModel.getReports()

@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     private val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
         setOf(
             R.id.navigation_lists,
-            R.id.navigation_explore,
+            R.id.navigation_create_report,
             R.id.navigation_see_all_posts,
             R.id.navigation_account
         )

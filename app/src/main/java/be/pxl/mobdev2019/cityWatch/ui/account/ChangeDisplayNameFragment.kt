@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
+import be.pxl.mobdev2019.cityWatch.util.toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -42,28 +43,15 @@ class ChangeDisplayNameFragment : Fragment() {
                 mDatabase!!.child("display_name").setValue(displayName)
                     .addOnCompleteListener { task: Task<Void> ->
                         if (task.isSuccessful) {
-                            Toast.makeText(
-                                activity,
-                                "Display name updated successfully",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
+                            toast("Display name updated successfully")
                             Navigation.findNavController(it)
                                 .navigate(R.id.action_navigation_display_name_to_navigation_account)
                         } else {
-                            Toast.makeText(
-                                activity,
-                                "Display name not updated, something went wrong",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            toast("Display name not updated, something went wrong")
                         }
                     }
             } else {
-                Toast.makeText(
-                    activity,
-                    "Please input a new display name",
-                    Toast.LENGTH_LONG
-                ).show()
+                toast("Please input a new display name")
             }
 
 

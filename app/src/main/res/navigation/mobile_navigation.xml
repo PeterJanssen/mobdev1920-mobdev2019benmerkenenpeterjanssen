@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_all_reports" />
 
     <fragment
-        android:id="@+id/navigation_explore"
-        android:name="be.pxl.mobdev2019.cityWatch.ui.create_report.CreateNewReportFragment"
-        android:label="@string/title_explore"
-        tools:layout="@layout/fragment_create_new_report" />
+        android:id="@+id/navigation_create_report"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportFragment"
+        android:label="@string/title_create_report"
+        tools:layout="@layout/fragment_create_report" />
 
     <fragment
         android:id="@+id/navigation_see_all_posts"

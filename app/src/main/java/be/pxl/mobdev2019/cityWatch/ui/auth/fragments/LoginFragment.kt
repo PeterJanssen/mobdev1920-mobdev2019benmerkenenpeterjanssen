@@ -15,6 +15,7 @@ import be.pxl.mobdev2019.cityWatch.ui.MainActivity
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthListener
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModel
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
+import be.pxl.mobdev2019.cityWatch.util.toast
 import org.kodein.di.android.x.kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
@@ -41,11 +42,11 @@ class LoginFragment : Fragment(), AuthListener, KodeinAware {
     }
 
     override fun onStarted() {
-        Toast.makeText(activity, "Logging in", Toast.LENGTH_LONG).show()
+        toast("Logging in")
     }
 
     override fun onSuccess() {
-        Toast.makeText(activity, "Login succes!", Toast.LENGTH_LONG).show()
+        toast("Login succes!")
         val intent = Intent(activity, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -54,6 +55,6 @@ class LoginFragment : Fragment(), AuthListener, KodeinAware {
     }
 
     override fun onFailure(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+        toast(message)
     }
 }

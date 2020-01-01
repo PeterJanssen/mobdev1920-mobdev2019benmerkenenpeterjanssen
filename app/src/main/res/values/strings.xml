@@ -32,13 +32,17 @@
     <string name="fragment_change_display_name_edit_display_name_edit_text">Enter your new Display Name</string>
     <string name="fragment_change_display_name_update_display_name_button">SAVE NEW DISPLAY NAME</string>
 
+    <string name="fragment_create_report_card_title_text">Create Report</string>
+    <string name="fragment_create_report_enter_title_text">Enter Title</string>
+    <string name="fragment_create_report_enter_description_text">Enter Description</string>
+    <string name="fragment_create_report_button_text">Create Report</string>
+    <string name="fragment_create_report_severity_text_view_text">Select severity</string>
+
     <string name="title_lists">Lists</string>
-    <string name="title_explore">Explore</string>
-    <string name="title_see_all_posts">See all Posts</string>
+    <string name="title_create_report">Create Report</string>
+    <string name="title_see_all_posts">Map</string>
     <string name="title_account">My Account</string>
     <string name="title_display_name">Display Name</string>
     <string name="title_activity_personal_reports_list">My Reports</string>
     <string name="severity_image">Severity image</string>
-
-
 </resources>
