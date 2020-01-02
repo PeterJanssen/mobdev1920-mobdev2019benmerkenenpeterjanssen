@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_lists"
         android:name="be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsFragment"
-        android:label="@string/title_lists"
+        android:label="@string/title_reports"
         tools:layout="@layout/fragment_all_reports">
         <action
             android:id="@+id/action_navigation_lists_to_navigation_report_detail"

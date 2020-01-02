@@ -38,15 +38,11 @@
     <string name="fragment_create_report_button_text">Create Report</string>
     <string name="fragment_create_report_severity_text_view_text">Select severity</string>
 
-    <string name="title_lists">Lists</string>
+    <string name="title_reports">Reports</string>
+    <string name="title_detail_report">Report</string>
     <string name="title_create_report">Create Report</string>
     <string name="title_see_all_posts">Map</string>
     <string name="title_account">My Account</string>
     <string name="title_display_name">Display Name</string>
-    <string name="title_activity_personal_reports_list">My Reports</string>
     <string name="severity_image">Severity image</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_detail_report">Report</string>
 </resources>

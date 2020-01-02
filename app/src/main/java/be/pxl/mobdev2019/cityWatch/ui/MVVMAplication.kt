@@ -10,6 +10,8 @@ import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModel
 import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsViewModelFactory
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -18,8 +20,20 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
+
 // MVVMApplication is registered in androidmanifest as an application
 class MVVMApplication : Application(), KodeinAware {
+
+    override fun onCreate() {
+        super.onCreate()
+        FirebaseApp.initializeApp(this)
+        val mDatabaseReference = FirebaseDatabase.getInstance()
+        mDatabaseReference.setPersistenceEnabled(true)
+        val mUserDataBaseReference = mDatabaseReference.getReference("Users")
+        val mReportDataBaseReference = mDatabaseReference.getReference("Reports")
+        mUserDataBaseReference.keepSynced(true)
+        mReportDataBaseReference.keepSynced(true)
+    }
 
     override val kodein = Kodein.lazy {
         import(androidXModule(this@MVVMApplication))
