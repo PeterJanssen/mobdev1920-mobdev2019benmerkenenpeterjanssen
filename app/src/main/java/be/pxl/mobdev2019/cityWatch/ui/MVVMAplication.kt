@@ -4,6 +4,8 @@ import android.app.Application
 import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.ReportRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.UserRepository
+import be.pxl.mobdev2019.cityWatch.ui.account.AccountViewModel
+import be.pxl.mobdev2019.cityWatch.ui.account.AccountViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModel
 import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModelFactory
@@ -31,6 +33,9 @@ class MVVMApplication : Application(), KodeinAware {
 
         bind() from provider { CreateReportViewModel(instance()) }
         bind() from provider { CreateReportViewModelFactory(instance()) }
+
+        bind() from provider { AccountViewModel(instance()) }
+        bind() from provider { AccountViewModelFactory(instance()) }
     }
 
 }

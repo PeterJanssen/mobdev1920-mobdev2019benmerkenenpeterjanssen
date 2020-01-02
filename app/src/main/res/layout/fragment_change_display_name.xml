@@ -1,78 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    tools:context=".ui.account.ChangeDisplayNameFragment">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="be.pxl.mobdev2019.cityWatch.ui.account.AccountViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+        tools:context=".ui.account.ChangeDisplayNameFragment">
 
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        app:cardCornerRadius="12dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <androidx.cardview.widget.CardView
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            app:cardCornerRadius="12dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:orientation="vertical">
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingStart="50dp"
-                android:paddingEnd="30dp">
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fragment_change_display_name_enter_your_new_display_name_text"
-                    android:textAlignment="center"
-                    android:textColor="#fff"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="30dp">
 
-                <EditText
-                    android:id="@+id/editDisplayNameEditText"
-                    style="@style/EditText"
-                    android:layout_width="300dp"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/selector_bg_edit_2"
-                    android:ems="10"
-                    android:hint="@string/fragment_change_display_name_edit_display_name_edit_text"
-                    android:importantForAutofill="no"
-                    android:inputType="text" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fragment_change_display_name_enter_your_new_display_name_text"
+                        android:textAlignment="center"
+                        android:textColor="#fff"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/editDisplayNameEditText"
+                        style="@style/EditText"
+                        android:layout_width="300dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:ems="10"
+                        android:maxLength="12"
+                        android:hint="@string/fragment_change_display_name_edit_display_name_edit_text"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:text="@={viewmodel.displayName}" />
+                </RelativeLayout>
 
-                <Button
-                    android:id="@+id/editDisplayNameButton"
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/bt_shape"
-                    android:padding="15dp"
-                    android:stateListAnimator="@drawable/state_list_animator_z"
-                    android:text="@string/fragment_change_display_name_update_display_name_button"
-                    android:textColor="#d3d3d3" />
-            </RelativeLayout>
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-    </androidx.cardview.widget.CardView>
+                    <Button
+                        android:id="@+id/editDisplayNameButton"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/bt_shape"
+                        android:onClick="@{() -> viewmodel.onChangeDisplayNameButtonClick()}"
+                        android:padding="15dp"
+                        android:stateListAnimator="@drawable/state_list_animator_z"
+                        android:text="@string/fragment_change_display_name_update_display_name_button"
+                        android:textColor="#d3d3d3" />
+                </RelativeLayout>
+            </LinearLayout>
 
-</RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</layout>

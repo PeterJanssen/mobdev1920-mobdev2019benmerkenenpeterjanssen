@@ -13,12 +13,13 @@ import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentCreateReportBinding
 import be.pxl.mobdev2019.cityWatch.ui.MainActivity
+import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
-class CreateReportFragment : Fragment(), CreateReportListener, KodeinAware {
+class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
 
     override val kodein by kodein()
     private lateinit var createReportViewModel: CreateReportViewModel

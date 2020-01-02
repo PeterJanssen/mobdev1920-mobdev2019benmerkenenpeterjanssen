@@ -1,6 +1,6 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
-import android.net.Uri
+import be.pxl.mobdev2019.cityWatch.data.entities.AccountDisplay
 import be.pxl.mobdev2019.cityWatch.data.entities.LoginUser
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.data.entities.RegisterUser
@@ -8,9 +8,12 @@ import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.core.Repo
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
+import durdinapps.rxfirebase2.DataSnapshotMapper
+import durdinapps.rxfirebase2.RxFirebaseDatabase
 import io.reactivex.Completable
+import io.reactivex.internal.operators.flowable.FlowableFromIterable.subscribe
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -74,9 +77,11 @@ class FireBaseRepository {
 
     fun currentUser() = fireBaseAuth.currentUser
 
-    fun changeDisplayName(displayName: String) = Completable.create { emitter ->
+    fun changeDisplayName(displayName: String): Completable = Completable.create { emitter ->
         val userId = currentUser()!!.uid
-        fireBaseDatabase.child("Users").child(userId).child("display_name").setValue(displayName)
+
+        fireBaseDatabase.child("Users").child(userId).child("display_name")
+            .setValue(displayName.trim())
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     if (!emitter.isDisposed) {
@@ -89,42 +94,12 @@ class FireBaseRepository {
             }
     }
 
-    fun changeImage(resultUri: Uri, imageByteArray: ByteArray) = Completable.create { emitter ->
-        val imageFilePath =
-            storage.reference.child("citywatch_profile_images")
-                .child("profile_image_${currentUser()!!.uid}")
+    fun changeDisplayImage(displayImage: String) = Completable.create { emitter ->
 
-        imageFilePath.putFile(resultUri)
-            .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
-                if (taskSnapshot.isSuccessful) {
-                    imageFilePath.downloadUrl.addOnSuccessListener { uri: Uri? ->
-                        val uploadTask: UploadTask = imageFilePath.putBytes(imageByteArray)
-                        uploadTask.addOnCompleteListener { task: Task<UploadTask.TaskSnapshot> ->
-                            if (task.isSuccessful) {
-                                val updateObj = HashMap<String, Any>()
-                                updateObj["image"] = uri.toString()
-                                fireBaseDatabase.updateChildren(updateObj)
-                                    .addOnCompleteListener { task: Task<Void> ->
-                                        if (task.isSuccessful) {
-                                            emitter.onComplete()
-                                        } else {
-                                            emitter.onError(task.exception!!)
-                                        }
-                                    }
-                            } else {
-                                emitter.onError(task.exception!!)
-                            }
-                        }
-                    }
-                } else {
-                    emitter.onError(taskSnapshot.exception!!)
-                }
-            }
     }
 
     fun getReports(): List<Report> {
         val personalReports = ArrayList<Report>()
-
         fireBaseDatabase.child("Reports")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -165,4 +140,8 @@ class FireBaseRepository {
                     }
                 }
         }
+
+    fun getDisplayAccount(): AccountDisplay {
+        return AccountDisplay("", "", "")
+    }
 }

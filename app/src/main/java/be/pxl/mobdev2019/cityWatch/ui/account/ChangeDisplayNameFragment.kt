@@ -1,60 +1,55 @@
 package be.pxl.mobdev2019.cityWatch.ui.account
 
-
+import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
+import be.pxl.mobdev2019.cityWatch.databinding.FragmentChangeDisplayNameBinding
+import be.pxl.mobdev2019.cityWatch.ui.MainActivity
+import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.fragment_change_display_name.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
-class ChangeDisplayNameFragment : Fragment() {
-    private var mDatabase: DatabaseReference? = null
-    private var mCurrentUser: FirebaseUser? = null
+class ChangeDisplayNameFragment : Fragment(), ViewModelListener, KodeinAware {
+    override val kodein by kodein()
+
+    private lateinit var viewModel: AccountViewModel
+    private val factory: AccountViewModelFactory by instance()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_change_display_name, container, false)
+        val binding: FragmentChangeDisplayNameBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_change_display_name, container, false)
+        viewModel = ViewModelProviders.of(this, factory).get(AccountViewModel::class.java)
+
+        binding.viewmodel = viewModel
+        viewModel.accountListener = this
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        editDisplayNameButton.setOnClickListener {
-            mCurrentUser = FirebaseAuth.getInstance().currentUser
-            val userId = mCurrentUser!!.uid
+    override fun onStarted() {
+        toast("Changing display name")
+    }
 
-            mDatabase = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
+    override fun onSuccess() {
+        toast("Display name changed!")
+        Navigation.findNavController(requireView())
+            .navigate(R.id.action_navigation_display_name_to_navigation_account)
+    }
 
-            val displayName = editDisplayNameEditText.text.toString().trim()
-
-            if (!TextUtils.isEmpty(displayName)) {
-                mDatabase!!.child("display_name").setValue(displayName)
-                    .addOnCompleteListener { task: Task<Void> ->
-                        if (task.isSuccessful) {
-                            toast("Display name updated successfully")
-                            Navigation.findNavController(it)
-                                .navigate(R.id.action_navigation_display_name_to_navigation_account)
-                        } else {
-                            toast("Display name not updated, something went wrong")
-                        }
-                    }
-            } else {
-                toast("Please input a new display name")
-            }
-
-
-        }
+    override fun onFailure(message: String) {
+        toast(message)
     }
 }

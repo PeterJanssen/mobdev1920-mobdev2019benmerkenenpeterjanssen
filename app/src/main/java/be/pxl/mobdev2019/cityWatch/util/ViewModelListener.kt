@@ -1,6 +1,6 @@
-package be.pxl.mobdev2019.cityWatch.ui.auth
+package be.pxl.mobdev2019.cityWatch.util
 
-interface AuthListener {
+interface ViewModelListener {
     fun onStarted()
     fun onSuccess()
     fun onFailure(message: String)

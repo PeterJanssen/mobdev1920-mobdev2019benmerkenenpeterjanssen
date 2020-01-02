@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.ReportRepository
 import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
+import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +16,7 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
     var description: String? = null
     var severity: Severity = Severity.VERY_LOW
 
-    var createReportListener: CreateReportListener? = null
+    var createReportListener: ViewModelListener? = null
 
     private val disposables = CompositeDisposable()
 

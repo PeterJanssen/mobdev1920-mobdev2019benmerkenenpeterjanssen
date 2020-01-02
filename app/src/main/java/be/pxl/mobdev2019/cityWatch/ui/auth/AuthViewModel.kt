@@ -2,6 +2,7 @@ package be.pxl.mobdev2019.cityWatch.ui.auth
 
 import androidx.lifecycle.ViewModel
 import be.pxl.mobdev2019.cityWatch.data.repositories.UserRepository
+import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -12,7 +13,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
     var password: String? = null
     var displayName: String? = null
 
-    var authListener: AuthListener? = null
+    var authListener: ViewModelListener? = null
 
     private val disposables = CompositeDisposable()
 

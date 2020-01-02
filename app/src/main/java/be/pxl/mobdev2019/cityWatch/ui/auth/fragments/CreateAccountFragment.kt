@@ -6,22 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentCreateAccountBinding
-import be.pxl.mobdev2019.cityWatch.databinding.FragmentLoginBindingImpl
 import be.pxl.mobdev2019.cityWatch.ui.MainActivity
-import be.pxl.mobdev2019.cityWatch.ui.auth.AuthListener
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModel
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
+import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
-class CreateAccountFragment : Fragment(), AuthListener, KodeinAware {
+class CreateAccountFragment : Fragment(), ViewModelListener, KodeinAware {
     override val kodein by kodein()
     private lateinit var viewModel: AuthViewModel
     private val factory: AuthViewModelFactory by instance()

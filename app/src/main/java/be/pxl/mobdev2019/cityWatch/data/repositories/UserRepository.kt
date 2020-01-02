@@ -2,6 +2,7 @@ package be.pxl.mobdev2019.cityWatch.data.repositories
 
 import be.pxl.mobdev2019.cityWatch.data.entities.LoginUser
 import be.pxl.mobdev2019.cityWatch.data.entities.RegisterUser
+import io.reactivex.Completable
 
 class UserRepository(
     private val fireBase: FireBaseRepository
@@ -20,7 +21,12 @@ class UserRepository(
             )
         )
 
+    fun changeDisplayName(displayName: String): Completable = fireBase.changeDisplayName(displayName = displayName)
+    fun changeDisplayImage(displayImage: String): Completable = fireBase.changeDisplayImage(displayImage = displayImage)
+
     fun currentUser() = fireBase.currentUser()
 
-    fun logout() = fireBase.logout()
+    fun logout()= fireBase.logout()
+
+    fun getDisplayAccount() = fireBase.getDisplayAccount()
 }
