@@ -9,6 +9,6 @@ class ReportRepository(
     fun getReports() = fireBase.getReports()
     fun createReport(userId: String, title: String, description: String, severity: Severity) =
         fireBase.createReport(
-            Report(userId, title, description, severity)
+            Report(userId = userId, title = title, description = description, severity = severity)
         )
 }

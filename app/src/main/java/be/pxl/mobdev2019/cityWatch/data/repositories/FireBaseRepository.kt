@@ -1,7 +1,9 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
 import android.net.Uri
+import be.pxl.mobdev2019.cityWatch.data.entities.LoginUser
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
+import be.pxl.mobdev2019.cityWatch.data.entities.RegisterUser
 import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -27,40 +29,45 @@ class FireBaseRepository {
         FirebaseStorage.getInstance()
     }
 
-    fun login(email: String, password: String): Completable = Completable.create { emitter ->
-        fireBaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (!emitter.isDisposed) {
-                if (it.isSuccessful)
-                    emitter.onComplete()
-                else
-                    emitter.onError(it.exception!!)
-            }
-        }
-    }
-
-    fun register(email: String, password: String, displayName: String): Completable =
-        Completable.create { emitter ->
-            fireBaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val userId = currentUser()!!.uid
-                    val userObject = HashMap<String, String>()
-                    userObject["display_name"] = displayName
-                    userObject["image"] = "default"
-                    userObject["total_likes"] = "0"
-
-                    fireBaseDatabase.child("Users").child(userId).setValue(userObject)
-                        .addOnCompleteListener { task: Task<Void> ->
-                            if (task.isSuccessful) {
-                                if (!emitter.isDisposed) {
-                                    if (it.isSuccessful)
-                                        emitter.onComplete()
-                                    else
-                                        emitter.onError(it.exception!!)
-                                }
-                            }
-                        }
+    fun login(loginUser: LoginUser): Completable = Completable.create { emitter ->
+        fireBaseAuth.signInWithEmailAndPassword(loginUser.email, loginUser.password)
+            .addOnCompleteListener {
+                if (!emitter.isDisposed) {
+                    if (it.isSuccessful)
+                        emitter.onComplete()
+                    else
+                        emitter.onError(it.exception!!)
                 }
             }
+    }
+
+    fun register(registerUser: RegisterUser): Completable =
+        Completable.create { emitter ->
+            fireBaseAuth.createUserWithEmailAndPassword(
+                registerUser.email,
+                registerUser.password
+            )
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val userId = currentUser()!!.uid
+                        val userObject = HashMap<String, String>()
+                        userObject["display_name"] = registerUser.displayName
+                        userObject["image"] = registerUser.image
+                        userObject["total_likes"] = registerUser.likes
+
+                        fireBaseDatabase.child("Users").child(userId).setValue(userObject)
+                            .addOnCompleteListener { task: Task<Void> ->
+                                if (task.isSuccessful) {
+                                    if (!emitter.isDisposed) {
+                                        if (it.isSuccessful)
+                                            emitter.onComplete()
+                                        else
+                                            emitter.onError(it.exception!!)
+                                    }
+                                }
+                            }
+                    }
+                }
         }
 
     fun logout() = fireBaseAuth.signOut()
