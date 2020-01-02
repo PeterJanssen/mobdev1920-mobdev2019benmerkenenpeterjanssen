@@ -118,42 +118,44 @@ class FireBaseRepository {
     fun getReports(): List<Report> {
         val personalReports = ArrayList<Report>()
 
-        fireBaseDatabase.child("Reports").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                personalReports.clear()
-                for (postSnapshot in dataSnapshot.children) {
-                    val userId = postSnapshot.child("userId").value
-                    val description = postSnapshot.child("description").value
-                    val severity = postSnapshot.child("severity").value
-                    val title = postSnapshot.child("title").value
-                    val report = Report(
-                        userId.toString(),
-                        title.toString(),
-                        description.toString(),
-                        Severity.valueOf(severity.toString())
-                    )
-                    personalReports.add(report)
+        fireBaseDatabase.child("Reports")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    personalReports.clear()
+                    for (postSnapshot in dataSnapshot.children) {
+                        val userId = postSnapshot.child("userId").value
+                        val description = postSnapshot.child("description").value
+                        val severity = postSnapshot.child("severity").value
+                        val title = postSnapshot.child("title").value
+                        val report = Report(
+                            userId.toString(),
+                            title.toString(),
+                            description.toString(),
+                            Severity.valueOf(severity.toString())
+                        )
+                        personalReports.add(report)
+                    }
                 }
-            }
 
-            override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
+                override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
 
-            }
-        })
+                }
+            })
         return personalReports
     }
 
-    fun createReport(report:Report): Completable =
+    fun createReport(report: Report): Completable =
         Completable.create { emitter ->
-            fireBaseDatabase.child("Reports").child(UUID.randomUUID().toString()).setValue(report).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    if (!emitter.isDisposed) {
-                        if (it.isSuccessful)
-                            emitter.onComplete()
-                        else
-                            emitter.onError(it.exception!!)
+            fireBaseDatabase.child("Reports").child(UUID.randomUUID().toString()).setValue(report)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        if (!emitter.isDisposed) {
+                            if (it.isSuccessful)
+                                emitter.onComplete()
+                            else
+                                emitter.onError(it.exception!!)
+                        }
                     }
                 }
-            }
         }
 }

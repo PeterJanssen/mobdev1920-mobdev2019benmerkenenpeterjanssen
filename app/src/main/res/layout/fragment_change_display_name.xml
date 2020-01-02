@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
     tools:context=".ui.account.ChangeDisplayNameFragment">
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="8dp"
         app:cardCornerRadius="12dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,17 +43,16 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    style="@style/EditText"
                     android:id="@+id/editDisplayNameEditText"
+                    style="@style/EditText"
                     android:layout_width="300dp"
                     android:layout_height="44dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/selector_bg_edit_2"
                     android:ems="10"
                     android:hint="@string/fragment_change_display_name_edit_display_name_edit_text"
-                    android:inputType="text"
-                    android:textSize="15sp"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -69,8 +66,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/bt_shape"
-                    android:stateListAnimator="@drawable/state_list_animator_z"
                     android:padding="15dp"
+                    android:stateListAnimator="@drawable/state_list_animator_z"
                     android:text="@string/fragment_change_display_name_update_display_name_button"
                     android:textColor="#d3d3d3" />
             </RelativeLayout>
@@ -78,4 +75,4 @@
 
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

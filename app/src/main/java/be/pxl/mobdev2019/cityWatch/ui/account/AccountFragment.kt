@@ -60,7 +60,7 @@ class AccountFragment : Fragment() {
 
         mDataBase = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
 
-        mDataBase!!.addValueEventListener(object : ValueEventListener {
+        mDataBase!!.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 val displayName = dataSnapshot.child("display_name").value
@@ -184,8 +184,7 @@ class AccountFragment : Fragment() {
                     mStorageRef!!.child("citywatch_profile_images").child("profile_image_$userId")
 
                 imageFilePath.putFile(resultUri)
-                    .addOnCompleteListener {
-                            taskSnapshot: Task<UploadTask.TaskSnapshot> ->
+                    .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
                         if (taskSnapshot.isSuccessful) {
                             imageFilePath.downloadUrl.addOnSuccessListener { uri: Uri? ->
                                 val uploadTask: UploadTask = imageFilePath.putBytes(imageByteArray)

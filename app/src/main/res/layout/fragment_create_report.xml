@@ -27,7 +27,7 @@
             app:cardCornerRadius="13dp"
             app:cardElevation="4dp"
             app:cardUseCompatPadding="true"
-            android:scrollbars="vertical">
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,7 +63,6 @@
                         android:inputType="textEmailAddress"
                         android:padding="10dp"
                         android:maxLength="30"
-                        android:paddingBottom="2dp"
                         android:text="@={viewmodel.title}" />
 
                     <EditText
@@ -79,7 +78,6 @@
                         android:minLines="2"
                         android:maxLines="3"
                         android:padding="10dp"
-                        android:paddingBottom="2dp"
                         android:scrollbars="vertical"
                         android:text="@={viewmodel.description}" />
 
