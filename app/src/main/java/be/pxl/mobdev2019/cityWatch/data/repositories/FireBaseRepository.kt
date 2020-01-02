@@ -99,7 +99,15 @@ class FireBaseRepository {
     }
 
     fun getReports(): List<Report> {
-        val personalReports = ArrayList<Report>()
+        val personalReports = listOf<Report>(
+            Report("1", "test1", "test1", Severity.VERY_LOW),
+            Report("2", "test2", "test2", Severity.LOW),
+            Report("3", "test3", "test3", Severity.MEDIUM),
+            Report("1", "test4", "test4", Severity.HIGH),
+            Report("2", "test5", "test5", Severity.VERY_HIGH)
+        )
+
+        /*
         fireBaseDatabase.child("Reports")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -122,7 +130,7 @@ class FireBaseRepository {
                 override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
 
                 }
-            })
+            })*/
         return personalReports
     }
 

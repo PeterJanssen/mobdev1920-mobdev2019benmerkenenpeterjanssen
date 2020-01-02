@@ -1,6 +1,5 @@
 package be.pxl.mobdev2019.cityWatch.ui.account
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentChangeDisplayNameBinding
-import be.pxl.mobdev2019.cityWatch.ui.MainActivity
 import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
 import org.kodein.di.KodeinAware

@@ -33,7 +33,8 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        allReportsViewModel = ViewModelProviders.of(this, factory).get(AllReportsViewModel::class.java)
+        allReportsViewModel =
+            ViewModelProviders.of(this, factory).get(AllReportsViewModel::class.java)
 
         allReportsViewModel.getReports()
 
@@ -42,12 +43,13 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
                 it.layoutManager = LinearLayoutManager(requireActivity())
                 it.setHasFixedSize(true)
                 it.adapter = ReportsAdapter(reports, this)
-                it.adapter!!.notifyDataSetChanged()
             }
         })
     }
 
     override fun onRecyclerViewItemClick(view: View, report: Report) {
+        when (view.id) {
 
+        }
     }
 }

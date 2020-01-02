@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_lists"
-    >
+    app:startDestination="@+id/navigation_lists">
 
     <fragment
         android:id="@+id/navigation_lists"
         android:name="be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsFragment"
         android:label="@string/title_lists"
-        tools:layout="@layout/fragment_all_reports" />
+        tools:layout="@layout/fragment_all_reports">
+        <action
+            android:id="@+id/action_navigation_lists_to_navigation_report_detail"
+            app:destination="@id/navigation_report_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_create_report"
@@ -28,7 +31,7 @@
         android:id="@+id/navigation_account"
         android:name="be.pxl.mobdev2019.cityWatch.ui.account.AccountFragment"
         android:label="@string/title_account"
-        tools:layout="@layout/fragment_account" >
+        tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_navigation_account_to_navigation_display_name"
             app:destination="@id/navigation_display_name" />
@@ -38,9 +41,21 @@
         android:id="@+id/navigation_display_name"
         android:name="be.pxl.mobdev2019.cityWatch.ui.account.ChangeDisplayNameFragment"
         android:label="@string/title_display_name"
-        tools:layout="@layout/fragment_change_display_name" >
+        tools:layout="@layout/fragment_change_display_name">
         <action
             android:id="@+id/action_navigation_display_name_to_navigation_account"
             app:destination="@id/navigation_account" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_report_detail"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.detail_report.ReportFragment"
+        android:label="@string/title_detail_report"
+        tools:layout="@layout/fragment_fragment_report_detail">
+        <action
+            android:id="@+id/action_navigation_report_detail_to_navigation_lists"
+            app:destination="@id/navigation_lists" />
+        <argument android:name="Report"
+            app:argType="be.pxl.mobdev2019.cityWatch.data.entities.Report" />
     </fragment>
 </navigation>

@@ -3,15 +3,16 @@ package be.pxl.mobdev2019.cityWatch.ui.list_report
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.databinding.ItemReportBinding
 
-class ReportsAdapter (
+class ReportsAdapter(
     private val reports: List<Report>,
     private val listener: RecyclerViewClickListener
-) : RecyclerView.Adapter<ReportsAdapter.ReportViewHolder>(){
+) : RecyclerView.Adapter<ReportsAdapter.ReportViewHolder>() {
 
     override fun getItemCount() = reports.size
 
@@ -27,11 +28,15 @@ class ReportsAdapter (
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
         holder.itemReportBinding.report = reports[position]
-        /*holder.recyclerviewMovieBinding.buttonBook.setOnClickListener {
-            listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.buttonBook, reports[position])
+        val action =
+            AllReportsFragmentDirections.actionNavigationListsToNavigationReportDetail(reports[position])
+        holder.itemReportBinding.root.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(action)
         }
-        holder.recyclerviewMovieBinding.layoutLike.setOnClickListener {
-            listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.layoutLike, reports[position])
+        /*
+        holder.itemReportBinding.buttonLike.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.itemReportBinding.buttonLike, reports[position])
         }*/
     }
 
