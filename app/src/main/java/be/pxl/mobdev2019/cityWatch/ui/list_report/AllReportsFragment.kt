@@ -23,11 +23,17 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
     private lateinit var allReportsViewModel: AllReportsViewModel
     private val factory: AllReportsViewModelFactory by instance()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_all_reports, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         allReportsViewModel =
             ViewModelProviders.of(this, factory).get(AllReportsViewModel::class.java)
 
@@ -35,12 +41,12 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
 
         allReportsViewModel.reports.observe(viewLifecycleOwner, Observer { reports ->
             recycler_view.also {
-                it.layoutManager = LinearLayoutManager(requireActivity())
+                it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
                 it.adapter = ReportsAdapter(reports, this)
             }
         })
-        return inflater.inflate(R.layout.fragment_all_reports, container, false)
+
     }
 
     override fun onRecyclerViewItemClick(view: View, report: Report) {

@@ -1,21 +1,18 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
+import android.util.Log
 import be.pxl.mobdev2019.cityWatch.data.entities.AccountDisplay
 import be.pxl.mobdev2019.cityWatch.data.entities.LoginUser
-import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.data.entities.RegisterUser
-import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
+import be.pxl.mobdev2019.cityWatch.data.entities.Report
+import be.pxl.mobdev2019.cityWatch.util.OnGetDataListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.core.Repo
 import com.google.firebase.storage.FirebaseStorage
-import durdinapps.rxfirebase2.DataSnapshotMapper
-import durdinapps.rxfirebase2.RxFirebaseDatabase
 import io.reactivex.Completable
-import io.reactivex.internal.operators.flowable.FlowableFromIterable.subscribe
 import java.util.*
-import kotlin.collections.ArrayList
+import java.util.concurrent.CountDownLatch
 import kotlin.collections.HashMap
 
 
@@ -99,39 +96,46 @@ class FireBaseRepository {
     }
 
     fun getReports(): List<Report> {
-        val personalReports = listOf<Report>(
+        /*val personalReports = listOf<Report>(
             Report("1", "test1", "test1", Severity.VERY_LOW),
             Report("2", "test2", "test2", Severity.LOW),
             Report("3", "test3", "test3", Severity.MEDIUM),
             Report("1", "test4", "test4", Severity.HIGH),
             Report("2", "test5", "test5", Severity.VERY_HIGH)
         )
+*/
+        val personalReports: MutableList<Report> = mutableListOf()
+        val done = CountDownLatch(1)
+        readData(fireBaseDatabase.child("Reports"), object : OnGetDataListener {
+            override fun onSuccess(dataSnapshot: DataSnapshot?) {
+                dataSnapshot!!.children.mapNotNullTo(personalReports) { it.getValue<Report>(Report::class.java) }
+                done.countDown()
+                Log.d("OnSucces", "Success")
+            }
 
-        /*
-        fireBaseDatabase.child("Reports")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    personalReports.clear()
-                    for (postSnapshot in dataSnapshot.children) {
-                        val userId = postSnapshot.child("userId").value
-                        val description = postSnapshot.child("description").value
-                        val severity = postSnapshot.child("severity").value
-                        val title = postSnapshot.child("title").value
-                        val report = Report(
-                            userId.toString(),
-                            title.toString(),
-                            description.toString(),
-                            Severity.valueOf(severity.toString())
-                        )
-                        personalReports.add(report)
-                    }
-                }
+            override fun onStart() {
+                Log.d("ONSTART", "Started")
+            }
 
-                override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
-
-                }
-            })*/
+            override fun onFailure() {
+                Log.d("onFailure", "Failed")
+            }
+        })
+        done.await()
         return personalReports
+    }
+
+    private fun readData(ref: DatabaseReference, listener: OnGetDataListener) {
+        listener.onStart()
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                listener.onSuccess(dataSnapshot)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                listener.onFailure()
+            }
+        })
     }
 
     fun createReport(report: Report): Completable =
@@ -150,6 +154,6 @@ class FireBaseRepository {
         }
 
     fun getDisplayAccount(): AccountDisplay {
-        return AccountDisplay("", "", "")
+        return AccountDisplay()
     }
 }
