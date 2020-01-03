@@ -9,6 +9,8 @@ import be.pxl.mobdev2019.cityWatch.ui.account.AccountViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.auth.AuthViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModel
 import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModelFactory
+import be.pxl.mobdev2019.cityWatch.ui.detail_report.ReportViewModel
+import be.pxl.mobdev2019.cityWatch.ui.detail_report.ReportViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsViewModelFactory
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
@@ -50,6 +52,9 @@ class MVVMApplication : Application(), KodeinAware {
 
         bind() from provider { AccountViewModel(instance()) }
         bind() from provider { AccountViewModelFactory(instance()) }
+
+        bind() from provider { ReportViewModel(instance()) }
+        bind() from provider { ReportViewModelFactory(instance()) }
     }
 
 }
