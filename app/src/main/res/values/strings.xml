@@ -45,4 +45,10 @@
     <string name="title_account">My Account</string>
     <string name="title_display_name">Display Name</string>
     <string name="severity_image">Severity image</string>
+    <string name="fragment_report_detail_description_text_view">Description</string>
+    <string name="fragment_report_detail_title_text_view">Title</string>
+    <string name="report_image_content_description">Report image</string>
+    <string name="item_report_description_text_view">Severity</string>
+    <string name="fragment_report_detail_made_by_account_name_text_view">Made by</string>
+    <string name="fragment_report_detail_severity_text_view">Severity</string>
 </resources>

@@ -28,11 +28,6 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_all_reports, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         allReportsViewModel =
             ViewModelProviders.of(this, factory).get(AllReportsViewModel::class.java)
 
@@ -45,6 +40,7 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
                 it.adapter = ReportsAdapter(reports, this)
             }
         })
+        return inflater.inflate(R.layout.fragment_all_reports, container, false)
     }
 
     override fun onRecyclerViewItemClick(view: View, report: Report) {

@@ -38,7 +38,7 @@ class ReportsAdapter(
             Severity.VERY_HIGH -> R.color.colorVeryHighSeverity
         }
 
-        holder.itemReportBinding.root.imageSeverity.setColorFilter(color)
+        holder.itemReportBinding.root.textReportSeverity.setTextColor(color)
 
         val action =
             AllReportsFragmentDirections.actionNavigationListsToNavigationReportDetail(reports[position])

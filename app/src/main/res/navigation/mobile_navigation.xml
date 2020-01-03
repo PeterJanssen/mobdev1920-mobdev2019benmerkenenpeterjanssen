@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_lists">
+    app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/navigation_lists"
+        android:id="@+id/navigation_home"
         android:name="be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsFragment"
         android:label="@string/title_reports"
         tools:layout="@layout/fragment_all_reports">
@@ -51,10 +51,7 @@
         android:id="@+id/navigation_report_detail"
         android:name="be.pxl.mobdev2019.cityWatch.ui.detail_report.ReportFragment"
         android:label="@string/title_detail_report"
-        tools:layout="@layout/fragment_fragment_report_detail">
-        <action
-            android:id="@+id/action_navigation_report_detail_to_navigation_lists"
-            app:destination="@id/navigation_lists" />
+        tools:layout="@layout/fragment_report_detail">
         <argument android:name="Report"
             app:argType="be.pxl.mobdev2019.cityWatch.data.entities.Report" />
     </fragment>
