@@ -7,30 +7,46 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.util.toast
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
 
-class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback {
+class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware {
+    private lateinit var googleMap: GoogleMap
 
     private lateinit var seeAllReportsOnMapViewModel: SeeAllReportsOnMapViewModel
-    private lateinit var googleMap: GoogleMap
+    private val factory: SeeAllReportsOnMapViewModelFactory by instance()
+    override val kodein by kodein()
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onMapReady(map: GoogleMap?) {
         map?.let {
             googleMap = it
         }
+
+        seeAllReportsOnMapViewModel.getReports()
+
+        //googleMap.setOnMarkerClickListener(this)
 
         val permission = ContextCompat.checkSelfPermission(
             requireContext(),
@@ -39,6 +55,19 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback {
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
             googleMap.isMyLocationEnabled = true
+            mFusedLocationClient.lastLocation.addOnCompleteListener(activity!!) { locationClientTask ->
+                val location: Location? = locationClientTask.result
+                if (location != null) {
+                    googleMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(
+                                location.latitude,
+                                location.longitude
+                            ), 12.0f
+                        )
+                    )
+                }
+            }
             getCurrentLocation()
             addButtonsToMap()
         } else {
@@ -50,7 +79,27 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback {
             )
         }
 
+        seeAllReportsOnMapViewModel.reports.observe(viewLifecycleOwner, Observer { reports ->
+            reports.forEach { report ->
+                if (report.latitude != 0.0 && report.longitude != 0.0) {
+                    googleMap.addMarker(
+                        MarkerOptions().position(
+                            LatLng(
+                                report.latitude,
+                                report.longitude
+                            )
+                        ).title(report.title).snippet(report.description)
+                    )
+                }
+            }
+        })
+
     }
+
+    /* override fun onMarkerClick(marker: Marker?): Boolean {
+         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker!!.position, 12.0f))
+         return true
+     }*/
 
     private fun getCurrentLocation() {
         val locationRequest = LocationRequest.create()
@@ -162,6 +211,9 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        seeAllReportsOnMapViewModel =
+            ViewModelProviders.of(this, factory).get(SeeAllReportsOnMapViewModel::class.java)
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
         val view: View = inflater.inflate(R.layout.fragment_see_all_posts_on_map, container, false)
         val mMapView = view.findViewById<MapView>(R.id.map_view)
         mMapView.onCreate(savedInstanceState)
@@ -169,6 +221,17 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback {
         mMapView.onResume()
         return view
     }
+
+    /*override fun onMarkerClick(marker: Marker?): Boolean {
+        if (marker == null) {
+            return false
+        } else {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 16.0f))
+            marker.showInfoWindow()
+
+        }
+        return true
+    }*/
 
 
 }

@@ -12,6 +12,8 @@ import be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.detail_report.ReportViewModel
 import be.pxl.mobdev2019.cityWatch.ui.detail_report.ReportViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsViewModelFactory
+import be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map.SeeAllReportsOnMapViewModel
+import be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map.SeeAllReportsOnMapViewModelFactory
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
 import org.kodein.di.Kodein
@@ -55,6 +57,9 @@ class MVVMApplication : Application(), KodeinAware {
 
         bind() from provider { ReportViewModel(instance()) }
         bind() from provider { ReportViewModelFactory(instance()) }
+
+        bind() from provider { SeeAllReportsOnMapViewModel(instance()) }
+        bind() from provider { SeeAllReportsOnMapViewModelFactory(instance()) }
     }
 
 }
