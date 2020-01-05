@@ -33,10 +33,11 @@ class FireBaseRepository {
         fireBaseAuth.signInWithEmailAndPassword(loginUser.email, loginUser.password)
             .addOnCompleteListener {
                 if (!emitter.isDisposed) {
-                    if (it.isSuccessful)
+                    if (it.isSuccessful) {
                         emitter.onComplete()
-                    else
+                    } else {
                         emitter.onError(it.exception!!)
+                    }
                 }
             }
     }
@@ -57,13 +58,11 @@ class FireBaseRepository {
 
                         fireBaseDatabase.child("Users").child(userId).setValue(userObject)
                             .addOnCompleteListener { task: Task<Void> ->
-                                if (task.isSuccessful) {
-                                    if (!emitter.isDisposed) {
-                                        if (it.isSuccessful)
-                                            emitter.onComplete()
-                                        else
-                                            emitter.onError(it.exception!!)
-                                    }
+                                if (!emitter.isDisposed) {
+                                    if (it.isSuccessful)
+                                        emitter.onComplete()
+                                    else
+                                        emitter.onError(it.exception!!)
                                 }
                             }
                     }
@@ -80,12 +79,11 @@ class FireBaseRepository {
         fireBaseDatabase.child("Users").child(userId).child("display_name")
             .setValue(displayName.trim())
             .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    if (!emitter.isDisposed) {
-                        if (it.isSuccessful)
-                            emitter.onComplete()
-                        else
-                            emitter.onError(it.exception!!)
+                if (!emitter.isDisposed) {
+                    if (it.isSuccessful) {
+                        emitter.onComplete()
+                    } else {
+                        emitter.onError(it.exception!!)
                     }
                 }
             }
@@ -142,12 +140,11 @@ class FireBaseRepository {
         Completable.create { emitter ->
             fireBaseDatabase.child("Reports").child(UUID.randomUUID().toString()).setValue(report)
                 .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        if (!emitter.isDisposed) {
-                            if (it.isSuccessful)
-                                emitter.onComplete()
-                            else
-                                emitter.onError(it.exception!!)
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful) {
+                            emitter.onComplete()
+                        } else {
+                            emitter.onError(it.exception!!)
                         }
                     }
                 }
@@ -183,12 +180,11 @@ class FireBaseRepository {
         Completable.create { emitter ->
             fireBaseDatabase.child("Users").child(userId).child("total_likes").setValue(totalLikes)
                 .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        if (!emitter.isDisposed) {
-                            if (it.isSuccessful)
-                                emitter.onComplete()
-                            else
-                                emitter.onError(it.exception!!)
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful)
+                            emitter.onComplete()
+                        else {
+                            emitter.onError(it.exception!!)
                         }
                     }
                 }

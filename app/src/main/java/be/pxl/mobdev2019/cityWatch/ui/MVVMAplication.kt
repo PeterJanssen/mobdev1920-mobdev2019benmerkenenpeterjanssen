@@ -15,6 +15,7 @@ import be.pxl.mobdev2019.cityWatch.ui.list_report.AllReportsViewModelFactory
 import be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map.SeeAllReportsOnMapViewModel
 import be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map.SeeAllReportsOnMapViewModelFactory
 import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -31,10 +32,10 @@ class MVVMApplication : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
         FirebaseApp.initializeApp(this)
-        val mDatabaseReference = FirebaseDatabase.getInstance()
+        val mDatabaseReference: FirebaseDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference.setPersistenceEnabled(true)
-        val mUserDataBaseReference = mDatabaseReference.getReference("Users")
-        val mReportDataBaseReference = mDatabaseReference.getReference("Reports")
+        val mUserDataBaseReference: DatabaseReference = mDatabaseReference.getReference("Users")
+        val mReportDataBaseReference: DatabaseReference = mDatabaseReference.getReference("Reports")
         mUserDataBaseReference.keepSynced(true)
         mReportDataBaseReference.keepSynced(true)
     }
