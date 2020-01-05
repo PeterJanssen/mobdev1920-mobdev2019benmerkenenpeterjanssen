@@ -29,6 +29,14 @@ class FireBaseRepository {
         FirebaseStorage.getInstance()
     }
 
+    private val USER_DATABASE_TABLE: String = "Users"
+    private val REPORTS_DATABASE_TABLE: String = "Reports"
+
+    private val DISPLAY_NAME_COLLUMN_NAME: String = "display_name"
+    private val TOTAL_LIKES_COLLUMN_NAME: String = "total_likes"
+    private val DISPLAY_IMAGE_COLLUMN_NAME: String = "image"
+
+
     fun login(loginUser: LoginUser): Completable = Completable.create { emitter ->
         fireBaseAuth.signInWithEmailAndPassword(loginUser.email, loginUser.password)
             .addOnCompleteListener {
@@ -42,6 +50,7 @@ class FireBaseRepository {
             }
     }
 
+
     fun register(registerUser: RegisterUser): Completable =
         Completable.create { emitter ->
             fireBaseAuth.createUserWithEmailAndPassword(
@@ -52,12 +61,13 @@ class FireBaseRepository {
                     if (it.isSuccessful) {
                         val userId = currentUser()!!.uid
                         val userObject = HashMap<String, String>()
-                        userObject["display_name"] = registerUser.displayName
-                        userObject["image"] = registerUser.image
-                        userObject["total_likes"] = registerUser.likes
+                        userObject[DISPLAY_NAME_COLLUMN_NAME] = registerUser.displayName
+                        userObject[TOTAL_LIKES_COLLUMN_NAME] = registerUser.likes
+                        userObject[DISPLAY_IMAGE_COLLUMN_NAME] = registerUser.image
 
-                        fireBaseDatabase.child("Users").child(userId).setValue(userObject)
-                            .addOnCompleteListener { task: Task<Void> ->
+                        fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId)
+                            .setValue(userObject)
+                            .addOnCompleteListener {
                                 if (!emitter.isDisposed) {
                                     if (it.isSuccessful)
                                         emitter.onComplete()
@@ -76,7 +86,7 @@ class FireBaseRepository {
     fun changeDisplayName(displayName: String): Completable = Completable.create { emitter ->
         val userId = currentUser()!!.uid
 
-        fireBaseDatabase.child("Users").child(userId).child("display_name")
+        fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId).child(DISPLAY_NAME_COLLUMN_NAME)
             .setValue(displayName.trim())
             .addOnCompleteListener {
                 if (!emitter.isDisposed) {
@@ -104,7 +114,7 @@ class FireBaseRepository {
 */
         val personalReports: MutableList<Report> = mutableListOf()
         val done = CountDownLatch(1)
-        readData(fireBaseDatabase.child("Reports"), object : OnGetDataListener {
+        readData(fireBaseDatabase.child(REPORTS_DATABASE_TABLE), object : OnGetDataListener {
             override fun onSuccess(dataSnapshot: DataSnapshot?) {
                 dataSnapshot!!.children.mapNotNullTo(personalReports) { it.getValue<Report>(Report::class.java) }
                 done.countDown()
@@ -138,7 +148,8 @@ class FireBaseRepository {
 
     fun createReport(report: Report): Completable =
         Completable.create { emitter ->
-            fireBaseDatabase.child("Reports").child(UUID.randomUUID().toString()).setValue(report)
+            fireBaseDatabase.child(REPORTS_DATABASE_TABLE).child(UUID.randomUUID().toString())
+                .setValue(report)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
                         if (it.isSuccessful) {
@@ -153,32 +164,39 @@ class FireBaseRepository {
     fun getDisplayAccount(userId: String): AccountDisplay {
         val accountDisplay = AccountDisplay()
         val done = CountDownLatch(1)
-        readData(fireBaseDatabase.child("Users").child(userId), object : OnGetDataListener {
-            override fun onSuccess(dataSnapshot: DataSnapshot?) {
-                if (dataSnapshot != null) {
-                    accountDisplay.displayName = dataSnapshot.child("display_name").value.toString()
-                    accountDisplay.likes = dataSnapshot.child("total_likes").value.toString()
-                    accountDisplay.displayImage = dataSnapshot.child("image").value.toString()
+        readData(
+            fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId),
+            object : OnGetDataListener {
+                override fun onSuccess(dataSnapshot: DataSnapshot?) {
+                    if (dataSnapshot != null) {
+                        accountDisplay.displayName =
+                            dataSnapshot.child(DISPLAY_NAME_COLLUMN_NAME).value.toString()
+                        accountDisplay.likes =
+                            dataSnapshot.child(TOTAL_LIKES_COLLUMN_NAME).value.toString()
+                        accountDisplay.displayImage =
+                            dataSnapshot.child(DISPLAY_IMAGE_COLLUMN_NAME).value.toString()
+                    }
+                    done.countDown()
+                    Log.d("OnSucces", "Success")
                 }
-                done.countDown()
-                Log.d("OnSucces", "Success")
-            }
 
-            override fun onStart() {
-                Log.d("ONSTART", "Started")
-            }
+                override fun onStart() {
+                    Log.d("ONSTART", "Started")
+                }
 
-            override fun onFailure() {
-                Log.d("onFailure", "Failed")
-            }
-        })
+                override fun onFailure() {
+                    Log.d("onFailure", "Failed")
+                }
+            })
         done.await()
         return accountDisplay
     }
 
     fun addLikeToUser(userId: String, totalLikes: String): Completable =
         Completable.create { emitter ->
-            fireBaseDatabase.child("Users").child(userId).child("total_likes").setValue(totalLikes)
+            fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId)
+                .child(TOTAL_LIKES_COLLUMN_NAME)
+                .setValue(totalLikes)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
                         if (it.isSuccessful)
