@@ -5,6 +5,7 @@ import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.ReportRepository
 import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
 import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
+import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -15,6 +16,7 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
     var title: String? = null
     var description: String? = null
     var severity: Severity = Severity.VERY_LOW
+    var latLng: LatLng = LatLng(0.0, 0.0)
 
     var createReportListener: ViewModelListener? = null
 
@@ -32,8 +34,13 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
             return
         }
 
+        if (latLng == LatLng(0.0, 0.0)) {
+            createReportListener?.onFailure("You need to turn on your GPS to add a report")
+            return
+        }
+
         val disposable =
-            repository.createReport(id!!, title!!, description!!, severity)
+            repository.createReport(id!!, title!!, description!!, severity, latLng)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

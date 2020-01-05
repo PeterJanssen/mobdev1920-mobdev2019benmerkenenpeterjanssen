@@ -33,7 +33,7 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback {
         }
 
         val permission = ContextCompat.checkSelfPermission(
-            context!!,
+            requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
         )
 
