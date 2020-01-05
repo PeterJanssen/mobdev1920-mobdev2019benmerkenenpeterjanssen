@@ -2,11 +2,12 @@ package be.pxl.mobdev2019.cityWatch.ui.detail_report
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
@@ -14,13 +15,13 @@ import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentReportDetailBinding
 import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_report_detail.*
-import kotlinx.android.synthetic.main.fragment_report_detail.accountProfileImage
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
+
 
 class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
 
@@ -56,11 +57,18 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
     }
 
     override fun onStarted() {
-        toast("Liking Report")
     }
 
     override fun onSuccess() {
+        val fab: FloatingActionButton = view!!.findViewById(R.id.like_fab) as FloatingActionButton
+        fab.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                android.R.drawable.btn_star_big_on
+            )
+        )
         toast("Report liked!")
+
     }
 
     override fun onFailure(message: String) {

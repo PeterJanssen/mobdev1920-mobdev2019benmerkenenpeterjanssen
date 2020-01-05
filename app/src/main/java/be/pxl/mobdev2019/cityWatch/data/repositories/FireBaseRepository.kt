@@ -178,4 +178,19 @@ class FireBaseRepository {
         done.await()
         return accountDisplay
     }
+
+    fun addLikeToUser(userId: String, totalLikes: String): Completable =
+        Completable.create { emitter ->
+            fireBaseDatabase.child("Users").child(userId).child("total_likes").setValue(totalLikes)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        if (!emitter.isDisposed) {
+                            if (it.isSuccessful)
+                                emitter.onComplete()
+                            else
+                                emitter.onError(it.exception!!)
+                        }
+                    }
+                }
+        }
 }

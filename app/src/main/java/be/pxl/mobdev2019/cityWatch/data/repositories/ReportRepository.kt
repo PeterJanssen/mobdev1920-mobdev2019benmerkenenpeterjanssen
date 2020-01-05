@@ -8,6 +8,7 @@ class ReportRepository(
     private val fireBase: FireBaseRepository
 ) {
     fun getReports() = fireBase.getReports()
+
     fun createReport(
         userId: String,
         title: String,

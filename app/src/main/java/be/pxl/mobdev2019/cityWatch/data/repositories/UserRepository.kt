@@ -21,12 +21,17 @@ class UserRepository(
             )
         )
 
-    fun changeDisplayName(displayName: String): Completable = fireBase.changeDisplayName(displayName = displayName)
-    fun changeDisplayImage(displayImage: String): Completable = fireBase.changeDisplayImage(displayImage = displayImage)
+    fun changeDisplayName(displayName: String): Completable =
+        fireBase.changeDisplayName(displayName = displayName)
+
+    fun changeDisplayImage(displayImage: String): Completable =
+        fireBase.changeDisplayImage(displayImage = displayImage)
 
     fun currentUser() = fireBase.currentUser()
 
-    fun logout()= fireBase.logout()
+    fun logout() = fireBase.logout()
 
     fun getAccountDisplay(userId: String) = fireBase.getDisplayAccount(userId = userId)
+    fun addLikeToUser(userId: String, totalLikes: String) =
+        fireBase.addLikeToUser(userId = userId, totalLikes = totalLikes)
 }
