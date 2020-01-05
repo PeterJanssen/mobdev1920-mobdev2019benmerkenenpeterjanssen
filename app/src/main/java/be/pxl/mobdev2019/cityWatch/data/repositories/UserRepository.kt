@@ -28,5 +28,5 @@ class UserRepository(
 
     fun logout()= fireBase.logout()
 
-    fun getDisplayAccount() = fireBase.getDisplayAccount()
+    fun getAccountDisplay(userId: String) = fireBase.getDisplayAccount(userId = userId)
 }

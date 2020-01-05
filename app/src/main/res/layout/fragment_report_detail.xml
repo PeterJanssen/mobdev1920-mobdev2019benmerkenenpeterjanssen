@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16sp"
-                    android:text="@{viewmodel.title}" />
+                    android:text="@{viewmodel.report.title}" />
 
                 <View
                     android:layout_width="fill_parent"
@@ -89,13 +89,25 @@
                         style="@style/DetailTextViewText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/fragment_report_detail_made_by_account_name_text_view" />
+                        android:text="@{viewmodel.accountDisplay.displayName}" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/accountProfileImage"
                         android:layout_width="73dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/profile_img" />
+
+                    <TextView
+                        style="@style/DetailTextViewText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewmodel.accountDisplay.likes}" />
+
+                    <TextView
+                        style="@style/DetailTextViewText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fragment_report_detail_total_likes_text_view" />
                 </LinearLayout>
 
                 <TextView
@@ -108,7 +120,7 @@
                     style="@style/DetailTextViewText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewmodel.severity.name()}" />
+                    android:text="@{viewmodel.report.severity.name()}" />
 
                 <TextView
                     style="@style/DetailTextViewHeadersTwo"
@@ -120,7 +132,7 @@
                     style="@style/DetailTextViewText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewmodel.description}" />
+                    android:text="@{viewmodel.report.description}" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

@@ -153,7 +153,29 @@ class FireBaseRepository {
                 }
         }
 
-    fun getDisplayAccount(): AccountDisplay {
-        return AccountDisplay()
+    fun getDisplayAccount(userId: String): AccountDisplay {
+        val accountDisplay = AccountDisplay()
+        val done = CountDownLatch(1)
+        readData(fireBaseDatabase.child("Users").child(userId), object : OnGetDataListener {
+            override fun onSuccess(dataSnapshot: DataSnapshot?) {
+                if (dataSnapshot != null) {
+                    accountDisplay.displayName = dataSnapshot.child("display_name").value.toString()
+                    accountDisplay.likes = dataSnapshot.child("total_likes").value.toString()
+                    accountDisplay.displayImage = dataSnapshot.child("image").value.toString()
+                }
+                done.countDown()
+                Log.d("OnSucces", "Success")
+            }
+
+            override fun onStart() {
+                Log.d("ONSTART", "Started")
+            }
+
+            override fun onFailure() {
+                Log.d("onFailure", "Failed")
+            }
+        })
+        done.await()
+        return accountDisplay
     }
 }

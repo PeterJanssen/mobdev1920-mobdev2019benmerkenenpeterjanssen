@@ -44,7 +44,7 @@
     <string name="title_see_all_posts">Map</string>
     <string name="title_account">My Account</string>
     <string name="title_display_name">Display Name</string>
-    <string name="severity_image">Severity image</string>
+    <string name="report_image">Report image</string>
     <string name="fragment_report_detail_description_text_view">Description</string>
     <string name="fragment_report_detail_title_text_view">Title</string>
     <string name="report_image_content_description">Report image</string>
@@ -56,4 +56,5 @@
     <string name="hybrid_map">Hybrid Map</string>
     <string name="satellite_map">Satellite Map</string>
     <string name="terrain_map">Terrain Map</string>
+    <string name="fragment_report_detail_total_likes_text_view">total likes.</string>
 </resources>

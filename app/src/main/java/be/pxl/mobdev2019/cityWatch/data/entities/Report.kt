@@ -10,9 +10,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Report(
     val userId: String = "",
-    val title: String = "",
-    val description: String = "",
-    val severity: Severity = Severity.LOW,
+    var title: String = "",
+    var description: String = "",
+    var severity: Severity = Severity.LOW,
     val latitude: Double = 0.0,
     val longitude: Double = 0.0
 ) : Parcelable {

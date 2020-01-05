@@ -21,7 +21,7 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun getDisplayAccount() {
         job = Coroutines.ioThenMain(
-            { repository.getDisplayAccount() },
+            { repository.getAccountDisplay(repository.currentUser()!!.uid) },
             { _accountDisplay.value = it }
         )
     }
