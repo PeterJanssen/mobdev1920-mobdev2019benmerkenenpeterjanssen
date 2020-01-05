@@ -15,7 +15,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
+import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.util.toast
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -25,20 +27,22 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
 
-class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware {
+class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware,
+    GoogleMap.OnInfoWindowClickListener {
     private lateinit var googleMap: GoogleMap
 
     private lateinit var seeAllReportsOnMapViewModel: SeeAllReportsOnMapViewModel
     private val factory: SeeAllReportsOnMapViewModelFactory by instance()
     override val kodein by kodein()
     lateinit var mFusedLocationClient: FusedLocationProviderClient
-
+    private val markerMap: HashMap<String, Int> = HashMap()
     override fun onMapReady(map: GoogleMap?) {
         map?.let {
             googleMap = it
@@ -47,7 +51,7 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware {
         seeAllReportsOnMapViewModel.getReports()
 
         //googleMap.setOnMarkerClickListener(this)
-
+        googleMap.setOnInfoWindowClickListener(this)
         val permission = ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -69,6 +73,7 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware {
                 }
             }
             getCurrentLocation()
+            addMarkersToLocation()
             addButtonsToMap()
         } else {
             requestPermissions(
@@ -78,11 +83,14 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware {
                 555
             )
         }
+    }
 
+    private fun addMarkersToLocation() {
         seeAllReportsOnMapViewModel.reports.observe(viewLifecycleOwner, Observer { reports ->
+            var counter = 0
             reports.forEach { report ->
                 if (report.latitude != 0.0 && report.longitude != 0.0) {
-                    googleMap.addMarker(
+                    val marker: Marker = googleMap.addMarker(
                         MarkerOptions().position(
                             LatLng(
                                 report.latitude,
@@ -90,10 +98,11 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware {
                             )
                         ).title(report.title).snippet(report.description)
                     )
+                    markerMap[marker.id] = counter
+                    counter++
                 }
             }
         })
-
     }
 
     /* override fun onMarkerClick(marker: Marker?): Boolean {
@@ -220,6 +229,18 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware {
         mMapView.getMapAsync(this)
         mMapView.onResume()
         return view
+    }
+
+    override fun onInfoWindowClick(marker: Marker?) {
+        Log.d("NAVIGATION", "NAVIGATING TO DETAIL SCREEN")
+        val position: Int = markerMap[marker!!.id]!!
+        val report: Report = seeAllReportsOnMapViewModel.reports.value!![position]
+        val action =
+            SeeAllReportsOnMapFragmentDirections.actionNavigationSeeAllPostsToNavigationReportDetail(
+                report
+            )
+        Navigation.findNavController(requireView())
+            .navigate(action)
     }
 
     /*override fun onMarkerClick(marker: Marker?): Boolean {

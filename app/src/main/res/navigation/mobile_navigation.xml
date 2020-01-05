@@ -25,7 +25,11 @@
         android:id="@+id/navigation_see_all_posts"
         android:name="be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map.SeeAllReportsOnMapFragment"
         android:label="@string/title_see_all_posts"
-        tools:layout="@layout/fragment_see_all_posts_on_map" />
+        tools:layout="@layout/fragment_see_all_posts_on_map" >
+        <action
+            android:id="@+id/action_navigation_see_all_posts_to_navigation_report_detail"
+            app:destination="@id/navigation_report_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_account"
