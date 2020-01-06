@@ -1,5 +1,6 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
+import android.net.Uri
 import be.pxl.mobdev2019.cityWatch.data.entities.LoginUser
 import be.pxl.mobdev2019.cityWatch.data.entities.RegisterUser
 import io.reactivex.Completable
@@ -24,8 +25,14 @@ class UserRepository(
     fun changeDisplayName(displayName: String): Completable =
         fireBase.changeDisplayName(displayName = displayName)
 
-    fun changeDisplayImage(displayImage: String): Completable =
-        fireBase.changeDisplayImage(displayImage = displayImage)
+    fun changeDisplayImage(
+        displayImageUri: Uri,
+        displayImageByteArray: ByteArray
+    ): Completable =
+        fireBase.changeDisplayImage(
+            displayImageUri = displayImageUri,
+            displayImageByteArray = displayImageByteArray
+        )
 
     fun currentUser() = fireBase.currentUser()
 

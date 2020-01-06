@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="account"
+            type="be.pxl.mobdev2019.cityWatch.ui.account.AccountViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
@@ -33,7 +42,7 @@
             android:layout_marginStart="193dp"
             android:layout_marginTop="-113dp"
             android:layout_marginEnd="320dp"
-            android:text="@string/fragment_account_display_name_text"
+            android:text="@={account.accountDisplay.displayName}"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -47,7 +56,7 @@
             android:layout_marginStart="199dp"
             android:layout_marginTop="52dp"
             android:layout_marginEnd="318dp"
-            android:text="@string/fragment_account_likes_text"
+            android:text="@={account.accountDisplay.likes}"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -90,3 +99,4 @@
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

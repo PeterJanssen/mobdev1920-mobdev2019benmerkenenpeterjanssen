@@ -1,5 +1,6 @@
 package be.pxl.mobdev2019.cityWatch.ui.account
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,8 +28,6 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     var displayName: String? = null
-    var likes: String? = null
-    var displayImage: String? = null
 
     var accountListener: ViewModelListener? = null
 
@@ -56,9 +55,12 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
         disposables.add(disposable)
     }
 
-    fun onChangeDisplayImageButtonClick() {
+    fun onChangeDisplayImageButtonClick(displayImageUri: Uri, imageByteArray: ByteArray) {
         accountListener?.onStarted()
-        val disposable = repository.changeDisplayImage(displayImage = displayImage.toString())
+        val disposable = repository.changeDisplayImage(
+            displayImageUri = displayImageUri,
+            displayImageByteArray = imageByteArray
+        )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -75,7 +77,6 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
     fun onLogoutButtonClick() {
         repository.logout()
     }
-
 
     override fun onCleared() {
         super.onCleared()

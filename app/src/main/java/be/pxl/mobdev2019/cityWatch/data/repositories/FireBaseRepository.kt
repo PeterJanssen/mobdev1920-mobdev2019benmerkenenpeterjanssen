@@ -1,5 +1,6 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
+import android.net.Uri
 import android.util.Log
 import be.pxl.mobdev2019.cityWatch.data.entities.AccountDisplay
 import be.pxl.mobdev2019.cityWatch.data.entities.LoginUser
@@ -10,6 +11,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import io.reactivex.Completable
 import java.util.*
 import java.util.concurrent.CountDownLatch
@@ -35,6 +37,9 @@ class FireBaseRepository {
     private val DISPLAY_NAME_COLLUMN_NAME: String = "display_name"
     private val TOTAL_LIKES_COLLUMN_NAME: String = "total_likes"
     private val DISPLAY_IMAGE_COLLUMN_NAME: String = "image"
+
+    private val PROFILE_IMAGES_STORAGE_LOCATION = "citywatch_profile_images"
+    private val PROFILE_IMAGE_ID = "profile_image_"
 
 
     fun login(loginUser: LoginUser): Completable = Completable.create { emitter ->
@@ -99,9 +104,40 @@ class FireBaseRepository {
             }
     }
 
-    fun changeDisplayImage(displayImage: String) = Completable.create { emitter ->
+    fun changeDisplayImage(displayImageUri: Uri, displayImageByteArray: ByteArray): Completable =
+        Completable.create { emitter ->
+            val imageFilePath =
+                storage.reference.child(PROFILE_IMAGES_STORAGE_LOCATION)
+                    .child("${PROFILE_IMAGE_ID}${currentUser()!!.uid}")
 
-    }
+            imageFilePath.putFile(displayImageUri)
+                .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
+                    if (taskSnapshot.isSuccessful) {
+                        imageFilePath.downloadUrl.addOnSuccessListener { uri: Uri? ->
+                            val uploadTask: UploadTask =
+                                imageFilePath.putBytes(displayImageByteArray)
+                            uploadTask.addOnCompleteListener { task: Task<UploadTask.TaskSnapshot> ->
+                                if (task.isSuccessful) {
+                                    val updateObj = HashMap<String, Any>()
+                                    updateObj[DISPLAY_IMAGE_COLLUMN_NAME] = uri.toString()
+                                    fireBaseDatabase.child(USER_DATABASE_TABLE)
+                                        .child(currentUser()!!.uid)
+                                        .updateChildren(updateObj)
+                                        .addOnCompleteListener {
+                                            if (!emitter.isDisposed) {
+                                                if (it.isSuccessful) {
+                                                    emitter.onComplete()
+                                                } else {
+                                                    emitter.onError(it.exception!!)
+                                                }
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+        }
 
     fun getReports(): List<Report> {
         /*val personalReports = listOf<Report>(

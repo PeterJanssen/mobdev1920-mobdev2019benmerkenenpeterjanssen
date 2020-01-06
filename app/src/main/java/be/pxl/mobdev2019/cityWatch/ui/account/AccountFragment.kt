@@ -13,16 +13,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
+import be.pxl.mobdev2019.cityWatch.databinding.FragmentAccountBinding
 import be.pxl.mobdev2019.cityWatch.ui.auth.LoginActivity
+import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
@@ -32,8 +35,16 @@ import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.fragment_account.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
-class AccountFragment : Fragment() {
+class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
+
+    override val kodein by kodein()
+
+    private lateinit var accountViewModel: AccountViewModel
+    private val factory: AccountViewModelFactory by instance()
 
     private var mDataBase: DatabaseReference? = null
     private var mCurrentUser: FirebaseUser? = null
@@ -44,10 +55,24 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mCurrentUser = FirebaseAuth.getInstance().currentUser
-        mStorageRef = FirebaseStorage.getInstance().reference
+        val binding: FragmentAccountBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
+        accountViewModel = ViewModelProviders.of(this, factory).get(AccountViewModel::class.java)
 
-        return inflater.inflate(R.layout.fragment_account, container, false)
+        binding.account = accountViewModel
+        accountViewModel.accountListener = this
+        binding.lifecycleOwner = this
+
+        accountViewModel.getDisplayAccount()
+
+        accountViewModel.accountDisplay.observe(viewLifecycleOwner, Observer { accountDisplay ->
+            if (accountDisplay.displayImage != "default") {
+                Picasso.get().load(Uri.parse(accountDisplay.displayImage))
+                    .placeholder(R.drawable.profile_img)
+                    .into(accountProfileImage)
+            }
+        })
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,41 +80,11 @@ class AccountFragment : Fragment() {
         initiateLogoutButton()
         initiateChangePictureButton()
         initiateChangeDisplayNameButton()
-
-        val userId = mCurrentUser!!.uid
-
-        mDataBase = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
-
-        mDataBase!!.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                val displayName = dataSnapshot.child("display_name").value
-                val image = dataSnapshot.child("image").value
-                val userLikes = dataSnapshot.child("total_likes").value
-
-                accountDisplayNameText.text = displayName.toString()
-                accountLikesText.text =
-                    activity?.applicationContext?.getString(
-                        R.string.fragment_account_likes_text,
-                        userLikes
-                    )
-
-                if (image == null || image != "default") {
-                    Picasso.get().load(Uri.parse(image.toString()))
-                        .placeholder(R.drawable.profile_img)
-                        .into(accountProfileImage)
-                }
-            }
-
-            override fun onCancelled(databaseErrorSnapshot: DatabaseError) {
-
-            }
-        })
     }
 
     private fun initiateLogoutButton() {
         accountLogoutButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
+            accountViewModel.onLogoutButtonClick()
             val intent = Intent(activity, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -165,7 +160,6 @@ class AccountFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val resultUri = result.uri
 
-                val userId = mCurrentUser!!.uid
                 val imageFile = File(resultUri.path!!)
 
                 val imageBitmap =
@@ -178,32 +172,22 @@ class AccountFragment : Fragment() {
                 val imageByteArray: ByteArray
                 imageByteArray = byteArray.toByteArray()
 
-                val imageFilePath =
-                    mStorageRef!!.child("citywatch_profile_images").child("profile_image_$userId")
-
-                imageFilePath.putFile(resultUri)
-                    .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
-                        if (taskSnapshot.isSuccessful) {
-                            imageFilePath.downloadUrl.addOnSuccessListener { uri: Uri? ->
-                                val uploadTask: UploadTask = imageFilePath.putBytes(imageByteArray)
-                                uploadTask.addOnCompleteListener { task: Task<UploadTask.TaskSnapshot> ->
-                                    if (task.isSuccessful) {
-                                        val updateObj = HashMap<String, Any>()
-                                        updateObj["image"] = uri.toString()
-                                        mDataBase!!.updateChildren(updateObj)
-                                            .addOnCompleteListener { task: Task<Void> ->
-                                                if (task.isSuccessful) {
-                                                    toast("Profile image saved")
-                                                }
-                                            }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                accountViewModel.onChangeDisplayImageButtonClick(resultUri, imageByteArray)
             }
 
         }
+    }
+
+    override fun onStarted() {
+        toast("Changing display image")
+    }
+
+    override fun onSuccess() {
+        toast("Display image changed!")
+    }
+
+    override fun onFailure(message: String) {
+        toast(message)
     }
 
 

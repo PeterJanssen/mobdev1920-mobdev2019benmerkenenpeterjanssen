@@ -28,6 +28,14 @@
         <item name="android:textStyle">bold|italic</item>
     </style>
 
+    <style name="GreenButtonWithBolItalTextLoginFragment" parent="GreenButtonWithBoldItalicText">
+        <item name="android:layout_marginTop">32dp</item>
+    </style>
+
+    <style name="GreenButtonWithBolItalTextAccountFragment" parent="GreenButtonWithBoldItalicText">
+        <item name="android:layout_marginTop">32dp</item>
+    </style>
+
     <style name="DarkGreyButton">
         <item name="android:layout_width">200dp</item>
         <item name="android:layout_height">50dp</item>
