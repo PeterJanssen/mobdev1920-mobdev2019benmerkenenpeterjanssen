@@ -26,22 +26,29 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
     fun onCreateReportButtonClick() {
         createReportListener?.onStarted()
         if (title.isNullOrEmpty()) {
-            createReportListener?.onFailure("Invalid title")
+            createReportListener?.onFailure("Please input a title.")
             return
         }
 
         if (description.isNullOrEmpty()) {
-            createReportListener?.onFailure("Invalid description")
+            createReportListener?.onFailure("Please input a description.")
             return
         }
 
         if (latLng == LatLng(0.0, 0.0)) {
-            createReportListener?.onFailure("You need to turn on your GPS to add a report")
+            createReportListener?.onFailure("You need to turn on your GPS to add a report, if this problem persists please refresh.")
             return
         }
 
         val disposable =
-            repository.createReport(id!!, title!!, description!!, severity, latLng, Date())
+            repository.createReport(
+                id!!,
+                title!!.replace("[\\n\\t]", "").replace("[ +]", " ").trim(),
+                description!!.replace("[\\n\\t]", "").replace("[ +]", " ").trim(),
+                severity,
+                latLng,
+                Date()
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
