@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class CreateReportViewModel(private val repository: ReportRepository) : ViewModel() {
 
@@ -40,7 +41,7 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
         }
 
         val disposable =
-            repository.createReport(id!!, title!!, description!!, severity, latLng)
+            repository.createReport(id!!, title!!, description!!, severity, latLng, Date())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

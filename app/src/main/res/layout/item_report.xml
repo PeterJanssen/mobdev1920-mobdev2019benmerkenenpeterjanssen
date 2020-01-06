@@ -38,8 +38,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@{report.title}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -54,8 +52,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -71,8 +67,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@{report.severity.name()}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -80,8 +74,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/imageSeverity"
-                app:layout_constraintTop_toTopOf="@id/textReportTitle"
-                app:layout_constraintVertical_bias="0.936" />
+                app:layout_constraintTop_toTopOf="@id/textReportDescription"
+                app:layout_constraintVertical_bias="0.642" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

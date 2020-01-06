@@ -116,7 +116,9 @@ class FireBaseRepository {
         val done = CountDownLatch(1)
         readData(fireBaseDatabase.child(REPORTS_DATABASE_TABLE), object : OnGetDataListener {
             override fun onSuccess(dataSnapshot: DataSnapshot?) {
-                dataSnapshot!!.children.mapNotNullTo(personalReports) { it.getValue<Report>(Report::class.java) }
+                dataSnapshot!!.children.mapNotNullTo(personalReports) {
+                    it.getValue<Report>(Report::class.java)
+                }
                 done.countDown()
                 Log.d("OnSucces", "Success")
             }

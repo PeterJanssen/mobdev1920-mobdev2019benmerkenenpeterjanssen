@@ -11,7 +11,7 @@ import be.pxl.mobdev2019.cityWatch.databinding.ItemReportBinding
 import kotlinx.android.synthetic.main.item_report.view.*
 
 class ReportsAdapter(
-    private val reports: List<Report>,
+    private var reports: List<Report>,
     private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<ReportsAdapter.ReportViewHolder>() {
 
@@ -28,6 +28,9 @@ class ReportsAdapter(
         )
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
+        reports = reports.sortedBy {
+            it.creationDate
+        }
         holder.itemReportBinding.report = reports[position]
 
         val color = when (reports[position].severity) {

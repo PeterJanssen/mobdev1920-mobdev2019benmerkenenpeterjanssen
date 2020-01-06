@@ -3,6 +3,7 @@ package be.pxl.mobdev2019.cityWatch.data.repositories
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
 import com.google.android.gms.maps.model.LatLng
+import java.util.*
 
 class ReportRepository(
     private val fireBase: FireBaseRepository
@@ -14,7 +15,8 @@ class ReportRepository(
         title: String,
         description: String,
         severity: Severity,
-        latLng: LatLng
+        latLng: LatLng,
+        creationDate: Date
     ) =
         fireBase.createReport(
             Report(
@@ -23,7 +25,8 @@ class ReportRepository(
                 description = description,
                 severity = severity,
                 latitude = latLng.latitude,
-                longitude = latLng.longitude
+                longitude = latLng.longitude,
+                creationDate = creationDate
             )
         )
 }
