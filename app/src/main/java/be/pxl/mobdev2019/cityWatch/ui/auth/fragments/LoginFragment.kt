@@ -51,6 +51,7 @@ class LoginFragment : Fragment(), ViewModelListener, KodeinAware {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         activity?.startActivity(intent)
+        activity?.finish()
     }
 
     override fun onFailure(message: String) {

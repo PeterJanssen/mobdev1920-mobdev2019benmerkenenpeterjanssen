@@ -17,7 +17,7 @@ data class Report(
     var severity: Severity = Severity.LOW,
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
-    val creationDate: Date = Date()
+    val creationDate: Long = Date().time
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -26,7 +26,7 @@ data class Report(
         Severity.valueOf(parcel.readString()!!),
         parcel.readDouble(),
         parcel.readDouble(),
-        Date(parcel.readLong())
+        parcel.readLong()
     )
 
     companion object : Parceler<Report> {
@@ -37,7 +37,7 @@ data class Report(
             parcel.writeInt(severity.ordinal)
             parcel.writeDouble(latitude)
             parcel.writeDouble(longitude)
-            parcel.writeLong(creationDate.time)
+            parcel.writeLong(creationDate)
         }
 
         override fun create(parcel: Parcel): Report {

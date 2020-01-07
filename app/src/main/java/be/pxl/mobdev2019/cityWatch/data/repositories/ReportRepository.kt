@@ -16,7 +16,7 @@ class ReportRepository(
         description: String,
         severity: Severity,
         latLng: LatLng,
-        creationDate: Date
+        creationDate: Long
     ) =
         fireBase.createReport(
             Report(

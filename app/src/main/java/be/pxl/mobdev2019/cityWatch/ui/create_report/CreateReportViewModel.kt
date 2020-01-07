@@ -47,7 +47,7 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
                 description!!.replace("[\\n\\t]", "").replace("[ +]", " ").trim(),
                 severity,
                 latLng,
-                Date()
+                Date().time
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

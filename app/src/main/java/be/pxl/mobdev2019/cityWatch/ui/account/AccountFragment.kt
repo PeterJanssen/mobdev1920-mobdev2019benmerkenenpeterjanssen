@@ -46,10 +46,6 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
     private lateinit var accountViewModel: AccountViewModel
     private val factory: AccountViewModelFactory by instance()
 
-    private var mDataBase: DatabaseReference? = null
-    private var mCurrentUser: FirebaseUser? = null
-    private var mStorageRef: StorageReference? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,11 +68,12 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
                     .into(accountProfileImage)
             }
         })
+
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initiateLogoutButton()
         initiateChangePictureButton()
         initiateChangeDisplayNameButton()

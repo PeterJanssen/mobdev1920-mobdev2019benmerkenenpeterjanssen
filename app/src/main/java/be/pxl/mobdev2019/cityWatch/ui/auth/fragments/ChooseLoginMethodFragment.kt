@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentChooseLoginMethodBinding
@@ -37,7 +39,14 @@ class ChooseLoginMethodFragment : Fragment(), KodeinAware {
             false
         )
         viewModel = ViewModelProviders.of(this, factory).get(AuthViewModel::class.java)
-
+        viewModel.user?.let {
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            activity?.startActivity(intent)
+            activity?.finish()
+        }
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -45,11 +54,8 @@ class ChooseLoginMethodFragment : Fragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.user?.let {
-            activity?.startActivity(Intent(activity, MainActivity::class.java))
-        }
-        val fragmentManager = fragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
+        val fragmentManager: FragmentManager? = fragmentManager
+        val fragmentTransaction: FragmentTransaction? = fragmentManager?.beginTransaction()
 
         loginButton.setOnClickListener {
             val loginFragment =
