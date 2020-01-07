@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_navigation_account_to_navigation_display_name"
             app:destination="@id/navigation_display_name" />
+        <action
+            android:id="@+id/action_navigation_account_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
     </fragment>
 
     <fragment
@@ -59,4 +62,10 @@
         <argument android:name="Report"
             app:argType="be.pxl.mobdev2019.cityWatch.data.entities.Report" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="be.pxl.mobdev2019.cityWatch.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -117,4 +117,10 @@ dependencies {
 
     //RxFireBase by FrangSierra found here https://github.com/FrangSierra/RxFirebase
     implementation 'com.github.FrangSierra:RxFirebase:1.5.6'
+
+    //Android Jetpack preferences
+    implementation 'androidx.preference:preference:1.1.0'
+
+    //ColorPickerPreference by skydoves found here https://github.com/skydoves/ColorPickerPreference
+    implementation "com.github.skydoves:colorpickerpreference:2.0.0"
 }

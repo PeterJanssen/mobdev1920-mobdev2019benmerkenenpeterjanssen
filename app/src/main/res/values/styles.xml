@@ -83,9 +83,4 @@
         <item name="android:textColor">@color/darkBg</item>
     </style>
 
-    <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:textColorSecondary">@color/grey_500</item>
-    </style>
-
 </resources>

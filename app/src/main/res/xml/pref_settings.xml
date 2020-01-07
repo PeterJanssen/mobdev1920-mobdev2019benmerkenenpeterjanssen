@@ -1,0 +1,31 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.skydoves.colorpickerpreference.ColorPickerPreference
+        android:key="@string/ToolbarColorPickerPreference"
+        android:summary="changes toolbar color"
+        android:title="Toolbar Color"
+        app:default_color="@color/colorPrimary"
+        app:iconSpaceReserved="false"
+        app:preference_dialog_negative="@string/cancel"
+        app:preference_dialog_positive="@string/confirm"
+        app:preference_dialog_title="Toolbar ColorPickerDialog"
+        app:preference_palette="@drawable/palette"
+        app:preference_selector="@drawable/wheel" />
+
+    <com.skydoves.colorpickerpreference.ColorPickerPreference
+        android:key="@string/NavBarBackgroundColorPickerPreference"
+        android:summary="changes bottom navigation bar color"
+        android:title="Bottom Navigation Bar Color"
+        app:default_color="@color/grey_500"
+        app:iconSpaceReserved="false"
+        app:preference_dialog_negative="@string/cancel"
+        app:preference_dialog_positive="@string/confirm"
+        app:preference_dialog_title="Background ColorPickerDialog"
+        app:preference_palette="@drawable/palette"
+        app:preference_selector="@drawable/wheel" />
+    <Preference
+        android:key="@string/clearPreferences"
+        android:summary="Previous colors will be saved in their respective buttons"
+        android:title="Clear Preferences?" />
+</androidx.preference.PreferenceScreen>

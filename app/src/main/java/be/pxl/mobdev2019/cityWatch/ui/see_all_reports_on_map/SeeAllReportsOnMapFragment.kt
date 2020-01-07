@@ -189,7 +189,7 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware,
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.map_options, menu)
+        inflater.inflate(R.menu.map_options_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

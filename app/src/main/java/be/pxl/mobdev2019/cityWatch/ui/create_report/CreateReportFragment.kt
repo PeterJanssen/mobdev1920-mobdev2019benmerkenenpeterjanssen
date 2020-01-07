@@ -100,7 +100,7 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
                 }
             } catch (exception: ApiException) {
                 when (exception.statusCode) {
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED ->  // Location settings are not satisfied. But could be fixed by showing the
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED ->  // Location settings_menu are not satisfied. But could be fixed by showing the
                         // user a dialog.
                         try { // Cast to a resolvable exception.
                             val resolvable =

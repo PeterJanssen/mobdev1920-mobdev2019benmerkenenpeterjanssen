@@ -9,10 +9,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -60,7 +58,7 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
         binding.lifecycleOwner = this
 
         accountViewModel.getDisplayAccount()
-
+        setHasOptionsMenu(true)
         accountViewModel.accountDisplay.observe(viewLifecycleOwner, Observer { accountDisplay ->
             if (accountDisplay.displayImage != "default") {
                 Picasso.get().load(Uri.parse(accountDisplay.displayImage))
@@ -143,6 +141,20 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             pickImage()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.settings_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.settings -> {
+            Navigation.findNavController(view!!)
+                .navigate(R.id.action_navigation_account_to_navigation_settings)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
