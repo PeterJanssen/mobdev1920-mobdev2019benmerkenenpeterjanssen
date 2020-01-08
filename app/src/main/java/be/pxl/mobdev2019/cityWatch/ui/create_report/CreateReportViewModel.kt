@@ -28,23 +28,30 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
         if (title.isNullOrEmpty()) {
             createReportListener?.onFailure("Please input a title.")
             return
+        } else {
+            title = title!!.trim().replace("\\s+".toRegex(), " ")
         }
 
         if (description.isNullOrEmpty()) {
             createReportListener?.onFailure("Please input a description.")
             return
+        } else {
+            description =
+                description!!.trim().replace("\\s+".toRegex(), " ")
         }
+
 
         if (latLng == LatLng(0.0, 0.0)) {
             createReportListener?.onFailure("You need to turn on your GPS to add a report, if this problem persists please refresh.")
             return
         }
 
+
         val disposable =
             repository.createReport(
                 id!!,
-                title!!.replace("[\\n\\t]", "").replace("[ +]", " ").trim(),
-                description!!.replace("[\\n\\t]", "").replace("[ +]", " ").trim(),
+                title!!,
+                description!!,
                 severity,
                 latLng,
                 Date().time

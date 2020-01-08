@@ -26,8 +26,7 @@
             android:background="@color/colorAccent"
             app:cardCornerRadius="13dp"
             app:cardElevation="4dp"
-            app:cardUseCompatPadding="true"
-            >
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,8 +60,8 @@
                         android:hint="@string/fragment_create_report_enter_title_text"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
+                        android:maxLength="30"
                         android:padding="10dp"
-                        android:maxLength="15"
                         android:text="@={viewmodel.title}" />
 
                     <EditText
@@ -75,8 +74,9 @@
                         android:hint="@string/fragment_create_report_enter_description_text"
                         android:importantForAutofill="no"
                         android:inputType="textMultiLine"
-                        android:minLines="2"
-                        android:maxLines="3"
+                        android:maxLength="100"
+                        android:maxLines="2"
+                        android:minLines="1"
                         android:padding="10dp"
                         android:scrollbars="vertical"
                         android:text="@={viewmodel.description}" />
