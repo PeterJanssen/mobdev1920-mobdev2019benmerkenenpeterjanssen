@@ -37,7 +37,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         button.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().clear().apply()
             PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
-                .putString("Cleared cache", "clear").apply()
+                .putString(
+                    activity!!.getString(R.string.clearPreferences),
+                    activity!!.getString(R.string.clearPreferences)
+                ).apply()
             true
         }
         initColorPickerPreference()
@@ -45,11 +48,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun initColorPickerPreference() {
         val colorPickerPreferenceToolbar =
-            findPreference<ColorPickerPreference>(activity!!.getString(R.string.ToolbarColorPickerPreference))
+            findPreference<ColorPickerPreference>(activity!!.getString(R.string.toolbarColorPickerPreference))
         colorPickerPreferenceToolbar?.colorPickerDialogBuilder = customBuilder
 
         val colorPickerPreferenceNavBarBackground =
-            findPreference<ColorPickerPreference>(activity!!.getString(R.string.NavBarBackgroundColorPickerPreference))
+            findPreference<ColorPickerPreference>(activity!!.getString(R.string.navBarBackgroundColorPickerPreference))
         colorPickerPreferenceNavBarBackground?.colorPickerDialogBuilder = customBuilder
     }
 }

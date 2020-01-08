@@ -62,7 +62,8 @@
     <string name="title_settings">Settings</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
-    <string name="ToolbarColorPickerPreference">ToolbarColorPickerPreference</string>
-    <string name="NavBarBackgroundColorPickerPreference">NavBarBackgroundColorPickerPreference</string>
-    <string name="clearPreferences">ClearPreferences</string>
+    <string name="toolbarColorPickerPreference">toolbarColorPickerPreference</string>
+    <string name="navBarBackgroundColorPickerPreference">navBarBackgroundColorPickerPreference</string>
+    <string name="googleMapsType">googleMapsType</string>
+    <string name="clearPreferences">clearPreferences</string>
 </resources>

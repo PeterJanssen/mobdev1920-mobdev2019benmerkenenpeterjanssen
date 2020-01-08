@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         if (navView != null) {
             navView!!.setBackgroundColor(
                 sharedPreferences!!.getInt(
-                    getString(R.string.NavBarBackgroundColorPickerPreference),
+                    getString(R.string.navBarBackgroundColorPickerPreference),
                     ContextCompat.getColor(baseContext, R.color.grey_100)
                 )
             )
@@ -57,8 +57,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         if (supportActionBar != null) {
             supportActionBar!!.setBackgroundDrawable(
                 ColorDrawable(
-                    sharedPreferences!!.getInt(
-                        getString(R.string.ToolbarColorPickerPreference),
+                    sharedPreferences!!.getInt(getString(R.string.toolbarColorPickerPreference),
                         ContextCompat.getColor(baseContext, R.color.colorPrimary)
                     )
                 )
@@ -72,7 +71,15 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        setNavBarBackgroundColor()
-        setToolBarBackgroundColor()
+        if (key.equals(this.getString(R.string.clearPreferences))) {
+            setToolBarBackgroundColor()
+            setNavBarBackgroundColor()
+        }
+        if (key.equals(this.getString(R.string.toolbarColorPickerPreference))) {
+            setToolBarBackgroundColor()
+        }
+        if (key.equals(this.getString(R.string.navBarBackgroundColorPickerPreference))) {
+            setNavBarBackgroundColor()
+        }
     }
 }

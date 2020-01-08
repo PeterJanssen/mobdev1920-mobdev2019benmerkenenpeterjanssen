@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.skydoves.colorpickerpreference.ColorPickerPreference
-        android:key="@string/ToolbarColorPickerPreference"
+        android:key="@string/toolbarColorPickerPreference"
         android:summary="changes toolbar color"
         android:title="Toolbar Color"
         app:default_color="@color/colorPrimary"
@@ -14,7 +14,7 @@
         app:preference_selector="@drawable/wheel" />
 
     <com.skydoves.colorpickerpreference.ColorPickerPreference
-        android:key="@string/NavBarBackgroundColorPickerPreference"
+        android:key="@string/navBarBackgroundColorPickerPreference"
         android:summary="changes bottom navigation bar color"
         android:title="Bottom Navigation Bar Color"
         app:default_color="@color/grey_500"
@@ -24,8 +24,19 @@
         app:preference_dialog_title="Background ColorPickerDialog"
         app:preference_palette="@drawable/palette"
         app:preference_selector="@drawable/wheel" />
+    <ListPreference
+        android:defaultValue="Normal"
+        android:entries="@array/map_type_names_array"
+        android:entryValues="@array/map_type_values_array"
+        android:icon="@drawable/ic_map_black_24dp"
+        android:key="@string/googleMapsType"
+        android:summary="Choose a type that will be the default type when starting Google Maps"
+        android:title="Google Maps type">
+
+    </ListPreference>
     <Preference
+        android:icon="@drawable/ic_cached_black_24dp"
         android:key="@string/clearPreferences"
-        android:summary="Previous colors will be saved in their respective buttons"
+        android:summary="Previous settings will be saved in their respective buttons. On leaving this screen they will be lost."
         android:title="Clear Preferences?" />
 </androidx.preference.PreferenceScreen>

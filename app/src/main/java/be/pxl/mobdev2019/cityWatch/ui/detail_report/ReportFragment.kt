@@ -68,7 +68,6 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
             )
         )
         toast("Report liked!")
-
     }
 
     override fun onFailure(message: String) {
