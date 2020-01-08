@@ -3,8 +3,6 @@ package be.pxl.mobdev2019.cityWatch.ui.auth
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.ui.auth.fragments.ChooseLoginMethodFragment
@@ -14,6 +12,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_login)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         if (savedInstanceState == null) {

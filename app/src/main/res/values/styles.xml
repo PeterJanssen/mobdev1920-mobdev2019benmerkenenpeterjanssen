@@ -83,4 +83,10 @@
         <item name="android:textColor">@color/darkBg</item>
     </style>
 
+    <style name="SplashThemeLoggedIn" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_screen_logged_in</item>
+    </style>
+    <style name="SplashThemeLoggedOut" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_screen_logged_out</item>
+    </style>
 </resources>
