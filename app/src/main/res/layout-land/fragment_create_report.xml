@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportViewModel" />
+
+        <import type="be.pxl.mobdev2019.cityWatch.util.BindingUtils" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+        tools:context=".ui.create_report.CreateReportFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="10dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                app:cardCornerRadius="13dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="50dp"
+                        android:text="@string/fragment_create_report_card_title_text"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="30dp">
+
+                        <EditText
+                            android:id="@+id/loginEmailEditText"
+                            style="@style/EditText"
+                            android:hint="@string/fragment_create_report_enter_title_text"
+                            android:importantForAutofill="no"
+                            android:inputType="textEmailAddress"
+                            android:maxLength="30"
+                            android:padding="10dp"
+                            android:text="@={viewmodel.title}" />
+
+                        <EditText
+                            android:id="@+id/descriptionEditText"
+                            style="@style/EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15sp"
+                            android:gravity="top|start"
+                            android:hint="@string/fragment_create_report_enter_description_text"
+                            android:importantForAutofill="no"
+                            android:inputType="textMultiLine"
+                            android:maxLength="100"
+                            android:maxLines="2"
+                            android:minLines="1"
+                            android:padding="10dp"
+                            android:scrollbars="vertical"
+                            android:text="@={viewmodel.description}" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/fragment_create_report_severity_text_view_text"
+                            android:textColor="#fff"
+                            android:textSize="18sp"
+                            android:textStyle="bold">
+
+                        </TextView>
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/severity"
+                            android:selectedItemPosition="@={BindingUtils.severityToPosition(viewmodel.severity)}" />
+
+                        <Button
+                            android:id="@+id/loginButton"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/bt_shape"
+                            android:onClick="@{() -> viewmodel.onCreateReportButtonClick()}"
+                            android:stateListAnimator="@drawable/state_list_animator_z"
+                            android:text="@string/fragment_create_report_button_text"
+                            android:textColor="#d3d3d3">
+
+                        </Button>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </RelativeLayout>
+
+</layout>

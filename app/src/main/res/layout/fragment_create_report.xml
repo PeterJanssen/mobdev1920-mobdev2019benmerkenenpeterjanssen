@@ -71,6 +71,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"
                         android:gravity="top|start"
+                        android:isScrollContainer="true"
+                        android:focusable="true"
                         android:hint="@string/fragment_create_report_enter_description_text"
                         android:importantForAutofill="no"
                         android:inputType="textMultiLine"
