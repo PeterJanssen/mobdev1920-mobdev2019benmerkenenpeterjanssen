@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentCreateReportBinding
 import be.pxl.mobdev2019.cityWatch.ui.MainActivity
@@ -194,11 +195,8 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
 
     override fun onSuccess() {
         toast("Report created!")
-        val intent = Intent(activity, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        activity?.startActivity(intent)
+        Navigation.findNavController(requireView())
+            .navigate(R.id.action_navigation_create_report_to_navigation_home)
     }
 
     override fun onFailure(message: String) {
