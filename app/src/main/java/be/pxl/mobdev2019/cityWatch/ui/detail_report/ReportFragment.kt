@@ -44,6 +44,7 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
         binding.lifecycleOwner = this
 
         reportViewModel.report = report
+
         reportViewModel.getAccountDisplayByUserId()
 
         reportViewModel.accountDisplay.observe(viewLifecycleOwner, Observer { accountDisplay ->
@@ -54,6 +55,15 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
             }
         })
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (reportViewModel.report!!.image.isNotEmpty()) {
+            Picasso.get().load(Uri.parse(reportViewModel.report!!.image))
+                .placeholder(R.drawable.ic_assignment_black_24dp)
+                .into(report_image)
+        }
     }
 
     override fun onStarted() {

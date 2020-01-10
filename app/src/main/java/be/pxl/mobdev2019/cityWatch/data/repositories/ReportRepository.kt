@@ -1,5 +1,6 @@
 package be.pxl.mobdev2019.cityWatch.data.repositories
 
+import android.net.Uri
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
 import com.google.android.gms.maps.model.LatLng
@@ -16,7 +17,10 @@ class ReportRepository(
         description: String,
         severity: Severity,
         latLng: LatLng,
-        creationDate: Long
+        creationDate: Long,
+        reportImageUri: Uri,
+        imageByteArray: ByteArray
+
     ) =
         fireBase.createReport(
             Report(
@@ -27,6 +31,8 @@ class ReportRepository(
                 latitude = latLng.latitude,
                 longitude = latLng.longitude,
                 creationDate = creationDate
-            )
+            ),
+            reportImageUri = reportImageUri,
+            imageByteArray = imageByteArray
         )
 }

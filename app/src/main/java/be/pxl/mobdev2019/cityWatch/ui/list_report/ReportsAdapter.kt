@@ -1,5 +1,6 @@
 package be.pxl.mobdev2019.cityWatch.ui.list_report
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.databinding.ItemReportBinding
-import kotlinx.android.synthetic.main.item_report.view.*
+import com.squareup.picasso.Picasso
 
 class ReportsAdapter(
-    private var reports: List<Report>,
-    private val listener: RecyclerViewClickListener
+    private var reports: List<Report>
 ) : RecyclerView.Adapter<ReportsAdapter.ReportViewHolder>() {
 
     override fun getItemCount() = reports.size
@@ -33,15 +33,11 @@ class ReportsAdapter(
         }
         holder.itemReportBinding.report = reports[position]
 
-        val color = when (reports[position].severity) {
-            Severity.VERY_LOW -> R.color.colorVeryLowSeverity
-            Severity.LOW -> R.color.colorLowSeverity
-            Severity.MEDIUM -> R.color.colorMediumSeverity
-            Severity.HIGH -> R.color.colorHighSeverity
-            Severity.VERY_HIGH -> R.color.colorVeryHighSeverity
+        if (reports[position].image.isNotEmpty()) {
+            Picasso.get().load(Uri.parse(reports[position].image))
+                .placeholder(R.drawable.ic_assignment_black_24dp)
+                .into(holder.itemReportBinding.imageReport)
         }
-
-        holder.itemReportBinding.root.textReportSeverity.setTextColor(color)
 
         val action =
             AllReportsFragmentDirections.actionNavigationListsToNavigationReportDetail(reports[position])
@@ -49,10 +45,6 @@ class ReportsAdapter(
             Navigation.findNavController(it)
                 .navigate(action)
         }
-        /*
-        holder.itemReportBinding.buttonLike.setOnClickListener {
-            listener.onRecyclerViewItemClick(holder.itemReportBinding.buttonLike, reports[position])
-        }*/
     }
 
 

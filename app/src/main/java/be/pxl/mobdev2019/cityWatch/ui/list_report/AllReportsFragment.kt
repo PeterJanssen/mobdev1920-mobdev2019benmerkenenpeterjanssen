@@ -17,7 +17,7 @@ import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
 
-class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
+class AllReportsFragment : Fragment(), KodeinAware {
 
     override val kodein by kodein()
 
@@ -45,12 +45,8 @@ class AllReportsFragment : Fragment(), RecyclerViewClickListener, KodeinAware {
             recycler_view.also {
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
-                it.adapter = ReportsAdapter(reports, this)
+                it.adapter = ReportsAdapter(reports)
             }
         })
-    }
-
-    override fun onRecyclerViewItemClick(view: View, report: Report) {
-
     }
 }

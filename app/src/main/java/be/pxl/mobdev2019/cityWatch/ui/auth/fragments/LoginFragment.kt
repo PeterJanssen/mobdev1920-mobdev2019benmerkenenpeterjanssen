@@ -50,6 +50,7 @@ class LoginFragment : Fragment(), ViewModelListener, KodeinAware {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("EXIT", true)
         activity?.startActivity(intent)
         activity?.finish()
     }

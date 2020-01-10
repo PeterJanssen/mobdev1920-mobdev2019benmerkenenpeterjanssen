@@ -8,9 +8,11 @@ import be.pxl.mobdev2019.cityWatch.data.entities.RegisterUser
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.util.OnGetDataListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import io.reactivex.Completable
 import java.util.*
@@ -33,6 +35,7 @@ class FireBaseRepository {
 
     private val USER_DATABASE_TABLE: String = "Users"
     private val REPORTS_DATABASE_TABLE: String = "Reports"
+    private val REPORT_IMAGE_COLLUMN_NAME: String = "image"
 
     private val DISPLAY_NAME_COLLUMN_NAME: String = "display_name"
     private val TOTAL_LIKES_COLLUMN_NAME: String = "total_likes"
@@ -41,6 +44,8 @@ class FireBaseRepository {
     private val PROFILE_IMAGES_STORAGE_LOCATION = "citywatch_profile_images"
     private val PROFILE_IMAGE_ID = "profile_image_"
 
+    private val REPORT_IMAGES_STORAGE_LOCATION = "citywatch_report_images"
+    private val REPORT_IMAGE_ID = "report_image_"
 
     fun login(loginUser: LoginUser): Completable = Completable.create { emitter ->
         fireBaseAuth.signInWithEmailAndPassword(loginUser.email, loginUser.password)
@@ -62,8 +67,8 @@ class FireBaseRepository {
                 registerUser.email,
                 registerUser.password
             )
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
+                .addOnCompleteListener { createNewUser: Task<AuthResult> ->
+                    if (createNewUser.isSuccessful) {
                         val userId = currentUser()!!.uid
                         val userObject = HashMap<String, String>()
                         userObject[DISPLAY_NAME_COLLUMN_NAME] = registerUser.displayName
@@ -72,12 +77,12 @@ class FireBaseRepository {
 
                         fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId)
                             .setValue(userObject)
-                            .addOnCompleteListener {
+                            .addOnCompleteListener { saveNewUser ->
                                 if (!emitter.isDisposed) {
-                                    if (it.isSuccessful)
+                                    if (saveNewUser.isSuccessful)
                                         emitter.onComplete()
                                     else
-                                        emitter.onError(it.exception!!)
+                                        emitter.onError(saveNewUser.exception!!)
                                 }
                             }
                     }
@@ -93,12 +98,12 @@ class FireBaseRepository {
 
         fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId).child(DISPLAY_NAME_COLLUMN_NAME)
             .setValue(displayName.trim())
-            .addOnCompleteListener {
+            .addOnCompleteListener { changeDisplayName ->
                 if (!emitter.isDisposed) {
-                    if (it.isSuccessful) {
+                    if (changeDisplayName.isSuccessful) {
                         emitter.onComplete()
                     } else {
-                        emitter.onError(it.exception!!)
+                        emitter.onError(changeDisplayName.exception!!)
                     }
                 }
             }
@@ -111,15 +116,15 @@ class FireBaseRepository {
                     .child("${PROFILE_IMAGE_ID}${currentUser()!!.uid}")
 
             imageFilePath.putFile(displayImageUri)
-                .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
-                    if (taskSnapshot.isSuccessful) {
-                        imageFilePath.downloadUrl.addOnSuccessListener { uri: Uri? ->
+                .addOnCompleteListener { uploadImage: Task<UploadTask.TaskSnapshot> ->
+                    if (uploadImage.isSuccessful) {
+                        imageFilePath.downloadUrl.addOnSuccessListener { downloadedUri: Uri? ->
                             val uploadTask: UploadTask =
                                 imageFilePath.putBytes(displayImageByteArray)
                             uploadTask.addOnCompleteListener { task: Task<UploadTask.TaskSnapshot> ->
                                 if (task.isSuccessful) {
                                     val updateObj = HashMap<String, Any>()
-                                    updateObj[DISPLAY_IMAGE_COLLUMN_NAME] = uri.toString()
+                                    updateObj[DISPLAY_IMAGE_COLLUMN_NAME] = downloadedUri.toString()
                                     fireBaseDatabase.child(USER_DATABASE_TABLE)
                                         .child(currentUser()!!.uid)
                                         .updateChildren(updateObj)
@@ -140,20 +145,12 @@ class FireBaseRepository {
         }
 
     fun getReports(): List<Report> {
-        /*val personalReports = listOf<Report>(
-            Report("1", "test1", "test1", Severity.VERY_LOW),
-            Report("2", "test2", "test2", Severity.LOW),
-            Report("3", "test3", "test3", Severity.MEDIUM),
-            Report("1", "test4", "test4", Severity.HIGH),
-            Report("2", "test5", "test5", Severity.VERY_HIGH)
-        )
-*/
         val personalReports: MutableList<Report> = mutableListOf()
         val done = CountDownLatch(1)
         readData(fireBaseDatabase.child(REPORTS_DATABASE_TABLE), object : OnGetDataListener {
             override fun onSuccess(dataSnapshot: DataSnapshot?) {
-                dataSnapshot!!.children.mapNotNullTo(personalReports) {
-                    it.getValue<Report>(Report::class.java)
+                dataSnapshot!!.children.mapNotNullTo(personalReports) { report: DataSnapshot ->
+                    report.getValue<Report>(Report::class.java)
                 }
                 done.countDown()
                 Log.d("OnSucces", "Success")
@@ -184,16 +181,57 @@ class FireBaseRepository {
         })
     }
 
-    fun createReport(report: Report): Completable =
+    fun createReport(
+        report: Report,
+        reportImageUri: Uri,
+        imageByteArray: ByteArray
+    ): Completable =
         Completable.create { emitter ->
-            fireBaseDatabase.child(REPORTS_DATABASE_TABLE).child(UUID.randomUUID().toString())
+            val key: String = UUID.randomUUID().toString()
+            val imageFilePath: StorageReference =
+                storage.reference.child(REPORT_IMAGES_STORAGE_LOCATION)
+                    .child(currentUser()!!.uid)
+                    .child("${REPORT_IMAGE_ID}${key}")
+
+            fireBaseDatabase.child(REPORTS_DATABASE_TABLE).child(key)
                 .setValue(report)
-                .addOnCompleteListener {
+                .addOnCompleteListener { createReportTask ->
                     if (!emitter.isDisposed) {
-                        if (it.isSuccessful) {
+                        if (createReportTask.isSuccessful) {
+                            imageFilePath.putFile(reportImageUri)
+                                .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
+                                    if (taskSnapshot.isSuccessful) {
+                                        imageFilePath.downloadUrl.addOnSuccessListener { uri: Uri? ->
+                                            val uploadTask: UploadTask =
+                                                imageFilePath.putBytes(imageByteArray)
+                                            uploadTask.addOnCompleteListener { task: Task<UploadTask.TaskSnapshot> ->
+                                                if (task.isSuccessful) {
+                                                    val imageObject = HashMap<String, Any>()
+                                                    imageObject[REPORT_IMAGE_COLLUMN_NAME] =
+                                                        uri.toString()
+                                                    fireBaseDatabase.child(REPORTS_DATABASE_TABLE)
+                                                        .child(key)
+                                                        .updateChildren(imageObject)
+                                                        .addOnCompleteListener { addImageToReportTask ->
+                                                            if (!emitter.isDisposed) {
+                                                                if (addImageToReportTask.isSuccessful) {
+                                                                    emitter.onComplete()
+                                                                } else {
+                                                                    emitter.onError(
+                                                                        addImageToReportTask.exception!!
+                                                                    )
+                                                                }
+                                                            }
+                                                        }
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
                             emitter.onComplete()
                         } else {
-                            emitter.onError(it.exception!!)
+                            emitter.onError(createReportTask.exception!!)
                         }
                     }
                 }
@@ -235,12 +273,12 @@ class FireBaseRepository {
             fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId)
                 .child(TOTAL_LIKES_COLLUMN_NAME)
                 .setValue(totalLikes)
-                .addOnCompleteListener {
+                .addOnCompleteListener { addLikeToUser ->
                     if (!emitter.isDisposed) {
-                        if (it.isSuccessful)
+                        if (addLikeToUser.isSuccessful)
                             emitter.onComplete()
                         else {
-                            emitter.onError(it.exception!!)
+                            emitter.onError(addLikeToUser.exception!!)
                         }
                     }
                 }

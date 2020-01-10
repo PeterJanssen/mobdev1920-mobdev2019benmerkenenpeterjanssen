@@ -20,12 +20,6 @@ import be.pxl.mobdev2019.cityWatch.databinding.FragmentAccountBinding
 import be.pxl.mobdev2019.cityWatch.ui.auth.LoginActivity
 import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -86,6 +80,7 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("EXIT", true)
             activity?.startActivity(intent)
+            activity?.finish()
         }
     }
 
@@ -98,11 +93,11 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
 
     private fun initiateChangePictureButton() {
         accountChangeImageButton.setOnClickListener {
-            checkAndroidVersionAndRequestPermissions()
+            checkAndroidVersionAndRequestPermissionsForCameraOrStorage()
         }
     }
 
-    private fun checkAndroidVersionAndRequestPermissions() {
+    private fun checkAndroidVersionAndRequestPermissionsForCameraOrStorage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 requestPermissions(

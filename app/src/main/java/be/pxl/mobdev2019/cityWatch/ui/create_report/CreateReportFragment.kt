@@ -2,11 +2,14 @@ package be.pxl.mobdev2019.cityWatch.ui.create_report
 
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.location.Location
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -29,9 +32,13 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import id.zelory.compressor.Compressor
+import kotlinx.android.synthetic.main.fragment_create_report.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
@@ -74,6 +81,19 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initiateCreateReportButton()
+    }
+
+    private fun initiateCreateReportButton() {
+        createReportButton.setOnClickListener {
+            if (createReportViewModel.validateNewReport()) {
+                checkAndroidVersionAndRequestPermissionsForCameraOrStorage()
+            }
+        }
+    }
+
     //Current Location handling
     private fun getLastLocation() {
         val locationRequest = LocationRequest.create()
@@ -87,8 +107,7 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
 
         result.addOnCompleteListener { resultTask ->
             try {
-                val response: LocationSettingsResponse? =
-                    resultTask.getResult(ApiException::class.java)
+                resultTask.getResult(ApiException::class.java)
 
                 mFusedLocationClient.lastLocation.addOnCompleteListener(activity!!) { locationClientTask ->
                     val location: Location? = locationClientTask.result
@@ -129,7 +148,7 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
         mLocationRequest.fastestInterval = 5000
         mLocationRequest.numUpdates = 1
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         mFusedLocationClient.requestLocationUpdates(
             mLocationRequest, mLocationCallback,
             Looper.myLooper()
@@ -161,6 +180,24 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
         }
     }
 
+    private fun checkAndroidVersionAndRequestPermissionsForCameraOrStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                    ), 555
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            pickImage()
+        }
+    }
+
     private fun checkPermissionsForCurrentLocation(): Boolean {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -175,6 +212,36 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
     //Camera and local picture handling
     private fun pickImage() {
         CropImage.startPickImageActivity(this.context!!, this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val imageUri = CropImage.getPickImageResultUri(this.context!!, data)
+            cropRequest(imageUri)
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+
+            if (resultCode == Activity.RESULT_OK) {
+                val resultUri = result.uri
+
+                val imageFile = File(resultUri.path!!)
+
+                val imageBitmap =
+                    Compressor(activity!!).setMaxWidth(200).setMaxHeight(200).setQuality(65)
+                        .compressToBitmap(imageFile)
+
+                val byteArray = ByteArrayOutputStream()
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray)
+
+                val imageByteArray: ByteArray
+                imageByteArray = byteArray.toByteArray()
+
+                createReportViewModel.onCreateReportButtonClick(resultUri, imageByteArray)
+            }
+
+        }
     }
 
 

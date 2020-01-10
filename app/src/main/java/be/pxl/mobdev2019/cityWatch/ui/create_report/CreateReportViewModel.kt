@@ -1,5 +1,6 @@
 package be.pxl.mobdev2019.cityWatch.ui.create_report
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import be.pxl.mobdev2019.cityWatch.data.repositories.FireBaseRepository
 import be.pxl.mobdev2019.cityWatch.data.repositories.ReportRepository
@@ -23,30 +24,30 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
 
     private val disposables = CompositeDisposable()
 
-    fun onCreateReportButtonClick() {
-        createReportListener?.onStarted()
+    fun validateNewReport(): Boolean {
         if (title.isNullOrEmpty()) {
             createReportListener?.onFailure("Please input a title.")
-            return
-        } else {
-            title = title!!.trim().replace("\\s+".toRegex(), " ")
+            return false
         }
 
         if (description.isNullOrEmpty()) {
             createReportListener?.onFailure("Please input a description.")
-            return
-        } else {
-            description =
-                description!!.trim().replace("\\s+".toRegex(), " ")
+            return false
         }
-
 
         if (latLng == LatLng(0.0, 0.0)) {
             createReportListener?.onFailure("You need to turn on your GPS to add a report, if this problem persists please refresh.")
-            return
+            return false
         }
+        return true
+    }
 
+    fun onCreateReportButtonClick(reportImageUri: Uri, imageByteArray: ByteArray) {
+        title = title!!.trim().replace("\\s+".toRegex(), " ")
+        description =
+            description!!.trim().replace("\\s+".toRegex(), " ")
 
+        createReportListener?.onStarted()
         val disposable =
             repository.createReport(
                 id!!,
@@ -54,7 +55,9 @@ class CreateReportViewModel(private val repository: ReportRepository) : ViewMode
                 description!!,
                 severity,
                 latLng,
-                Date().time
+                Date().time,
+                reportImageUri,
+                imageByteArray
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

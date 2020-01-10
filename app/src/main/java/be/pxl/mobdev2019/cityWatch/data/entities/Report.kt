@@ -3,8 +3,6 @@ package be.pxl.mobdev2019.cityWatch.data.entities
 import android.os.Parcel
 import android.os.Parcelable
 import be.pxl.mobdev2019.cityWatch.ui.list_report.Severity
-import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.database.ServerValue
 import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 import java.util.*
@@ -17,7 +15,8 @@ data class Report(
     var severity: Severity = Severity.LOW,
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
-    val creationDate: Long = Date().time
+    val creationDate: Long = Date().time,
+    var image: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -26,7 +25,8 @@ data class Report(
         Severity.valueOf(parcel.readString()!!),
         parcel.readDouble(),
         parcel.readDouble(),
-        parcel.readLong()
+        parcel.readLong(),
+        parcel.readString()!!
     )
 
     companion object : Parceler<Report> {
@@ -38,6 +38,7 @@ data class Report(
             parcel.writeDouble(latitude)
             parcel.writeDouble(longitude)
             parcel.writeLong(creationDate)
+            parcel.writeString(image)
         }
 
         override fun create(parcel: Parcel): Report {
