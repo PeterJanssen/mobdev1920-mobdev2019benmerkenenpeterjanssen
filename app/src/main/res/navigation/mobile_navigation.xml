@@ -13,38 +13,43 @@
         <action
             android:id="@+id/action_navigation_lists_to_navigation_report_detail"
             app:destination="@id/navigation_report_detail"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_create_report"
         android:name="be.pxl.mobdev2019.cityWatch.ui.create_report.CreateReportFragment"
         android:label="@string/title_create_report"
-        tools:layout="@layout/fragment_create_report" >
+        tools:layout="@layout/fragment_create_report">
         <action
             android:id="@+id/action_navigation_create_report_to_navigation_home"
             app:destination="@id/navigation_home"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_see_all_posts"
         android:name="be.pxl.mobdev2019.cityWatch.ui.see_all_reports_on_map.SeeAllReportsOnMapFragment"
         android:label="@string/title_see_all_posts"
-        tools:layout="@layout/fragment_see_all_posts_on_map" >
+        tools:layout="@layout/fragment_see_all_posts_on_map">
         <action
             android:id="@+id/action_navigation_see_all_posts_to_navigation_report_detail"
             app:destination="@id/navigation_report_detail"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <argument
+            android:name="latLng"
+            app:argType="com.google.android.gms.maps.model.LatLng"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -55,17 +60,17 @@
         <action
             android:id="@+id/action_navigation_account_to_navigation_display_name"
             app:destination="@id/navigation_display_name"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_navigation_account_to_navigation_settings"
             app:destination="@id/navigation_settings"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -76,10 +81,10 @@
         <action
             android:id="@+id/action_navigation_display_name_to_navigation_account"
             app:destination="@id/navigation_account"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -87,8 +92,16 @@
         android:name="be.pxl.mobdev2019.cityWatch.ui.detail_report.ReportFragment"
         android:label="@string/title_detail_report"
         tools:layout="@layout/fragment_report_detail">
-        <argument android:name="Report"
+        <argument
+            android:name="Report"
             app:argType="be.pxl.mobdev2019.cityWatch.data.entities.Report" />
+        <action
+            android:id="@+id/action_navigation_report_detail_to_navigation_see_all_posts"
+            app:destination="@id/navigation_see_all_posts"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 
     <fragment

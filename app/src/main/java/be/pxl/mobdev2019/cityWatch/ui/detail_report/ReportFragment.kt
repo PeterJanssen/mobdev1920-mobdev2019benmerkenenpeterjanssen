@@ -12,12 +12,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentReportDetailBinding
 import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_report_detail.*
@@ -88,6 +90,22 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
         )
     }
 
+    private fun addOnClickListenerToMapFab() {
+        val fab: FloatingActionButton = view!!.findViewById(R.id.map_fab) as FloatingActionButton
+        fab.setOnClickListener { reportDetailView ->
+            val action =
+                ReportFragmentDirections.actionNavigationReportDetailToNavigationSeeAllPosts()
+                    .setLatLng(
+                        LatLng(
+                            reportViewModel.report!!.latitude,
+                            reportViewModel.report!!.longitude
+                        )
+                    )
+            Navigation.findNavController(reportDetailView)
+                .navigate(action)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (reportViewModel.report!!.image.isNotEmpty()) {
@@ -95,6 +113,7 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
                 .placeholder(R.drawable.ic_assignment_black_24dp)
                 .into(report_image)
         }
+        addOnClickListenerToMapFab()
     }
 
     override fun onStarted() {

@@ -62,11 +62,24 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
 
+        val reportLocation: LatLng? =
+            arguments?.let { SeeAllReportsOnMapFragmentArgs.fromBundle(it).latLng }
+        Log.d("LOCATION", reportLocation.toString())
+
         if (permission == PackageManager.PERMISSION_GRANTED) {
             googleMap.isMyLocationEnabled = true
             mFusedLocationClient.lastLocation.addOnCompleteListener(activity!!) { locationClientTask ->
                 val location: Location? = locationClientTask.result
-                if (location != null) {
+                if (reportLocation != null) {
+                    googleMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(
+                                reportLocation.latitude,
+                                reportLocation.longitude
+                            ), 12.0f
+                        )
+                    )
+                } else if (location != null) {
                     googleMap.moveCamera(
                         CameraUpdateFactory.newLatLngZoom(
                             LatLng(
