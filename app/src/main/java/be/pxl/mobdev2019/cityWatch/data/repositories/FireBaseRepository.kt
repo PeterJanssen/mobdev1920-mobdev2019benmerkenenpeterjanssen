@@ -33,6 +33,8 @@ class FireBaseRepository {
         FirebaseStorage.getInstance()
     }
 
+    private var valueEventListener: ValueEventListener? = null
+
     private val USER_DATABASE_TABLE: String = "Users"
     private val REPORTS_DATABASE_TABLE: String = "Reports"
     private val REPORT_IMAGE_COLLUMN_NAME: String = "image"
@@ -49,12 +51,12 @@ class FireBaseRepository {
 
     fun login(loginUser: LoginUser): Completable = Completable.create { emitter ->
         fireBaseAuth.signInWithEmailAndPassword(loginUser.email, loginUser.password)
-            .addOnCompleteListener {
+            .addOnCompleteListener { loginUser: Task<AuthResult> ->
                 if (!emitter.isDisposed) {
-                    if (it.isSuccessful) {
+                    if (loginUser.isSuccessful) {
                         emitter.onComplete()
                     } else {
-                        emitter.onError(it.exception!!)
+                        emitter.onError(loginUser.exception!!)
                     }
                 }
             }
@@ -89,7 +91,12 @@ class FireBaseRepository {
                 }
         }
 
-    fun logout() = fireBaseAuth.signOut()
+    fun logout() {
+        if (valueEventListener != null) {
+            fireBaseDatabase.removeEventListener(valueEventListener!!)
+        }
+        fireBaseAuth.signOut()
+    }
 
     fun currentUser() = fireBaseAuth.currentUser
 
@@ -153,7 +160,7 @@ class FireBaseRepository {
                     report.getValue<Report>(Report::class.java)
                 }
                 done.countDown()
-                Log.d("OnSucces", "Success")
+                Log.d("ONSUCCES", "Success")
             }
 
             override fun onStart() {
@@ -161,7 +168,7 @@ class FireBaseRepository {
             }
 
             override fun onFailure() {
-                Log.d("onFailure", "Failed")
+                Log.d("ONFAILURE", "Failed")
             }
         })
         done.await()
@@ -170,7 +177,7 @@ class FireBaseRepository {
 
     private fun readData(ref: DatabaseReference, listener: OnGetDataListener) {
         listener.onStart()
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        valueEventListener = ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 listener.onSuccess(dataSnapshot)
             }
@@ -253,7 +260,7 @@ class FireBaseRepository {
                             dataSnapshot.child(DISPLAY_IMAGE_COLLUMN_NAME).value.toString()
                     }
                     done.countDown()
-                    Log.d("OnSucces", "Success")
+                    Log.d("ONSUCCES", "Success")
                 }
 
                 override fun onStart() {
@@ -261,7 +268,7 @@ class FireBaseRepository {
                 }
 
                 override fun onFailure() {
-                    Log.d("onFailure", "Failed")
+                    Log.d("ONFAILURE", "Failed")
                 }
             })
         done.await()

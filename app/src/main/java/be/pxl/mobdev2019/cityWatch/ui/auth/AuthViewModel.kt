@@ -35,7 +35,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
                 authListener?.onSuccess()
             }, {
                 //sending a failure callback
-                authListener?.onFailure(it.message!!)
+                authListener?.onFailure("Failed to login please try again or check your internet connection")
             })
         disposables.add(disposable)
     }
@@ -65,7 +65,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
                     authListener?.onSuccess()
                 }, {
                     //sending a failure callback
-                    authListener?.onFailure(it.message!!)
+                    authListener?.onFailure("Failed to register please try again or check your internet connection")
                 })
         disposables.add(disposable)
     }
