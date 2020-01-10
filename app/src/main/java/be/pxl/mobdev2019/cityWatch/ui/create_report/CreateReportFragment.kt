@@ -229,7 +229,7 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
                 val imageFile = File(resultUri.path!!)
 
                 val imageBitmap =
-                    Compressor(activity!!).setMaxWidth(200).setMaxHeight(200).setQuality(65)
+                    Compressor(activity!!).setMaxWidth(300).setMaxHeight(300).setQuality(100)
                         .compressToBitmap(imageFile)
 
                 val byteArray = ByteArrayOutputStream()

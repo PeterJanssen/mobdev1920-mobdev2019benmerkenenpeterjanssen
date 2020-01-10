@@ -1,5 +1,7 @@
 package be.pxl.mobdev2019.cityWatch.ui.detail_report
 
+import android.content.SharedPreferences
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.data.entities.Report
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentReportDetailBinding
@@ -28,6 +31,7 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
     override val kodein by kodein()
     private lateinit var reportViewModel: ReportViewModel
     private val factory: ReportViewModelFactory by instance()
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +58,34 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
                     .into(accountProfileImage)
             }
         })
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        changeColorOfCollapsingToolbar()
+    }
+
+    private fun changeColorOfCollapsingToolbar() {
+        toolbar_layout.setContentScrimColor(
+            sharedPreferences!!.getInt(
+                getString(R.string.toolbarColorPickerPreference),
+                ContextCompat.getColor(requireActivity().baseContext, R.color.colorPrimary)
+            )
+        )
+        toolbar_layout.setStatusBarScrimColor(
+            sharedPreferences!!.getInt(
+                getString(R.string.toolbarColorPickerPreference),
+                ContextCompat.getColor(requireActivity().baseContext, R.color.colorPrimary)
+            )
+        )
+        toolbar_layout.setBackgroundColor(
+            sharedPreferences!!.getInt(
+                getString(R.string.toolbarColorPickerPreference),
+                ContextCompat.getColor(requireActivity().baseContext, R.color.colorPrimary)
+            )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
