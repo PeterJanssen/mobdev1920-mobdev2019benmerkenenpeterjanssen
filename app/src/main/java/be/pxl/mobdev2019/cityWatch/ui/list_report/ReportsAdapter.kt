@@ -30,7 +30,7 @@ class ReportsAdapter(
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
         reports = reports.sortedBy {
             it.creationDate
-        }
+        }.reversed()
         holder.itemReportBinding.report = reports[position]
 
         if (reports[position].image.isNotEmpty()) {

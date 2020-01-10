@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_all_reports">
         <action
             android:id="@+id/action_navigation_lists_to_navigation_report_detail"
-            app:destination="@id/navigation_report_detail" />
+            app:destination="@id/navigation_report_detail"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -22,7 +26,11 @@
         tools:layout="@layout/fragment_create_report" >
         <action
             android:id="@+id/action_navigation_create_report_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            app:destination="@id/navigation_home"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -32,7 +40,11 @@
         tools:layout="@layout/fragment_see_all_posts_on_map" >
         <action
             android:id="@+id/action_navigation_see_all_posts_to_navigation_report_detail"
-            app:destination="@id/navigation_report_detail" />
+            app:destination="@id/navigation_report_detail"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"/>
     </fragment>
 
     <fragment
@@ -42,10 +54,18 @@
         tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_navigation_account_to_navigation_display_name"
-            app:destination="@id/navigation_display_name" />
+            app:destination="@id/navigation_display_name"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_navigation_account_to_navigation_settings"
-            app:destination="@id/navigation_settings" />
+            app:destination="@id/navigation_settings"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -55,7 +75,11 @@
         tools:layout="@layout/fragment_change_display_name">
         <action
             android:id="@+id/action_navigation_display_name_to_navigation_account"
-            app:destination="@id/navigation_account" />
+            app:destination="@id/navigation_account"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
