@@ -31,20 +31,19 @@ class ReportsAdapter(
         reports = reports.sortedBy {
             it.creationDate
         }.reversed()
-        holder.itemReportBinding.report = reports[position]
-
-        if (reports[position].image.isNotEmpty()) {
-            Picasso.get().load(Uri.parse(reports[position].image))
-                .placeholder(R.drawable.ic_assignment_black_24dp)
-                .into(holder.itemReportBinding.imageReport)
-        }
+        val report: Report = reports[position]
+        holder.itemReportBinding.report = report
 
         val action =
-            AllReportsFragmentDirections.actionNavigationListsToNavigationReportDetail(reports[position])
+            AllReportsFragmentDirections.actionNavigationListsToNavigationReportDetail(report)
         holder.itemReportBinding.root.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(action)
         }
+
+        Picasso.get().load(Uri.parse(report.image))
+            .placeholder(R.drawable.ic_assignment_black_24dp)
+            .into(holder.itemReportBinding.imageReport)
     }
 
 
