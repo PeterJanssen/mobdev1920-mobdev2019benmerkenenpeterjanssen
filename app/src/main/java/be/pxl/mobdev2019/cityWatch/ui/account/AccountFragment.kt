@@ -51,7 +51,6 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
         accountViewModel.accountListener = this
         binding.lifecycleOwner = this
 
-        accountViewModel.getDisplayAccount()
         setHasOptionsMenu(true)
         accountViewModel.accountDisplay.observe(viewLifecycleOwner, Observer { accountDisplay ->
             if (accountDisplay.displayImage != "default") {
@@ -119,15 +118,6 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
         CropImage.startPickImageActivity(this.context!!, this)
     }
 
-    private fun cropRequest(imageUri: Uri) {
-        CropImage.activity(imageUri)
-            .setGuidelines(CropImageView.Guidelines.ON)
-            .setMultiTouchEnabled(true)
-            .setAspectRatio(1, 1)
-            .setCropShape(CropImageView.CropShape.OVAL)
-            .start(this.context!!, this)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -180,6 +170,15 @@ class AccountFragment : Fragment(), ViewModelListener, KodeinAware {
             }
 
         }
+    }
+
+    private fun cropRequest(imageUri: Uri) {
+        CropImage.activity(imageUri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setMultiTouchEnabled(true)
+            .setAspectRatio(1, 1)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .start(this.context!!, this)
     }
 
     override fun onStarted() {

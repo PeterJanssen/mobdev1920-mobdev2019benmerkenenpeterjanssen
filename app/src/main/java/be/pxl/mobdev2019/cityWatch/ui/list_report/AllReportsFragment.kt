@@ -38,8 +38,6 @@ class AllReportsFragment : Fragment(), KodeinAware {
         allReportsViewModel =
             ViewModelProviders.of(this, factory).get(AllReportsViewModel::class.java)
 
-        allReportsViewModel.getReports()
-
         allReportsViewModel.reports.observe(viewLifecycleOwner, Observer<List<Report>> { reports ->
 
             recycler_view.also {

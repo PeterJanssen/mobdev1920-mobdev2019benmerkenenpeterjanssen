@@ -46,17 +46,22 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
+    //Standard stuff
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation "androidx.preference:preference-ktx:1.1.0"
+
     //Google Maps
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
-    //Retrofit and GSON
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-
+    //CardView
     //noinspection GradleCompatible
     implementation 'com.android.support:cardview-v7:28.0.0'
 
+    //Reactive programming in Android
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
     //Kotlin Coroutines
@@ -66,33 +71,18 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
 
-    //New Material Design
-    implementation 'com.google.android.material:material:1.2.0-alpha03'
-
     //Kodein Dependency Injection
     implementation "org.kodein.di:kodein-di-generic-jvm:6.2.1"
     implementation "org.kodein.di:kodein-di-framework-android-x:6.2.1"
-
-    //Android Room
-    implementation "androidx.room:room-runtime:2.2.3"
-    implementation "androidx.room:room-ktx:2.2.3"
-    kapt "androidx.room:room-compiler:2.2.3"
 
     //Android Navigation Architecture
     implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-rc04"
     implementation "androidx.navigation:navigation-ui-ktx:2.2.0-rc04"
 
-    implementation "androidx.preference:preference-ktx:1.1.0"
-
     //Firebase
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.google.firebase:firebase-storage:19.1.0'
-
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //Libraries
     //Circle Image View library by hdodenhof found here https://github.com/hdodenhof/CircleImageView
@@ -111,13 +101,7 @@ dependencies {
     implementation "com.xwray:groupie:2.7.0"
     implementation "com.xwray:groupie-kotlin-android-extensions:2.7.0"
     implementation "com.xwray:groupie-databinding:2.7.0"
-
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-
-    //RxFireBase by FrangSierra found here https://github.com/FrangSierra/RxFirebase
-    implementation 'com.github.FrangSierra:RxFirebase:1.5.6'
-
+    
     //Android Jetpack preferences
     implementation 'androidx.preference:preference:1.1.0'
 

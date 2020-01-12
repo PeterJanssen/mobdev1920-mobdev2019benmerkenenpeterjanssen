@@ -53,9 +53,7 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware,
             googleMap = it
         }
 
-        seeAllReportsOnMapViewModel.getReports()
         setGoogleMapsType()
-        //googleMap.setOnMarkerClickListener(this)
         googleMap.setOnInfoWindowClickListener(this)
         val permission = ContextCompat.checkSelfPermission(
             requireContext(),
@@ -64,7 +62,6 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware,
 
         val reportLocation: LatLng? =
             arguments?.let { SeeAllReportsOnMapFragmentArgs.fromBundle(it).latLng }
-        Log.d("LOCATION", reportLocation.toString())
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
             googleMap.isMyLocationEnabled = true
@@ -284,17 +281,4 @@ class SeeAllReportsOnMapFragment : Fragment(), OnMapReadyCallback, KodeinAware,
         Navigation.findNavController(requireView())
             .navigate(action)
     }
-
-    /*override fun onMarkerClick(marker: Marker?): Boolean {
-        if (marker == null) {
-            return false
-        } else {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 16.0f))
-            marker.showInfoWindow()
-
-        }
-        return true
-    }*/
-
-
 }

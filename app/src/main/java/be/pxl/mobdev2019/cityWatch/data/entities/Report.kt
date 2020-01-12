@@ -7,6 +7,8 @@ import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+//Parcelize doesn't use reflection like serializable so it is faster
+//Because with Parcelize we have to be implicit about the serialization process
 @Parcelize
 data class Report(
     val userId: String = "",

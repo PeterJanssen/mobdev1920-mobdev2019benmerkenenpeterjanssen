@@ -24,7 +24,11 @@ class ReportViewModel(private val repository: UserRepository) : ViewModel() {
     private lateinit var job: Job
     private val _accountDisplay = MutableLiveData<AccountDisplay>()
 
-    fun getAccountDisplayByUserId() {
+    init {
+        getAccountDisplayByUserId()
+    }
+
+    private fun getAccountDisplayByUserId() {
         job = Coroutines.ioThenMain(
             { repository.getAccountDisplay(report!!.userId) },
             { _accountDisplay.value = it }

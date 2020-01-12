@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class AuthViewModel(private val repository: UserRepository) : ViewModel() {
+class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     var email: String? = null
     var password: String? = null
@@ -18,7 +18,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
     private val disposables = CompositeDisposable()
 
     val user by lazy {
-        repository.currentUser()
+        userRepository.currentUser()
     }
 
     fun onLoginButtonClick() {
@@ -28,7 +28,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
             return
         }
 
-        val disposable = repository.login(email!!, password!!).subscribeOn(Schedulers.io())
+        val disposable = userRepository.login(email!!, password!!).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 //sending a success callback
@@ -58,7 +58,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
             return
         }
         val disposable =
-            repository.register(email!!, password!!, displayName!!).subscribeOn(Schedulers.io())
+            userRepository.register(email!!, password!!, displayName!!).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     //sending a success callback

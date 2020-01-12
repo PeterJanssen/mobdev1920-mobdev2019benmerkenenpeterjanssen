@@ -51,8 +51,6 @@ class ReportFragment : Fragment(), ViewModelListener, KodeinAware {
 
         reportViewModel.report = report
 
-        reportViewModel.getAccountDisplayByUserId()
-
         reportViewModel.accountDisplay.observe(viewLifecycleOwner, Observer { accountDisplay ->
             if (accountDisplay.displayImage != "default") {
                 Picasso.get().load(Uri.parse(accountDisplay.displayImage))

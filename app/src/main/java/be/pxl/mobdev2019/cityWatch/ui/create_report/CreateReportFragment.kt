@@ -12,7 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import be.pxl.mobdev2019.cityWatch.R
 import be.pxl.mobdev2019.cityWatch.databinding.FragmentCreateReportBinding
-import be.pxl.mobdev2019.cityWatch.ui.MainActivity
 import be.pxl.mobdev2019.cityWatch.util.ViewModelListener
 import be.pxl.mobdev2019.cityWatch.util.toast
 import com.google.android.gms.common.api.ApiException
@@ -48,7 +46,6 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val factory: CreateReportViewModelFactory by instance()
 
-    private var latLng: LatLng = LatLng(0.0, 0.0)
     private val LOCATION_PERMISSION_ID = 42
     private val CAMERA_WRITE_READ_PERMISSION_ID = 555
 
@@ -61,13 +58,13 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
             DataBindingUtil.inflate(inflater, R.layout.fragment_create_report, container, false)
         createReportViewModel =
             ViewModelProviders.of(this, factory).get(CreateReportViewModel::class.java)
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
 
         binding.viewmodel = createReportViewModel
         createReportViewModel.createReportListener = this
         binding.lifecycleOwner = this
 
         if (checkPermissionsForCurrentLocation()) {
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
             getLastLocation()
         } else {
             requestPermissions(
@@ -115,7 +112,6 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
                         requestNewLocationData()
                     } else {
                         createReportViewModel.latLng = LatLng(location.latitude, location.longitude)
-                        Log.d("CURRENT_LOCATION", latLng.toString())
                     }
                 }
             } catch (exception: ApiException) {
@@ -254,8 +250,6 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
             .start(this.context!!, this)
     }
 
-
-    // handling report creation
     override fun onStarted() {
         toast("Creating Report")
     }
@@ -263,7 +257,7 @@ class CreateReportFragment : Fragment(), ViewModelListener, KodeinAware {
     override fun onSuccess() {
         toast("Report created!")
         Navigation.findNavController(requireView())
-            .navigate(R.id.action_navigation_create_report_to_navigation_home)
+            .navigate(R.id.action_navigation_create_report_self)
     }
 
     override fun onFailure(message: String) {

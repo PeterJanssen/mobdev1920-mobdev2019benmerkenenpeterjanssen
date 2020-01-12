@@ -13,16 +13,20 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Job
 
-class AccountViewModel(private val repository: UserRepository) : ViewModel() {
+class AccountViewModel(private val userRepository: UserRepository) : ViewModel() {
     private lateinit var job: Job
 
     private val _accountDisplay = MutableLiveData<AccountDisplay>()
     val accountDisplay: LiveData<AccountDisplay>
         get() = _accountDisplay
 
-    fun getDisplayAccount() {
+    init {
+        getDisplayAccount()
+    }
+    
+    private fun getDisplayAccount() {
         job = Coroutines.ioThenMain(
-            { repository.getAccountDisplay(repository.currentUser()!!.uid) },
+            { userRepository.getAccountDisplay(userRepository.currentUser()!!.uid) },
             { _accountDisplay.value = it }
         )
     }
@@ -41,7 +45,7 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
             return
         }
         val disposable =
-            repository.changeDisplayName(displayName = displayName.toString())
+            userRepository.changeDisplayName(displayName = displayName.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -49,7 +53,7 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
                     accountListener?.onSuccess()
                 }, {
                     //sending a failure callback
-                    accountListener?.onFailure(it.message!!)
+                    accountListener?.onFailure("Could not change the display name please try again")
                 })
 
         disposables.add(disposable)
@@ -57,7 +61,7 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun onChangeDisplayImageButtonClick(displayImageUri: Uri, imageByteArray: ByteArray) {
         accountListener?.onStarted()
-        val disposable = repository.changeDisplayImage(
+        val disposable = userRepository.changeDisplayImage(
             displayImageUri = displayImageUri,
             displayImageByteArray = imageByteArray
         )
@@ -68,14 +72,14 @@ class AccountViewModel(private val repository: UserRepository) : ViewModel() {
                 accountListener?.onSuccess()
             }, {
                 //sending a failure callback
-                accountListener?.onFailure(it.message!!)
+                accountListener?.onFailure("Could not change the image please try again")
             })
 
         disposables.add(disposable)
     }
 
     fun onLogoutButtonClick() {
-        repository.logout()
+        userRepository.logout()
     }
 
     override fun onCleared() {

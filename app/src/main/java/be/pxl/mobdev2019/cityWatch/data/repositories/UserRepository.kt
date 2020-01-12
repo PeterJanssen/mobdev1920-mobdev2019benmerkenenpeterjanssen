@@ -23,13 +23,13 @@ class UserRepository(
         )
 
     fun changeDisplayName(displayName: String): Completable =
-        fireBase.changeDisplayName(displayName = displayName)
+        fireBase.updateDisplayName(displayName = displayName)
 
     fun changeDisplayImage(
         displayImageUri: Uri,
         displayImageByteArray: ByteArray
     ): Completable =
-        fireBase.changeDisplayImage(
+        fireBase.updateDisplayImage(
             displayImageUri = displayImageUri,
             displayImageByteArray = displayImageByteArray
         )
@@ -40,5 +40,5 @@ class UserRepository(
 
     fun getAccountDisplay(userId: String) = fireBase.getDisplayAccount(userId = userId)
     fun addLikeToUser(userId: String, totalLikes: String) =
-        fireBase.addLikeToUser(userId = userId, totalLikes = totalLikes)
+        fireBase.updateTotalLikesOfUser(userId = userId, totalLikes = totalLikes)
 }

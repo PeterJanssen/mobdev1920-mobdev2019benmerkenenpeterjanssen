@@ -49,6 +49,22 @@ class FireBaseRepository {
     private val REPORT_IMAGES_STORAGE_LOCATION = "citywatch_report_images"
     private val REPORT_IMAGE_ID = "report_image_"
 
+
+    private fun readData(ref: DatabaseReference, listener: OnGetDataListener) {
+        listener.onStart()
+        cleanUpValueEventListenerIfExists()
+        valueEventListener = ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                listener.onSuccess(dataSnapshot)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                listener.onFailure()
+            }
+        })
+    }
+
+    //Authentication
     fun login(loginUser: LoginUser): Completable = Completable.create { emitter ->
         fireBaseAuth.signInWithEmailAndPassword(loginUser.email, loginUser.password)
             .addOnCompleteListener { loginUser: Task<AuthResult> ->
@@ -87,20 +103,69 @@ class FireBaseRepository {
                                         emitter.onError(saveNewUser.exception!!)
                                 }
                             }
+                    } else {
+                        emitter.onError(createNewUser.exception!!)
                     }
                 }
         }
 
     fun logout() {
-        if (valueEventListener != null) {
-            fireBaseDatabase.removeEventListener(valueEventListener!!)
-        }
+        cleanUpValueEventListenerIfExists()
         fireBaseAuth.signOut()
     }
 
     fun currentUser() = fireBaseAuth.currentUser
 
-    fun changeDisplayName(displayName: String): Completable = Completable.create { emitter ->
+
+    //Account
+    fun getDisplayAccount(userId: String): AccountDisplay {
+        val accountDisplay = AccountDisplay()
+        val done = CountDownLatch(1)
+        readData(
+            fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId),
+            object : OnGetDataListener {
+                override fun onSuccess(dataSnapshot: DataSnapshot?) {
+                    if (dataSnapshot != null) {
+                        accountDisplay.displayName =
+                            dataSnapshot.child(DISPLAY_NAME_COLLUMN_NAME).value.toString()
+                        accountDisplay.likes =
+                            dataSnapshot.child(TOTAL_LIKES_COLLUMN_NAME).value.toString()
+                        accountDisplay.displayImage =
+                            dataSnapshot.child(DISPLAY_IMAGE_COLLUMN_NAME).value.toString()
+                    }
+                    done.countDown()
+                    Log.d("ONSUCCES", "Success")
+                }
+
+                override fun onStart() {
+                    Log.d("ONSTART", "Started")
+                }
+
+                override fun onFailure() {
+                    Log.d("ONFAILURE", "Failed")
+                }
+            })
+        done.await()
+        return accountDisplay
+    }
+
+    fun updateTotalLikesOfUser(userId: String, totalLikes: String): Completable =
+        Completable.create { emitter ->
+            fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId)
+                .child(TOTAL_LIKES_COLLUMN_NAME)
+                .setValue(totalLikes)
+                .addOnCompleteListener { addLikeToUser ->
+                    if (!emitter.isDisposed) {
+                        if (addLikeToUser.isSuccessful)
+                            emitter.onComplete()
+                        else {
+                            emitter.onError(addLikeToUser.exception!!)
+                        }
+                    }
+                }
+        }
+
+    fun updateDisplayName(displayName: String): Completable = Completable.create { emitter ->
         val userId = currentUser()!!.uid
 
         fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId).child(DISPLAY_NAME_COLLUMN_NAME)
@@ -116,7 +181,7 @@ class FireBaseRepository {
             }
     }
 
-    fun changeDisplayImage(displayImageUri: Uri, displayImageByteArray: ByteArray): Completable =
+    fun updateDisplayImage(displayImageUri: Uri, displayImageByteArray: ByteArray): Completable =
         Completable.create { emitter ->
             val imageFilePath =
                 storage.reference.child(PROFILE_IMAGES_STORAGE_LOCATION)
@@ -151,6 +216,7 @@ class FireBaseRepository {
                 }
         }
 
+    //Report
     fun getReports(): List<Report> {
         val personalReports: MutableList<Report> = mutableListOf()
         val done = CountDownLatch(1)
@@ -173,19 +239,6 @@ class FireBaseRepository {
         })
         done.await()
         return personalReports
-    }
-
-    private fun readData(ref: DatabaseReference, listener: OnGetDataListener) {
-        listener.onStart()
-        valueEventListener = ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                listener.onSuccess(dataSnapshot)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                listener.onFailure()
-            }
-        })
     }
 
     fun createReport(
@@ -244,50 +297,9 @@ class FireBaseRepository {
                 }
         }
 
-    fun getDisplayAccount(userId: String): AccountDisplay {
-        val accountDisplay = AccountDisplay()
-        val done = CountDownLatch(1)
-        readData(
-            fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId),
-            object : OnGetDataListener {
-                override fun onSuccess(dataSnapshot: DataSnapshot?) {
-                    if (dataSnapshot != null) {
-                        accountDisplay.displayName =
-                            dataSnapshot.child(DISPLAY_NAME_COLLUMN_NAME).value.toString()
-                        accountDisplay.likes =
-                            dataSnapshot.child(TOTAL_LIKES_COLLUMN_NAME).value.toString()
-                        accountDisplay.displayImage =
-                            dataSnapshot.child(DISPLAY_IMAGE_COLLUMN_NAME).value.toString()
-                    }
-                    done.countDown()
-                    Log.d("ONSUCCES", "Success")
-                }
-
-                override fun onStart() {
-                    Log.d("ONSTART", "Started")
-                }
-
-                override fun onFailure() {
-                    Log.d("ONFAILURE", "Failed")
-                }
-            })
-        done.await()
-        return accountDisplay
-    }
-
-    fun addLikeToUser(userId: String, totalLikes: String): Completable =
-        Completable.create { emitter ->
-            fireBaseDatabase.child(USER_DATABASE_TABLE).child(userId)
-                .child(TOTAL_LIKES_COLLUMN_NAME)
-                .setValue(totalLikes)
-                .addOnCompleteListener { addLikeToUser ->
-                    if (!emitter.isDisposed) {
-                        if (addLikeToUser.isSuccessful)
-                            emitter.onComplete()
-                        else {
-                            emitter.onError(addLikeToUser.exception!!)
-                        }
-                    }
-                }
+    private fun cleanUpValueEventListenerIfExists() {
+        if (valueEventListener != null) {
+            fireBaseDatabase.removeEventListener(valueEventListener!!)
         }
+    }
 }

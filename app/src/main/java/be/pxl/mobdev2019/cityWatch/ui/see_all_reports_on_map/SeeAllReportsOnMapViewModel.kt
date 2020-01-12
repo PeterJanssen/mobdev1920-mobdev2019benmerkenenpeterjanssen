@@ -15,7 +15,11 @@ class SeeAllReportsOnMapViewModel(private val repository: ReportRepository) : Vi
     val reports: LiveData<List<Report>>
         get() = _reports
 
-    fun getReports() {
+    init {
+        getReports()
+    }
+
+    private fun getReports() {
         job = Coroutines.ioThenMain(
             { repository.getReports() },
             { _reports.value = it }

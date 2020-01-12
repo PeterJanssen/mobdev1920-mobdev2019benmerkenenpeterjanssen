@@ -54,8 +54,7 @@ class ChooseLoginMethodFragment : Fragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val fragmentManager: FragmentManager? = fragmentManager
-        val fragmentTransaction: FragmentTransaction? = fragmentManager?.beginTransaction()
+        val fragmentTransaction: FragmentTransaction? = parentFragmentManager.beginTransaction()
 
         loginButton.setOnClickListener {
             val loginFragment =
